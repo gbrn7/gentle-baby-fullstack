@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class UserSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class UserSeeder extends Seeder
             [
             'name' => 'Farid Angga',
             'email' => 'faridangga12@gmail.com',
-            'password' => 'superadmin',
+            'password' => Crypt::encryptString('superadmin'),
             'role' => 'super_admin',
             'phone_number' => '085469875236',
             'created_at' => now(),
@@ -26,7 +27,7 @@ class UserSeeder extends Seeder
             [
             'name' => 'Farhan',
             'email' => 'farhan10@gmail.com',
-            'password' => 'admin',
+            'password' => Crypt::encryptString('admin'),
             'role' => 'admin',
             'phone_number' => '08846987968',
             'created_at' => now(),
@@ -35,7 +36,7 @@ class UserSeeder extends Seeder
             [
             'name' => 'Dani Aditya',
             'email' => 'daniadit@gmail.com',
-            'password' => 'superadmincust',
+            'password' => Crypt::encryptString('superadmincust'),
             'role' => 'super_admin_cust',
             'phone_number' => '085469875236',
             'created_at' => now(),
@@ -44,7 +45,7 @@ class UserSeeder extends Seeder
             [
             'name' => 'Dodit',
             'email' => 'Dodit@gmail.com',
-            'password' => 'admincust',
+            'password' => Crypt::encryptString('admincust'),
             'role' => 'admin_cust',
             'phone_number' => '085698745214',
             'created_at' => now(),
