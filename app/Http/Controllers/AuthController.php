@@ -10,9 +10,8 @@ use Illuminate\Support\Facades\Crypt;
 
 class AuthController extends Controller
 {
-    public function index(){
-        auth()->user() ? redirect()->route('client')  : null; 
-        return view('siginIn');
+    public function index(){        
+        return auth()->check() ? route('client') : view('siginIn');
     }
 
     public function authenticate(Request $request){
@@ -54,6 +53,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('sign-in');
+        return redirect()->route('sign-in')->with('toast_success', 'Berhasil Keluar');
     }
 }

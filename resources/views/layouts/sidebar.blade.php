@@ -38,7 +38,7 @@
       <li class="rounded {{Request::segment(2) === 'logout' ? 'active' : ''}} rounded-2 ">
         <a href="{{route('logout')}}"
           class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-logout-circle-line me-2"></i>Logout</a>
+            class="ri-logout-circle-line me-2"></i>Sign Out</a>
       </li>
     </ul>
   </div>

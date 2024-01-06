@@ -25,7 +25,7 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::any('/{any}', function ($id) {
+Route::any('/{any}', function () {
   if(auth()->user()){
     return redirect()->route('client');
 }
