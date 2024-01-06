@@ -16,7 +16,7 @@ class TransactionDetailSeeder extends Seeder
         DB::table('transactions_detail')->insert([
             [
                 "transaction_id" => 1,
-                "id_product" => 1,
+                "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
                 "qty" => 350,
@@ -28,7 +28,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 1,
-                "id_product" => 2,
+                "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,
                 "qty" => 200,
@@ -40,7 +40,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 2,
-                "id_product" => 1,
+                "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
                 "qty" => 200,
@@ -52,7 +52,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 2,
-                "id_product" => 2,
+                "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,
                 "qty" => 100,
