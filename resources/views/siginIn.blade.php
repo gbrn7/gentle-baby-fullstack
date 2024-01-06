@@ -7,7 +7,7 @@
 @section('title', 'Sign In')
 
 @section('content')
-<form action="#" method="post">
+<form action={{route('sign-in.auth')}} method="post">
   @csrf
   <div class="login-form d-flex flex-column gap-1 gap-lg-2 mt-2 mt-lg-4 mt-4">
     <label for="email">Email</label>

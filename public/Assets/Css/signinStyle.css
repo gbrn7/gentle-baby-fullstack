@@ -120,7 +120,7 @@ border: 1px solid rgba(255, 255, 255, 0.23);
 
 @media (max-width: 575.98px) {
   .header h1  {
-      font-size: 20px;
+      font-size: 24px;
   }
   .pass-icon {
       width: 15px;
@@ -137,10 +137,10 @@ border: 1px solid rgba(255, 255, 255, 0.23);
   .login-form span {
       font-size: 8px;
   }
-  .login-btn{
+  .login-form .login-btn{
       font-size: 12px;
   }
-  .google-btn{
-      font-size: 12px;
+  .login-right .auth-footer{
+    font-size: 10px;
   }
 }
