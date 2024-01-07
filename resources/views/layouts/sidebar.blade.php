@@ -15,30 +15,27 @@
       </li>
       <li class="rounded {{Request::segment(2) === 'criteria' ? 'active' : ''}} rounded-2">
         <a href="#" class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-database-2-line me-2"></i>Data Kriteria</a>
+            class="ri-instance-line me-2"></i>Data Produk</a>
       </li>
       <li class="rounded {{Request::segment(2) === 'alternatives' ? 'active' : ''}} rounded-2">
         <a href="#" class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-team-line me-2"></i>Data Alternatif</a>
+            class="ri-arrow-left-right-line me-2"></i>Data Transaksi</a>
       </li>
       <li class="rounded {{Request::segment(2) === 'grades' ? 'active' : ''}} rounded-2">
         <a href="#" class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-survey-line me-2"></i>Data Penilaian</a>
+            class="ri-survey-line me-2"></i>Pemesanan Produk</a>
       </li>
-      <li class="rounded {{Request::segment(2) === 'calculations' ? 'active' : ''}} rounded-2">
+      <li class="rounded {{Request::segment(2) === 'grades' ? 'active' : ''}} rounded-2">
         <a href="#" class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-calculator-line me-2"></i></i>Data Perhitungan</a>
+            class="ri-team-line me-2"></i>Data Pelanggan</a>
+      </li>
+      <li class="rounded {{Request::segment(2) === 'grades' ? 'active' : ''}} rounded-2">
+        <a href="#" class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
+            class="ri-admin-line me-2"></i>Data Admin</a>
       </li>
       <li class="rounded {{Request::segment(2) === 'results' ? 'active' : ''}} rounded-2">
         <a href="#" class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-sort-asc me-2"></i></i>Data Hasil Akhir</a>
-      </li>
-    </ul>
-    <ul class="list-unstyled px-3 d-flex flex-column gap-2">
-      <li class="rounded {{Request::segment(2) === 'logout' ? 'active' : ''}} rounded-2 ">
-        <a href="{{route('logout')}}"
-          class="text-decoration-none px-3 py-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-logout-circle-line me-2"></i>Sign Out</a>
+            class="ri-profile-line me-2"></i></i>Pengaturan Profil</a>
       </li>
     </ul>
   </div>

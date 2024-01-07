@@ -17,16 +17,16 @@
 <div class="content-box p-3 mt-3 rounded rounded-2 bg-white">
   <div class="content rounded rounded-2 border border-1 p-3">
     <div class="row row-gap-3">
-      <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
+      <a href={{route('client')}} class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
-              <h3 class="card-title">Data Kriteria</h3>
-              <p class="card-text text-secondary fw-light">Fitur ini digunakan untuk mengolah data kriteria seperti
-                menambah, memperbarui, atau menghapus data kriteria.</p>
+              <h3 class="card-title">Data Produk</h3>
+              <p class="card-text text-secondary fw-light">Fitur ini digunakan untuk mengolah data produk seperti
+                menambah, memperbarui, atau menghapus data produk.</p>
             </div>
             <div class="col-2 col-sm-3 d-flex justify-content-center img-menu">
-              <i class="fs-1 bx bx-data "></i>
+              <i class="fs-1 ri-instance-line "></i>
             </div>
           </div>
         </div>
@@ -35,11 +35,12 @@
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
-              <h3 class="card-title">Data Alternatif</h3>
-              <p class="card-text text-secondary fw-light">Fitur ini digunakan untuk mengolah data kriteria seperti
-                menambah, memperbarui, atau menghapus data alternatif.</p>
+              <h3 class="card-title">Data Transaksi</h3>
+              <p class="card-text text-secondary fw-light">Fitur ini digunakan untuk mengolah data transaksi seperti
+                memperbarui data transaksi.</p>
             </div>
-            <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"><i class="fs-1 ri-team-line me-2"></i>
+            <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"><i
+                class="fs-1 ri-arrow-left-right-line me-2"></i>
             </div>
           </div>
         </div>
@@ -48,11 +49,50 @@
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
-              <h3 class="card-title">Data Penilaian</h3>
-              <p class="card-text text-secondary fw-light">Data penilaian yang digunakan untuk mengolah data penilaian
-                Metode TOPSIS.</p>
+              <h3 class="card-title">Pemesanan Produk</h3>
+              <p class="card-text text-secondary fw-light">Pemesanan produk merupakan fitur yang digunakan untuk
+                melakukan pemesanan produk.</p>
             </div>
             <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-survey-line"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
+        <div class="card ">
+          <div class="card-body  row justify-content-between align-items-center">
+            <div class="card-body-content col-9">
+              <h3 class="card-title">Data Pelanggan</h3>
+              <p class="card-text text-secondary fw-light">Fitur ini digunakan untuk mengolah data pelanggan seperti
+                menambah, menghapus, memperbarui data pelanggan.</p>
+            </div>
+            <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-team-line"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
+        <div class="card ">
+          <div class="card-body  row justify-content-between align-items-center">
+            <div class="card-body-content col-9">
+              <h3 class="card-title">Data Admin</h3>
+              <p class="card-text text-secondary fw-light">Fitur ini digunakan untuk mengolah data admin seperti
+                menambah, menghapus, memperbarui data admin.</p>
+            </div>
+            <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-admin-line"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
+        <div class="card ">
+          <div class="card-body  row justify-content-between align-items-center">
+            <div class="card-body-content col-9">
+              <h3 class="card-title">Pengaturan Profil</h3>
+              <p class="card-text text-secondary fw-light">Pengaturan profil merupakan fitur yang digunakan untuk
+                melakukan pengaturan profil perusahaan atau profil pengguna.</p>
+            </div>
+            <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-profile-line"></i>
             </div>
           </div>
         </div>

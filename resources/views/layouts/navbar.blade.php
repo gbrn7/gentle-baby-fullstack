@@ -11,12 +11,19 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-1 " aria-current="page" href="#"><i
-              class='bx bxs-user-circle fs-1'></i> {{auth()->user()->name}}</a>
-        </li>
-      </ul>
+      <div class="dropdown">
+        <a class="nav-link d-flex gap-2 align-items-center dropdown-toggle" href="#" role="button" aria-current="page"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <p class="my-0">{{auth()->user()->name}}</p>
+          <img src={{asset('Storage/avatar/'.(auth()->user()->image ? auth()->user()->image : 'login-thumb.jpg'))}}
+          class="img-fluid img-avatar ">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end ">
+          <li><a class="dropdown-item" href="#"><i class="ri-user-3-line me-2"></i>Profile Saya</a></li>
+          <li> <a href="{{route('logout')}}" class="dropdown-item"><i class="ri-logout-circle-line me-2"></i>Sign
+              Out</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
