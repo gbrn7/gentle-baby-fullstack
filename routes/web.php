@@ -26,6 +26,9 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
   Route::prefix('/data-admin')->group(function () {
     Route::get('/', [DataAdminController::class, 'index'])->name('data.admin');
     Route::post('/store', [DataAdminController::class, 'store'])->name('data.admin.store');
+    Route::get('/getforms', [DataAdminController::class, 'getForm'])->name('data.admin.getForm');
+    Route::put('/update', [DataAdminController::class, 'update'])->name('data.admin.update');
+    Route::delete('/destroy', [DataAdminController::class, 'delete'])->name('data.admin.delete');
   });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');

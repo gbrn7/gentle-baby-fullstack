@@ -39,6 +39,7 @@
             <th>ID</th>
             <th>Nama</th>
             <th>Email</th>
+            <th>Role</th>
             <th>Nomor Telepon</th>
             <th>Aksi</th>
           </tr>
@@ -49,6 +50,7 @@
             <td>{{$admin->id}}</td>
             <td>{{$admin->name}}</td>
             <td>{{$admin->email}}</td>
+            <td>{{$admin->role === 'super_admin' ? 'Super Admin' : 'Admin'}}</td>
             <td>{{$admin->phone_number}}</td>
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">
@@ -75,6 +77,6 @@
     </div>
   </div>
 </div>
-@include('modal.data-admin-modal')
+@include('modal.data-admin-modal.data-admin-modal')
 
 @endsection

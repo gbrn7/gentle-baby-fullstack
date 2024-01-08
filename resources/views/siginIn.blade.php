@@ -16,7 +16,7 @@
     <div class="password-container">
       <label for="password">Password</label>
       <div class="pass-wrapper position-relative d-flex">
-        <input name="password" type="password" class="form-control text-black" value="{{old('password')}}" id="password"
+        <input name="password" type="password" class="form-control text-black" id="password"
           placeholder="Masukan password" />
       </div>
     </div>

@@ -10,15 +10,16 @@
         <div class="img-wrapper d-flex justify-content-center">
           <img src={{asset('Storage/avatar/default.png')}} class="img-fluid img-avatar-create ">
         </div>
-        <form action={{route('data.admin.store')}} id="addForm" method="POST" enctype="multipart/form-data">
+        <form action={{route('data.admin.store')}} enctype="multipart/form-data" id="addForm" method="POST">
           @csrf
           <div class="form-group mb-3">
             <label for="name" class="mb-1">Nama</label>
-            <input required class="form-control" type="text" name="name" id="name" placeholder="Masukkan nama admin" />
+            <input value="{{old('name')}}" required class="form-control" type="text" name="name" id="name"
+              placeholder="Masukkan nama admin" />
           </div>
           <div class="form-group mb-3">
             <label for="email" class="mb-1">Email</label>
-            <input required class="form-control" type="email" name="email" id="email"
+            <input value="{{old('email')}}" required class="form-control" type="email" name="email" id="email"
               placeholder="Masukkan email admin" />
           </div>
           <div class="form-group mb-3">
@@ -32,18 +33,20 @@
               <option class="text-secondary" value="">
                 Klik untuk memilih Role
               </option>
-              <option value="admin" class="text-secondary">Admin</option>
-              <option value="super_admin" class="text-secondary">Super Admin</option>
+              <option {{old('role')==='admin' ? 'selected' : '' }} value="admin" class="text-secondary">Admin</option>
+              <option value="super_admin" {{old('role')==='super_admin' ? 'selected' : '' }} class="text-secondary">
+                Super
+                Admin</option>
             </select>
           </div>
           <div class="form-group mb-3">
             <label for="phone_number" class="mb-1">Nomor Telepon</label>
-            <input class="form-control" type="phone_number" name="phone_number" id="phone_number"
-              placeholder="Masukkan nomor telepon" />
+            <input value="{{old('phone_number')}}" class="form-control" type="phone_number" name="phone_number"
+              id="phone_number" placeholder="Masukkan nomor telepon" />
           </div>
           <div class="form-group mb-3">
             <label for="formFile" class="form-label">Foto Profil</label>
-            <input class="form-control" type="file" name="image_profile" id="profile">
+            <input class="form-control" type="file" name="image_profile" onchange="imageHandler(this)" id="profile">
           </div>
       </div>
       <div class="modal-footer">
@@ -86,7 +89,7 @@
       <div class="modal-body">
         <h4 class="text-center">Apakah anda yakin mengapus admin <span class="criteria-name"></span>?</h4>
       </div>
-      <form action="#" method="post">
+      <form action={{route('data.admin.delete')}} method="post">
         @method('delete')
         @csrf
         <input type="hidden" name="id" id="delete-id">
@@ -124,18 +127,50 @@
           $('#deletemodal').modal('show');
           $('#delete-id').val(id);
           $('.criteria-name').html(name);
+      });  
+
+  });
+
+  function imageHandler(input) {
+    const img = document.querySelector('.img-avatar-create')
+    const file =input.files[0]; 
+    let url = window.URL.createObjectURL(file);
+
+    img.src =url;
+  };
+
+  function updateImageHandler(input) {
+    const img = document.querySelector('.img-avatar-update')
+    const file =input.files[0]; 
+    let url = window.URL.createObjectURL(file);
+
+    img.src =url;
+  };     
+
+  function showPass(event) {
+        if($('.pass-wrapper input').attr("type") == "text"){
+            $('.pass-wrapper input').attr('type', 'password');
+            $('.pass-wrapper i').addClass( "ri-eye-off-fill" );
+            $('.pass-wrapper i').removeClass( "ri-eye-fill" );
+        }else if($('.pass-wrapper input').attr("type") == "password"){
+            $('.pass-wrapper input').attr('type', 'text');
+            $('.pass-wrapper i').removeClass( "ri-eye-fill" );
+            $('.pass-wrapper i').addClass( "ri-eye-off-fill" );
+        }    } 
+
+
+  $(document).on('click', '.edit', function (event){
+          var id = $(this).data('id');
+          event.preventDefault();
+          $('#editmodal').modal('show');
+          getDataAdminForm(id);
       });
 
-  $("#profile").change(function(input) {
-      if (input.originalEvent.srcElement.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        $('.img-avatar-create').attr('src', e.target.result);
-      };
-      reader.readAsDataURL(input.originalEvent.srcElement.files[0]);
-    }
-  });       
-  });
+  function getDataAdminForm(id){
+    $.get("{{ route('data.admin.getForm') }}",{id:id}, function(data){
+        $('#editmodal').empty().html(data);
+    })
+  }
 
     
 </script>

@@ -23,7 +23,7 @@ body{
 }
 
 
-.img-avatar-create{
+.img-avatar-create, .img-avatar-update{
   height: 150px;
   width: 150px;
   border-radius: 150px;
