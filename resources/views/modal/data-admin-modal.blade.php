@@ -10,7 +10,7 @@
         <div class="img-wrapper d-flex justify-content-center">
           <img src={{asset('Storage/avatar/default.png')}} class="img-fluid img-avatar-create ">
         </div>
-        <form action="#" id="addForm" method="POST">
+        <form action={{route('data.admin.store')}} id="addForm" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group mb-3">
             <label for="name" class="mb-1">Nama</label>
@@ -23,13 +23,12 @@
           </div>
           <div class="form-group mb-3">
             <label for="password" class="mb-1">Password</label>
-            <input required class="form-control" type="password" name="email" id="password"
+            <input required class="form-control" type="password" name="password" id="password"
               placeholder="Masukkan password admin" />
           </div>
           <div class="form-group mb-3">
             <label for="Status" class="mb-1">Role</label>
-            <select required id="benefited" name="benefited" class="form-select status"
-              aria-label="Default select example">
+            <select required id="role" name="role" class="form-select status" aria-label="Default select example">
               <option class="text-secondary" value="">
                 Klik untuk memilih Role
               </option>
@@ -44,7 +43,7 @@
           </div>
           <div class="form-group mb-3">
             <label for="formFile" class="form-label">Foto Profil</label>
-            <input class="form-control" type="file" name="image" id="profile">
+            <input class="form-control" type="file" name="image_profile" id="profile">
           </div>
       </div>
       <div class="modal-footer">
@@ -128,8 +127,6 @@
       });
 
   $("#profile").change(function(input) {
-    console.log('first')
-    console.log(input.originalEvent.srcElement.files[0]);
       if (input.originalEvent.srcElement.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {

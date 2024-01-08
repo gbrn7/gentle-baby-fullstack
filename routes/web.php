@@ -23,7 +23,10 @@ Route::post('/sign-in', [AuthController::class, 'authenticate'])->name('sign-in.
 Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
   Route::get('/home-page', [ClientController::class, 'index'])->name('client');
   
-  Route::get('/data-admin', [DataAdminController::class, 'index'])->name('data.admin');
+  Route::prefix('/data-admin')->group(function () {
+    Route::get('/', [DataAdminController::class, 'index'])->name('data.admin');
+    Route::post('/store', [DataAdminController::class, 'store'])->name('data.admin.store');
+  });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });

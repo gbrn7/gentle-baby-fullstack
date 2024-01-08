@@ -46,16 +46,16 @@
         <tbody id="tableBody">
           @foreach ($admins as $admin)
           <tr>
-            <td>{{$admin->user->id}}</td>
-            <td>{{$admin->user->name}}</td>
-            <td>{{$admin->user->email}}</td>
-            <td>{{$admin->user->phone_number}}</td>
+            <td>{{$admin->id}}</td>
+            <td>{{$admin->name}}</td>
+            <td>{{$admin->email}}</td>
+            <td>{{$admin->phone_number}}</td>
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">
-                <a href="#" data-id="{{$admin->user->id}}" data-name="{{$admin->user->name}}"
+                <a href="#" data-id="{{$admin->id}}" data-name="{{$admin->name}}"
                   class="btn edit btn-action btn-warning text-white"><i class="bx bx-edit"></i></a>
-                <a href="#" class="delete btn btn-action btn-danger text-white" data-name="{{$admin->user->name}}"
-                  data-id="{{$admin->user->id}}">
+                <a href="#" class="delete btn btn-action btn-danger text-white" data-name="{{$admin->name}}"
+                  data-id="{{$admin->id}}">
                   <i class="bx bx-trash"></i>
                 </a>
               </div>

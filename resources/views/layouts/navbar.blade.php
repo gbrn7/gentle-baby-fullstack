@@ -15,7 +15,8 @@
         <a class="nav-link d-flex gap-2 align-items-center dropdown-toggle" href="#" role="button" aria-current="page"
           data-bs-toggle="dropdown" aria-expanded="false">
           <p class="my-0">{{auth()->user()->name}}</p>
-          <img src={{asset('Storage/avatar/'.(auth()->user()->image ? auth()->user()->image : 'default.png'))}}
+          <img src={{asset('Storage/avatar/'.(auth()->user()->image_profile ? auth()->user()->image_profile :
+          'default.png'))}}
           class="img-fluid img-avatar ">
         </a>
         <ul class="dropdown-menu dropdown-menu-end px-2">
