@@ -28,11 +28,13 @@
         <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-team-line me-2"></i>Data Pelanggan</a>
       </li>
+      @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')
       <li class="rounded {{Request::segment(2) === 'data-admin' ? 'active' : ''}} rounded-2">
         <a href={{route('data.admin')}}
           class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-admin-line me-2"></i>Data Admin</a>
       </li>
+      @endif
       <li class="rounded {{Request::segment(2) === 'results' ? 'active' : ''}} rounded-2">
         <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-profile-line me-2"></i></i>Pengaturan Profil</a>

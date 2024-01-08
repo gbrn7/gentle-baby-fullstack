@@ -40,10 +40,19 @@
             <option class="text-secondary" value="">
               Klik untuk memilih Role
             </option>
+            @if(auth()->user()->role === 'super_admin')
             <option {{$form->role ==='admin' ? 'selected' : '' }} value="admin" class="text-secondary">Admin</option>
             <option value="super_admin" {{$form->role ==='super_admin' ? 'selected' : '' }} class="text-secondary">
               Super
               Admin</option>
+            @elseif (auth()->user()->role === 'super_admin_cust')
+            <option {{$form->role ==='admin_cust' ? 'selected' : '' }} value="admin_cust" class="text-secondary">Admin
+            </option>
+            <option value="super_admin_cust" {{$form->role ==='super_admin_cust' ? 'selected' : '' }}
+              class="text-secondary">
+              Super
+              Admin</option>
+            @endif
           </select>
         </div>
         <div class="form-group mb-3">
@@ -52,7 +61,7 @@
             id="phone_number" placeholder="Masukkan nomor telepon" />
         </div>
         <div class="form-group mb-3">
-          <label for="formFile" class="form-label">Foto Profil</label>
+          <label for="formFile" class="form-label">Perbarui Foto Profil</label>
           <input class="form-control" type="file" name="image_profile" id="profile" onchange="updateImageHandler(this)">
         </div>
       </div>

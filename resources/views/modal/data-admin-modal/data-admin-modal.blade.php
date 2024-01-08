@@ -33,10 +33,19 @@
               <option class="text-secondary" value="">
                 Klik untuk memilih Role
               </option>
+              @if(auth()->user()->role === 'super_admin')
               <option {{old('role')==='admin' ? 'selected' : '' }} value="admin" class="text-secondary">Admin</option>
               <option value="super_admin" {{old('role')==='super_admin' ? 'selected' : '' }} class="text-secondary">
                 Super
                 Admin</option>
+              @elseif (auth()->user()->role === 'super_admin_cust')
+              <option {{old('role')==='admin_cust' ? 'selected' : '' }} value="admin_cust" class="text-secondary">Admin
+              </option>
+              <option value="super_admin_cust" {{old('role')==='super_admin_cust' ? 'selected' : '' }}
+                class="text-secondary">
+                Super
+                Admin</option>
+              @endif
             </select>
           </div>
           <div class="form-group mb-3">

@@ -19,9 +19,13 @@ class DataAdminController extends Controller
         if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
 
             if(auth()->user()->role == 'super_admin'){
-                $admins = User::where('id', '<>', auth()->user()->id)
-                         ->whereIn('role', ['admin', 'super_admin'])
-                         ->get();
+                $admins = CompanyMember::with('company')
+                ->with(["user" => function($q){ //user => name of model
+                    $q->whereIn('users.role', ['admin', 'super_admin']); //users => name of table
+                }])
+                ->where('id', '<>', auth()->user()->id)
+                ->whereRelation('company', 'owner_id', auth()->user()->id)
+                ->get();
             }else{
                 $admins = CompanyMember::with('company')
                          ->with('user')
@@ -36,57 +40,64 @@ class DataAdminController extends Controller
     }
 
     public function store(Request $request){
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:5',
-            'role' => 'required|in:super_admin,admin,super_admin_cust, admin_cust',
-            'image_profile' => 'image|mimes:png,jpg,jpeg|max:10024',
-        ]);
-
-        if($validator->fails()){
-            return back()
-            ->with('toast_error', join(', ', $validator->messages()->all()))
-            ->withInput()
-            ->withErrors($validator->messages()->all());
-        }
-
-        $currentUser = CompanyMember::where('user_id', auth()->user()->id)->first();
-
-        $newAdmin = $request->except('_token');
-        $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
-        if(!empty( $request->image_profile)){
-            $imageProfile = $request->image_profile;
-            $imageName = Str::random(10);
-    
-            $imageProfile->storeAs('public/avatar', $imageName);
-            $newAdmin['image_profile'] = $imageName;
-        }
-
-        DB::beginTransaction();
-        try {
-            $newAdmin = User::create($newAdmin);
-            $companyMember = CompanyMember::create([
-                'user_id' => $newAdmin->id,
-                'company_id' => $currentUser->company_id,
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|min:5',
+                'role' => 'required|in:super_admin,admin,super_admin_cust, admin_cust',
+                'image_profile' => 'image|mimes:png,jpg,jpeg|max:10024',
             ]);
-            DB::commit();
-
-            return redirect()
-            ->route('data.admin')
-            ->with('toast_success', 'Admin Ditambahkan!');        
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return back()
-            ->with('toast_error', $th->getMessage())
-            ->withInput()
-            ->withErrors($th->getMessage());
+    
+            if($validator->fails()){
+                return back()
+                ->with('toast_error', join(', ', $validator->messages()->all()))
+                ->withInput()
+                ->withErrors($validator->messages()->all());
+            }
+    
+            $currentUser = CompanyMember::where('user_id', auth()->user()->id)->first();
+    
+            $newAdmin = $request->except('_token');
+            $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
+    
+            if(!empty( $request->image_profile)){
+                $imageProfile = $request->image_profile;
+                $imageName = Str::random(10);
+        
+                $imageProfile->storeAs('public/avatar', $imageName);
+                $newAdmin['image_profile'] = $imageName;
+            }
+    
+            DB::beginTransaction();
+            try {
+                $newAdmin = User::create($newAdmin);
+                $companyMember = CompanyMember::create([
+                    'user_id' => $newAdmin->id,
+                    'company_id' => $currentUser->company_id,
+                ]);
+                DB::commit();
+    
+                return redirect()
+                ->route('data.admin')
+                ->with('toast_success', 'Admin Ditambahkan!');        
+            } catch (\Throwable $th) {
+                DB::rollback();
+                return back()
+                ->with('toast_error', $th->getMessage())
+                ->withInput()
+                ->withErrors($th->getMessage());
+            }
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
         }
     }
 
     public function getForm(Request $request){
+
+    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
         $id = $request->id;
-        if(auth()->user() && $id){
+        if($id){
             $form = DB::table('users')
                     ->select('*')
                     ->where('id', $id)
@@ -98,17 +109,21 @@ class DataAdminController extends Controller
             return view('modal.data-admin-modal.data-admin-form', ['form' => $form]);
         }
 
-        return response()->json('[Access Denied or id not found]', 404);
+        return response()->json('[Access Denied or id not found]', 404);   
+    }else{
+        return back()->with('toast_error', 'Access Denied!');
+    }
     }
 
     public function update(Request $request){
+    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
         $adminId = $request->id;
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
             'password' => 'required|string|min:5',
-            'role' => 'required|in:super_admin,admin,super_admin_cust, admin_cust',
+            'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
             'image_profile' => 'image|mimes:png,jpg,jpeg|max:10024',
         ]);
 
@@ -151,10 +166,14 @@ class DataAdminController extends Controller
             ->withInput()
             ->withErrors($th->getMessage());
         }
+    }else{
+        return back()->with('toast_error', 'Access Denied!');
 
+    }
     }
 
     public function delete(Request $request){
+    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
         $adminId = $request->id;
         if($adminId){
             $dataAdmin = User::find($adminId);
@@ -167,5 +186,8 @@ class DataAdminController extends Controller
 
         return back()
         ->with('toast_error', 'Admin ID not found');
+    }else{
+        return back()->with('toast_error', 'Access Denied!');
+    }
     }
 }
