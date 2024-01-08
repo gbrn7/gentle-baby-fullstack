@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DataAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,9 @@ Route::get('/sign-in', [AuthController::class, 'index'])->name('sign-in');
 Route::post('/sign-in', [AuthController::class, 'authenticate'])->name('sign-in.auth');
 
 Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
-  Route::get('/', [ClientController::class, 'index'])->name('client');
+  Route::get('/home-page', [ClientController::class, 'index'])->name('client');
+  
+  Route::get('/data-admin', [DataAdminController::class, 'index'])->name('data.admin');
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
