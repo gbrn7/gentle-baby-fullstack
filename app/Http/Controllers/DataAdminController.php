@@ -63,7 +63,7 @@ class DataAdminController extends Controller
     
             if(!empty( $request->image_profile)){
                 $imageProfile = $request->image_profile;
-                $imageName = Str::random(10);
+                $imageName = Str::random(10).'.'.$imageProfile->getClientOriginalExtension();
         
                 $imageProfile->storeAs('public/avatar', $imageName);
                 $newAdmin['image_profile'] = $imageName;
@@ -141,13 +141,13 @@ class DataAdminController extends Controller
 
         if(!empty( $request->image_profile)){
             $imageProfile = $request->image_profile;
-            $imageName = Str::random(10);
+            $imageName = Str::random(10).'.'.$imageProfile->getClientOriginalExtension();
     
-            $imageProfile->storeAs('public/avatar', $imageName);
+            $imageProfile->storeAs('public/avatar/', $imageName);
             $newAdmin['image_profile'] = $imageName;
 
             //delete old image
-            Storage::delete('public/avatar'.$oldDataAdmin->image_profile);
+            Storage::delete('public/avatar/'.$oldDataAdmin->image_profile);
         }
 
         DB::beginTransaction();
