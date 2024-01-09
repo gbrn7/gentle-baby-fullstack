@@ -24,10 +24,13 @@
         <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-survey-line me-2"></i>Pemesanan Produk</a>
       </li>
-      <li class="rounded {{Request::segment(2) === 'grades' ? 'active' : ''}} rounded-2">
-        <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
+      @if(auth()->user()->role === 'super_admin')
+      <li class="rounded {{Request::segment(2) === 'data-pelanggan' ? 'active' : ''}} rounded-2">
+        <a href={{route('data.pelanggan')}}
+          class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-team-line me-2"></i>Data Pelanggan</a>
       </li>
+      @endif
       @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')
       <li class="rounded {{Request::segment(2) === 'data-admin' ? 'active' : ''}} rounded-2">
         <a href={{route('data.admin')}}

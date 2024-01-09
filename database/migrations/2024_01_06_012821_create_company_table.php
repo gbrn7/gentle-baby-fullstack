@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone_number')->nullable();
             $table->foreignId('owner_id')->constrained('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

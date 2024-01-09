@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DataAdminController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,11 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
     Route::get('/getforms', [DataAdminController::class, 'getForm'])->name('data.admin.getForm');
     Route::put('/update', [DataAdminController::class, 'update'])->name('data.admin.update');
     Route::delete('/destroy', [DataAdminController::class, 'delete'])->name('data.admin.delete');
+  });
+
+  Route::prefix('/data-pelanggan')->group(function () {
+    Route::get('/', [CompanyController::class, 'index'])->name('data.pelanggan');
+    Route::post('/store', [CompanyController::class, 'store'])->name('data.pelanggan.store');
   });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');

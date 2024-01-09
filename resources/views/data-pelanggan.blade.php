@@ -1,8 +1,8 @@
 @extends('layouts.base')
 
 @section('content')
-<div class="title-box  d-flex gap-2 align-items-baseline"><i class="ri-admin-line fs-2"></i>
-  <p class="fs-3 m-0">Data Admin</p>
+<div class="title-box  d-flex gap-2 align-items-baseline"><i class="ri-team-line fs-2"></i>
+  <p class="fs-3 m-0">Data Pelanggan</p>
 </div>
 <div class="breadcrumbs-box mt-2 rounded rounded-2 bg-white p-2">
   <nav
@@ -10,7 +10,7 @@
     aria-label="breadcrumb">
     <ol class="breadcrumb m-0">
       <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby Gentle</li>
-      <li class="breadcrumb-item active" aria-current="page">Data Admin</li>
+      <li class="breadcrumb-item active" aria-current="page">Data Pelanggan</li>
     </ol>
   </nav>
 </div>
@@ -28,36 +28,37 @@
         </ul>
       </div>
       @endif
-
       <div id="add" data-bs-toggle="modal" data-bs-target="#addnew" class="btn btn-success"><i
-          class="ri-add-box-line me-2"></i>Tambah Admin</div>
+          class="ri-add-box-line me-2"></i>Tambah Pelanggan</div>
     </div>
     <div class="table-wrapper mt-2 mb-2">
-      <table id="example" class="table table-striped mt-3 table-hover">
+      <table id="example" class="table table-striped mt-3 table-hover" style="width: 100%">
         <thead>
           <tr>
             <th>ID</th>
             <th>Nama</th>
             <th>Email</th>
-            <th>Role</th>
+            <th>Alamat</th>
             <th>Nomor Telepon</th>
+            <th>Nama Pemilik</th>
             <th>Aksi</th>
           </tr>
         </thead>
         <tbody id="tableBody">
-          @foreach ($admins as $admin)
+          @foreach ($companies as $company)
           <tr>
-            <td>{{$admin->user->id}}</td>
-            <td>{{$admin->user->name}}</td>
-            <td>{{$admin->user->email}}</td>
-            <td>{{$admin->user->role === 'super_admin' ? 'Super Admin' : 'Admin'}}</td>
-            <td>{{$admin->user->phone_number}}</td>
+            <td>{{$company->id ? $company->id : '-' }}</td>
+            <td>{{$company->name ? $company->name : '-' }}</td>
+            <td>{{$company->email ? $company->email : '-' }}</td>
+            <td>{{$company->address ? $company->address : '-' }}</td>
+            <td>{{$company->phone_number ? $company->phone_number : '-' }}</td>
+            <td>{{$company->owner->name ? $company->owner->name : '-' }}</td>
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">
-                <a href="#" data-id="{{$admin->user->id}}" data-name="{{$admin->user->name}}"
+                <a href="#" data-id="{{$company->id}}" data-name="{{$company->name}}"
                   class="btn edit btn-action btn-warning text-white"><i class="bx bx-edit"></i></a>
-                <a href="#" class="delete btn btn-action btn-danger text-white" data-name="{{$admin->user->name}}"
-                  data-id="{{$admin->user->id}}">
+                <a href="#" class="delete btn btn-action btn-danger text-white" data-name="{{$company->name}}"
+                  data-id="{{$company->id}}">
                   <i class="bx bx-trash"></i>
                 </a>
               </div>
@@ -70,8 +71,9 @@
             <th>ID</th>
             <th>Nama</th>
             <th>Email</th>
-            <th>Role</th>
+            <th>Alamat</th>
             <th>Nomor Telepon</th>
+            <th>Nama Pemilik</th>
             <th>Aksi</th>
           </tr>
         </tfoot>
@@ -79,6 +81,6 @@
     </div>
   </div>
 </div>
-@include('modal.data-admin.data-admin-modal')
+@include('modal.data-pelanggan.data-pelanggan-modal')
 
 @endsection

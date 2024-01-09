@@ -106,7 +106,7 @@ class DataAdminController extends Controller
             if($form){
                 $form->password = Crypt::decryptString($form->password);
             }
-            return view('modal.data-admin-modal.data-admin-form', ['form' => $form]);
+            return view('modal.data-admin.data-admin-form', ['form' => $form]);
         }
 
         return response()->json('[Access Denied or id not found]', 404);   
@@ -174,7 +174,7 @@ class DataAdminController extends Controller
     public function delete(Request $request){
     if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
         $adminId = $request->id;
-        if($adminId){
+        if($adminId && $adminId != auth()->user()->id){
             $dataAdmin = User::find($adminId);
             $dataAdmin->delete();
 
