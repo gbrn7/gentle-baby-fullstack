@@ -22,5 +22,7 @@ $(document).ready(function () {
 
   document.querySelector('.wrapper').classList.remove('d-none');
 
-  $('#example').DataTable();
+  $('#example').DataTable({
+    order: [[0, 'desc']]
+  });
 });

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address')->nullable();
-            $table->string('email')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->string('phone_number')->nullable();
             $table->foreignId('owner_id')->constrained('users');
             $table->softDeletes();

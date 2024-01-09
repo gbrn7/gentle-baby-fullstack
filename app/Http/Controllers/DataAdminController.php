@@ -46,7 +46,7 @@ class DataAdminController extends Controller
                 'email' => 'required|string|email|unique:users',
                 'password' => 'required|string|min:5',
                 'role' => 'required|in:super_admin,admin,super_admin_cust, admin_cust',
-                'image_profile' => 'image|mimes:png,jpg,jpeg|max:10024',
+                'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
             ]);
     
             if($validator->fails()){
@@ -124,7 +124,7 @@ class DataAdminController extends Controller
             'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
             'password' => 'required|string|min:5',
             'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
-            'image_profile' => 'image|mimes:png,jpg,jpeg|max:10024',
+            'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
         ]);
 
         if($validator->fails()){

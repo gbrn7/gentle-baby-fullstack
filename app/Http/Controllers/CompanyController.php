@@ -21,7 +21,7 @@ class CompanyController extends Controller
         $ownerCompany = CompanyMember::find(auth()->user()->id);
         
         $companies = Company::with('owner')
-                    ->where('id', '<>', $ownerCompany->id) 
+                    ->where('id', '<>', $ownerCompany->id)
                     ->get();
         return view('data-pelanggan', compact('companies'));
     }else{
@@ -37,7 +37,7 @@ class CompanyController extends Controller
                 'password' => 'required|string|min:5',
                 'phone_number' => 'required',
                 'name_company' => 'required|string',
-                'email_company' => 'required|string',
+                'email_company' => 'nullable|email|unique:company,email',
             ]);
     
             if($validator->fails()){
