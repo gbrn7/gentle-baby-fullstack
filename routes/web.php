@@ -36,6 +36,9 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
   Route::prefix('/data-pelanggan')->group(function () {
     Route::get('/', [CompanyController::class, 'index'])->name('data.pelanggan');
     Route::post('/store', [CompanyController::class, 'store'])->name('data.pelanggan.store');
+    Route::get('/getforms', [CompanyController::class, 'getForm'])->name('data.pelanggan.getForm');
+    Route::put('/update', [CompanyController::class, 'update'])->name('data.pelanggan.update');
+    Route::delete('/destroy', [CompanyController::class, 'delete'])->name('data.pelanggan.delete');
   });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');

@@ -85,4 +85,84 @@ class CompanyController extends Controller
 
         }
     }
+
+    public function getForm(Request $request){
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+            $id = $request->id;
+            if($id){
+                $form = Company::find($id);
+                return view('modal.data-pelanggan.data-pelanggan-form', ['form' => $form]);
+            }
+
+            return response()->json('[Access Denied or id not found]', 404);   
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+        }
+    }
+
+    public function update(Request $request){
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+            $companyId = $request->id;
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'email' => 'nullable|string|email|unique:company,email,'.$companyId.',id',
+                'address' => 'nullable|string',
+                'phone_number' => 'nullable|string',
+            ]);
+    
+            if($validator->fails()){
+                return back()
+                ->with('toast_error', join(', ', $validator->messages()->all()))
+                ->withInput()
+                ->withErrors($validator->messages()->all());
+            }
+
+            $oldCompany = Company::find($companyId);
+
+            $updatedCompany = $request->except('_token');
+
+            DB::beginTransaction();
+            try {
+                $oldCompany->update($updatedCompany);
+                DB::commit();
+
+                return back()
+                ->with('toast_success', 'Data Pelanggan Diperbarui');
+
+            } catch (\Throwable $th) {
+                DB::rollback();
+                return back()
+                ->with('toast_error', $th->getMessage())
+                ->withInput()
+                ->withErrors($th->getMessage());
+            }
+
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+
+        }
+    }
+
+    public function delete(Request $request){
+    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+        $companyId = $request->id;
+        
+        $company = Company::find($companyId);
+
+        if($company){
+            $company->delete();
+
+            return back()->with('toast_success', 'Admin '.$company->name.' dihapus!');
+        }
+        else{
+            return back()
+            ->with('toast_error', 'Company ID not found');
+        }
+
+    }else{
+        return back()->with('toast_error', 'Access Denied!');
+
+    }
+    }
 }

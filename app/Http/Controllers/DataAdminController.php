@@ -94,25 +94,24 @@ class DataAdminController extends Controller
     }
 
     public function getForm(Request $request){
-
-    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
-        $id = $request->id;
-        if($id){
-            $form = DB::table('users')
-                    ->select('*')
-                    ->where('id', $id)
-                    ->first();
-    
-            if($form){
-                $form->password = Crypt::decryptString($form->password);
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+            $id = $request->id;
+            if($id){
+                $form = DB::table('users')
+                        ->select('*')
+                        ->where('id', $id)
+                        ->first();
+        
+                if($form){
+                    $form->password = Crypt::decryptString($form->password);
+                }
+                return view('modal.data-admin.data-admin-form', ['form' => $form]);
             }
-            return view('modal.data-admin.data-admin-form', ['form' => $form]);
-        }
 
-        return response()->json('[Access Denied or id not found]', 404);   
-    }else{
-        return back()->with('toast_error', 'Access Denied!');
-    }
+            return response()->json('[Access Denied or id not found]', 404);   
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+        }
     }
 
     public function update(Request $request){
@@ -174,8 +173,8 @@ class DataAdminController extends Controller
     public function delete(Request $request){
     if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
         $adminId = $request->id;
-        if($adminId && $adminId != auth()->user()->id){
-            $dataAdmin = User::find($adminId);
+        $dataAdmin = User::find($adminId);
+        if($adminId && $adminId != auth()->user()->id && $dataAdmin){
             $dataAdmin->delete();
 
         return redirect()

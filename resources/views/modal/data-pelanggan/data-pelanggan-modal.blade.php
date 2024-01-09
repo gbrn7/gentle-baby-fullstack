@@ -60,6 +60,26 @@
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+  <form action="#" id="editForm" method="POST">
+    @method('put')
+    <div class="modal-dialog ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Edit Admin</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="spinner-border text-black" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
 <!-- Delete Modal -->
 <div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog ">
@@ -71,7 +91,7 @@
       <div class="modal-body">
         <h4 class="text-center">Apakah anda yakin mengapus pelanggan <span class="criteria-name"></span>?</h4>
       </div>
-      <form action={{route('data.admin.delete')}} method="post">
+      <form action={{route('data.pelanggan.delete')}} method="post">
         @method('delete')
         @csrf
         <input type="hidden" name="id" id="delete-id">
@@ -114,6 +134,19 @@
 
     img.src =url;
   };      
+
+  $(document).on('click', '.edit', function (event){
+          var id = $(this).data('id');
+          event.preventDefault();
+          $('#editmodal').modal('show');
+          getDataCompanyForm(id);
+      });
+
+  function getDataCompanyForm(id){
+    $.get("{{ route('data.pelanggan.getForm') }}/",{id:id}, function(data){
+        $('#editmodal').empty().html(data);
+    })
+  }
 
 </script>
 @endpush
