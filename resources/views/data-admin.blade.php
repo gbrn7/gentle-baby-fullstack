@@ -32,7 +32,7 @@
       <div id="add" data-bs-toggle="modal" data-bs-target="#addnew" class="btn btn-success"><i
           class="ri-add-box-line me-2"></i>Tambah Admin</div>
     </div>
-    <div class="Produk mt-2 mb-2">
+    <div class="table-wrapper mt-2 mb-2">
       <table id="example" class="table table-striped mt-3 table-hover" style="width: 100%">
         <thead>
           <tr>

@@ -78,7 +78,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body text-center">
-          <div class="spinner-border text-warning" role="status">
+          <div class="spinner-border text-black" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
@@ -115,20 +115,6 @@
 @push('js')
 <script type="text/javascript">
   $(document).ready(function(){
-       
-      $(document).on('click', '.edit', function (event){
-          event.preventDefault();
-          var id = $(this).data('id');
-          var name = $(this).data('name');
-          var weight = $(this).data('weight');
-          var benefited = $(this).data('benefited');
-          $('#editmodal').modal('show');
-          $('#name-edit').val(name);
-          $('#weight-edit').val(weight);
-          $('#benefited-edit').val(benefited);
-          $('#edit-id').val(id);
-      });
-       
       $(document).on('click', '.delete', function(event){
           event.preventDefault();
           var id = $(this).data('id');

@@ -116,7 +116,7 @@ class DataAdminController extends Controller
     }
 
     public function update(Request $request){
-    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust' || auth()->user()->id == $request->id){
         $adminId = $request->id;
 
         $validator = Validator::make($request->all(), [
@@ -154,10 +154,11 @@ class DataAdminController extends Controller
         try {
             $oldDataAdmin->update($newAdmin);
             DB::commit();        
-
             return redirect()
             ->route('data.admin')
-            ->with('toast_success', 'Data Admin Diperbarui!');  
+            ->with('toast_success', ((string) auth()->user()->id === $adminId 
+            ? 'Data Profil Diperbarui!' 
+            :'Data Admin Diperbarui!'));  
         } catch (\Throwable $th) {
             DB::rollback();
             dd($th);
@@ -168,7 +169,6 @@ class DataAdminController extends Controller
         }
     }else{
         return back()->with('toast_error', 'Access Denied!');
-
     }
     }
 
