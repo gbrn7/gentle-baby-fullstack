@@ -140,18 +140,7 @@
     let url = window.URL.createObjectURL(file);
 
     img.src =url;
-  };     
-
-  function showPass(event) {
-        if($('.pass-wrapper input').attr("type") == "text"){
-            $('.pass-wrapper input').attr('type', 'password');
-            $('.pass-wrapper i').addClass( "ri-eye-off-fill" );
-            $('.pass-wrapper i').removeClass( "ri-eye-fill" );
-        }else if($('.pass-wrapper input').attr("type") == "password"){
-            $('.pass-wrapper input').attr('type', 'text');
-            $('.pass-wrapper i').removeClass( "ri-eye-fill" );
-            $('.pass-wrapper i').addClass( "ri-eye-off-fill" );
-        }    } 
+  };      
 
 
   $(document).on('click', '.edit', function (event){

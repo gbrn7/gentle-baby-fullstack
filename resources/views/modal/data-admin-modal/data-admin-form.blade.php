@@ -41,12 +41,12 @@
             <option class="text-secondary" value="">
               Klik untuk memilih Role
             </option>
-            @if(auth()->user()->role === 'super_admin')
+            @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
             <option {{$form->role ==='admin' ? 'selected' : '' }} value="admin" class="text-secondary">Admin</option>
             <option value="super_admin" {{$form->role ==='super_admin' ? 'selected' : '' }} class="text-secondary">
               Super
               Admin</option>
-            @elseif (auth()->user()->role === 'super_admin_cust')
+            @elseif (auth()->user()->role === 'super_admin_cust' || auth()->user()->role === 'admin_cust')
             <option {{$form->role ==='admin_cust' ? 'selected' : '' }} value="admin_cust" class="text-secondary">Admin
             </option>
             <option value="super_admin_cust" {{$form->role ==='super_admin_cust' ? 'selected' : '' }}
@@ -74,6 +74,19 @@
   </div>
   </div>
 </form>
+<script>
+  function showPass(event) {
+        if($('.pass-wrapper input').attr("type") == "text"){
+            $('.pass-wrapper input').attr('type', 'password');
+            $('.pass-wrapper i').addClass( "ri-eye-off-fill" );
+            $('.pass-wrapper i').removeClass( "ri-eye-fill" );
+        }else if($('.pass-wrapper input').attr("type") == "password"){
+            $('.pass-wrapper input').attr('type', 'text');
+            $('.pass-wrapper i').removeClass( "ri-eye-fill" );
+            $('.pass-wrapper i').addClass( "ri-eye-off-fill" );
+        }    
+  }
+</script>
 @else
 <!-- Info Modal -->
 <div class="modal-dialog ">
