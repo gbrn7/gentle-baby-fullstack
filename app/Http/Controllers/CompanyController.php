@@ -31,15 +31,28 @@ class CompanyController extends Controller
 
     public function store(Request $request){
         if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
-            $validator = Validator::make($request->all(), [
+
+            $validation = [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
+                'email' => 'required|string|email|unique:company',
                 'password' => 'required|string|min:5',
                 'phone_number' => 'required',
                 'name_company' => 'required|string',
                 'email_company' => 'nullable|email|unique:company,email',
-            ]);
-    
+                'email_company' => 'nullable|email|unique:users,email',
+            ];
+
+            $messages = [
+                'required' => 'Kolom :attribute harus diisi',
+                'string' => 'Kolom :attribute harus bertipe teks atau string',
+                'email' => 'Kolom :attribute harus bertipe email',
+                'unique' => 'email yang anda berikan sudah dipakai',
+                'min' => ':attribute minimal :min digit',
+            ];
+
+            $validator = Validator::make($request->all(), $validation, $messages);
+
             if($validator->fails()){
                 return back()
                 ->with('toast_error', join(', ', $validator->messages()->all()))
@@ -104,12 +117,22 @@ class CompanyController extends Controller
         if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
             $companyId = $request->id;
 
-            $validator = Validator::make($request->all(), [
+            $validation = [
                 'name' => 'required|string',
                 'email' => 'nullable|string|email|unique:company,email,'.$companyId.',id',
+                'email' => 'nullable|string|email|unique:users,email,',
                 'address' => 'nullable|string',
                 'phone_number' => 'nullable|string',
-            ]);
+            ];
+
+            $messages = [
+                'required' => 'Kolom :attribute harus diisi',
+                'string' => 'Kolom :attribute harus bertipe teks atau string',
+                'email' => 'Kolom :attribute harus bertipe email',
+                'unique' => 'email yang anda berikan sudah dipakai',
+            ];
+
+            $validator = Validator::make($request->all(), $validation, $messages);
     
             if($validator->fails()){
                 return back()
@@ -180,13 +203,27 @@ class CompanyController extends Controller
 
     public function storeAdmin(Request $request){
         if(auth()->user()->role == 'super_admin'){
-            $validator = Validator::make($request->all(), [
+            $validation = [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
+                'email' => 'required|string|email|unique:company',
                 'password' => 'required|string|min:5',
                 'role' => 'required|in:super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
-            ]);
+            ];
+
+            $messages = [
+                'required' => 'Kolom :attribute harus diisi',
+                'string' => 'Kolom :attribute harus bertipe teks atau string',
+                'email' => 'Kolom :attribute harus bertipe email',
+                'unique' => 'email yang anda berikan sudah dipakai',
+                'min' => ':attribute minimal :min digit',
+                'role' => ':attribute tidak valid',
+                'image' => 'foto profil harus berjenis gambar',
+                'mimes' => 'foto profil harus bertipe :values',
+            ];
+
+            $validator = Validator::make($request->all(), $validation, $messages);
     
             if($validator->fails()){
                 return back()
@@ -258,14 +295,27 @@ class CompanyController extends Controller
     public function updateAdmin(Request $request){
         if(auth()->user()->role == 'super_admin'){
             $adminId = $request->id;
-
-            $validator = Validator::make($request->all(), [
+            $validation = [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
+                'email' => 'required|string|email|unique:company,email',
                 'password' => 'required|string|min:5',
                 'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
-            ]);
+            ];
+
+            $messages = [
+                'required' => 'Kolom :attribute harus diisi',
+                'string' => 'Kolom :attribute harus bertipe teks atau string',
+                'email' => 'Kolom :attribute harus bertipe email',
+                'unique' => 'email yang anda berikan sudah dipakai',
+                'min' => ':attribute minimal :min digit',
+                'role' => ':attribute tidak valid',
+                'image' => 'foto profil harus berjenis gambar',
+                'mimes' => 'foto profil harus bertipe :values',
+            ];
+
+            $validator = Validator::make($request->all(), $validation, $messages);
     
             if($validator->fails()){
                 return back()
