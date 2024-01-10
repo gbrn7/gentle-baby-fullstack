@@ -122,11 +122,21 @@ color: black;
   max-width: 100%;
   word-wrap: break-word;
 }
+.content .table thead{
+  border-style: solid !important;
+}
+.content .table th{
+  font-weight: 400;
+}
 .content .table tbody tr td {
   font-size: 15px;
 }
 .content .table tbody tr td img {
   max-width: 70px;
+}
+.custom-tooltip{
+  font-family: 'Poppins', sans-serif;
+  
 }
 .content .pagination {
   --bs-pagination-focus-box-shadow:0 0 0 0.25rem rgb(0 0 0 / 25%);

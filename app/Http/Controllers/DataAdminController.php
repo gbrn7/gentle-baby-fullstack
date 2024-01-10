@@ -45,7 +45,7 @@ class DataAdminController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
                 'password' => 'required|string|min:5',
-                'role' => 'required|in:super_admin,admin,super_admin_cust, admin_cust',
+                'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
             ]);
     
@@ -102,7 +102,7 @@ class DataAdminController extends Controller
                         ->where('id', $id)
                         ->first();
         
-                if($form){
+                if($form->password){
                     $form->password = Crypt::decryptString($form->password);
                 }
                 return view('modal.data-admin.data-admin-form', ['form' => $form]);
@@ -165,27 +165,27 @@ class DataAdminController extends Controller
             ->withInput()
             ->withErrors($th->getMessage());
         }
-    }else{
-        return back()->with('toast_error', 'Access Denied!');
-        }
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+            }
     }
 
     public function delete(Request $request){
-    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
-        $adminId = $request->id;
-        $dataAdmin = User::find($adminId);
-        if($adminId && $adminId != auth()->user()->id && $dataAdmin){
-            $dataAdmin->delete();
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+            $adminId = $request->id;
+            $dataAdmin = User::find($adminId);
+            if($adminId && $adminId != auth()->user()->id && $dataAdmin){
+                $dataAdmin->delete();
 
-        return redirect()
-               ->route('data.admin')
-               ->with('toast_success', 'Admin '.$dataAdmin->name.' dihapus!');
+            return redirect()
+                ->route('data.admin')
+                ->with('toast_success', 'Admin '.$dataAdmin->name.' dihapus!');
+            }
+
+            return back()
+            ->with('toast_error', 'Admin ID not found');
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
         }
-
-        return back()
-        ->with('toast_error', 'Admin ID not found');
-    }else{
-        return back()->with('toast_error', 'Access Denied!');
-    }
     }
 }

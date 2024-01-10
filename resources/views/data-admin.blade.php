@@ -33,7 +33,7 @@
           class="ri-add-box-line me-2"></i>Tambah Admin</div>
     </div>
     <div class="table-wrapper mt-2 mb-2">
-      <table id="example" class="table table-striped mt-3 table-hover">
+      <table id="example" class="table mt-3 table-hover table-borderless">
         <thead>
           <tr>
             <th>ID</th>
@@ -54,10 +54,13 @@
             <td>{{$admin->user->phone_number}}</td>
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">
-                <a href="#" data-id="{{$admin->user->id}}" data-name="{{$admin->user->name}}"
-                  class="btn edit btn-action btn-warning text-white"><i class="bx bx-edit"></i></a>
-                <a href="#" class="delete btn btn-action btn-danger text-white" data-name="{{$admin->user->name}}"
-                  data-id="{{$admin->user->id}}">
+                <a href="#" data-id="{{$admin->user->id}}" data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip" data-bs-title="Perbarui data admin"
+                  data-name="{{$admin->user->name}}" class="btn edit btn-action btn-warning text-white"><i
+                    class="bx bx-edit"></i></a>
+                <a href="#" class="delete btn btn-action btn-danger text-white" data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip" data-bs-title="Hapus data admin"
+                  data-name="{{$admin->user->name}}" data-id="{{$admin->user->id}}">
                   <i class="bx bx-trash"></i>
                 </a>
               </div>
@@ -65,16 +68,6 @@
           </tr>
           @endforeach
         </tbody>
-        <tfoot>
-          <tr>
-            <th>ID</th>
-            <th>Nama</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Nomor Telepon</th>
-            <th>Aksi</th>
-          </tr>
-        </tfoot>
       </table>
     </div>
   </div>

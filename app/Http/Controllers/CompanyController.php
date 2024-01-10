@@ -17,16 +17,16 @@ use App\Models\User;
 class CompanyController extends Controller
 {
     public function index(){
-    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin'){
-        $ownerCompany = CompanyMember::find(auth()->user()->id);
-        
-        $companies = Company::with('owner')
-                    ->where('id', '<>', $ownerCompany->id)
-                    ->get();
-        return view('data-pelanggan', compact('companies'));
-    }else{
-        return back()->with('toast_error', 'Access Denied!');
-    }
+        if(auth()->user()->role == 'super_admin'){
+            $ownerCompany = CompanyMember::find(auth()->user()->id);
+            
+            $companies = Company::with('owner')
+                        ->where('id', '<>', $ownerCompany->id)
+                        ->get();
+            return view('data-pelanggan.data-pelanggan', compact('companies'));
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+        }
     }
 
     public function store(Request $request){
@@ -145,24 +145,186 @@ class CompanyController extends Controller
     }
 
     public function delete(Request $request){
-    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
-        $companyId = $request->id;
-        
-        $company = Company::find($companyId);
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
+            $companyId = $request->id;
+            
+            $company = Company::find($companyId);
 
-        if($company){
-            $company->delete();
+            if($company){
+                $company->delete();
 
-            return back()->with('toast_success', 'Admin '.$company->name.' dihapus!');
+                return back()->with('toast_success', 'Admin '.$company->name.' dihapus!');
+            }
+            else{
+                return back()
+                ->with('toast_error', 'Company ID not found');
+            }
+
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+
         }
-        else{
-            return back()
-            ->with('toast_error', 'Company ID not found');
-        }
-
-    }else{
-        return back()->with('toast_error', 'Access Denied!');
-
     }
+
+    public function detailCompany(Request $request, $id){
+        if(auth()->user()->role == 'super_admin'){
+            $adminCompany = CompanyMember::with('user')
+                                            ->with('company')
+                                            ->where('company_id', $id)
+                                            ->get();
+
+            return view('data-pelanggan.data-admin-pelanggan', ['admins' => $adminCompany]);
+        }
+            return back()->with('toast_error', 'Access Denied!');
+    }
+
+    public function storeAdmin(Request $request){
+        if(auth()->user()->role == 'super_admin'){
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|min:5',
+                'role' => 'required|in:super_admin_cust,admin_cust',
+                'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
+            ]);
+    
+            if($validator->fails()){
+                return back()
+                ->with('toast_error', join(', ', $validator->messages()->all()))
+                ->withInput()
+                ->withErrors($validator->messages()->all());
+            }
+    
+            $companyId = $request->idCompany;
+    
+            $newAdmin = $request->except('_token');
+            $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
+    
+            if(!empty( $request->image_profile)){
+                $imageProfile = $request->image_profile;
+                $imageName = Str::random(10).'.'.$imageProfile->getClientOriginalExtension();
+        
+                $imageProfile->storeAs('public/avatar', $imageName);
+                $newAdmin['image_profile'] = $imageName;
+            }
+    
+            DB::beginTransaction();
+            try {
+                $newAdmin = User::create($newAdmin);
+                $companyMember = CompanyMember::create([
+                    'user_id' => $newAdmin->id,
+                    'company_id' => $companyId,
+                ]);
+                DB::commit();
+    
+                return back()
+                ->with('toast_success', 'Admin Ditambahkan!'); 
+
+            } catch (\Throwable $th) {
+                DB::rollback();
+                return back()
+                ->with('toast_error', $th->getMessage())
+                ->withInput()
+                ->withErrors($th->getMessage());
+            }
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+        }
+    }
+
+    public function getFormAdmin(Request $request){
+        if(auth()->user()->role == 'super_admin'){
+            $id = $request->id;
+
+            if($id){
+                $form = DB::table('users')
+                ->select('*')
+                ->where('id', $id)
+                ->first();
+                
+                if($form->password){
+                    $form->password = Crypt::decryptString($form->password);
+                }
+
+                return view('modal.data-pelanggan.data-admin-pelanggan-form', ['form' => $form]);
+            }
+
+            return response()->json('[Access Denied or id not found]', 404);   
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+        }
+    }
+
+    public function updateAdmin(Request $request){
+        if(auth()->user()->role == 'super_admin'){
+            $adminId = $request->id;
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
+                'password' => 'required|string|min:5',
+                'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
+                'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
+            ]);
+    
+            if($validator->fails()){
+                return back()
+                ->with('toast_error', join(', ', $validator->messages()->all()))
+                ->withInput()
+                ->withErrors($validator->messages()->all());
+            }
+
+            $oldDataAdmin = User::where('id', $adminId)->first();
+
+            $newAdmin = $request->except('_token');
+            $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
+
+            if(!empty( $request->image_profile)){
+                $imageProfile = $request->image_profile;
+                $imageName = Str::random(10).'.'.$imageProfile->getClientOriginalExtension();
+        
+                $imageProfile->storeAs('public/avatar/', $imageName);
+                $newAdmin['image_profile'] = $imageName;
+    
+                //delete old image
+                Storage::delete('public/avatar/'.$oldDataAdmin->image_profile);
+            }
+
+            DB::beginTransaction();
+            try {
+                $oldDataAdmin->update($newAdmin);
+                DB::commit();        
+                return back()
+                ->with('toast_success', 'Data Admin Diperbarui');  
+            } catch (\Throwable $th) {
+                DB::rollback();
+                return back()
+                ->with('toast_error', $th->getMessage())
+                ->withInput()
+                ->withErrors($th->getMessage());
+            }
+
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+
+        }
+    }
+
+    public function deleteAdmin(Request $request){
+        if(auth()->user()->role == 'super_admin'){
+            $adminId = $request->id;
+            $dataAdmin = User::find($adminId);
+            if($adminId && $adminId != auth()->user()->id && $dataAdmin){
+                $dataAdmin->delete();
+
+            return back()
+                ->with('toast_success', 'Admin '.$dataAdmin->name.' dihapus!');
+            }
+
+            return back()
+            ->with('toast_error', 'Admin ID not found');
+        }else{
+            return back()->with('toast_error', 'Access Denied!');
+        }
     }
 }

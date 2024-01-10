@@ -1,6 +1,6 @@
 @if ($form)
 <!-- Edit Modal -->
-<form action={{route('data.admin.update')}} enctype="multipart/form-data" id="addForm" method="POST">
+<form action={{route('data.admin.pelanggan.update')}} enctype="multipart/form-data" id="addForm" method="POST">
   @method('put')
   @csrf
   <div class="modal-dialog ">
@@ -41,19 +41,12 @@
             <option class="text-secondary" value="">
               Klik untuk memilih Role
             </option>
-            @if(auth()->user()->role === 'super_admin')
-            <option {{$form->role ==='admin' ? 'selected' : '' }} value="admin" class="text-secondary">Admin</option>
-            <option value="super_admin" {{$form->role ==='super_admin' ? 'selected' : '' }} class="text-secondary">
-              Super
-              Admin</option>
-            @elseif (auth()->user()->role === 'super_admin_cust')
             <option {{$form->role ==='admin_cust' ? 'selected' : '' }} value="admin_cust" class="text-secondary">Admin
             </option>
             <option value="super_admin_cust" {{$form->role ==='super_admin_cust' ? 'selected' : '' }}
               class="text-secondary">
               Super
               Admin</option>
-            @endif
           </select>
         </div>
         <div class="form-group mb-3">
