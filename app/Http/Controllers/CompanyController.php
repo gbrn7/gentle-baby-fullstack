@@ -85,7 +85,7 @@ class CompanyController extends Controller
                 DB::commit();
 
                 return back()
-                ->with('toast_success', 'pelanggan Ditambahkan!');        
+                ->with('toast_success', 'Perusahaan Ditambahkan!');        
             } catch (\Throwable $th) {
                 DB::rollback();
                 return back()
@@ -151,7 +151,7 @@ class CompanyController extends Controller
                 DB::commit();
 
                 return back()
-                ->with('toast_success', 'Data Pelanggan Diperbarui');
+                ->with('toast_success', 'Data Perusahaan Diperbarui');
 
             } catch (\Throwable $th) {
                 DB::rollback();
@@ -186,6 +186,18 @@ class CompanyController extends Controller
         }else{
             return back()->with('toast_error', 'Access Denied!');
 
+        }
+    }
+
+    public function getCurrentCompany(Request $request){
+        $currentUser = auth()->user()->id;
+        $currentCompany = CompanyMember::with('company')
+                          ->where('user_id', $currentUser)->first();
+        
+        if($currentCompany){
+            return view('modal.data-pelanggan.data-pelanggan-form', ['form' => $currentCompany->company]);
+        }else{
+            return back()->with('toast_error', 'Data tidak ditemukan!');
         }
     }
 
@@ -377,4 +389,5 @@ class CompanyController extends Controller
             return back()->with('toast_error', 'Access Denied!');
         }
     }
+
 }

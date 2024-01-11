@@ -28,7 +28,7 @@
       <li class="rounded {{Request::segment(2) === 'data-pelanggan' ? 'active' : ''}} rounded-2">
         <a href={{route('data.pelanggan')}}
           class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-team-line me-2"></i>Data Pelanggan</a>
+            class="ri-team-line me-2"></i>Data Perusahaan</a>
       </li>
       @endif
       @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')

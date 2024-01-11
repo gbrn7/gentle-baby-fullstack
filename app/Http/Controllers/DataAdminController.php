@@ -48,7 +48,7 @@ class DataAdminController extends Controller
                 'email' => 'required|string|email|unique:company',
                 'password' => 'required|string|min:5',
                 'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
-                'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
+                'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
             ];
 
             $messages = [
@@ -57,6 +57,7 @@ class DataAdminController extends Controller
                 'email' => 'Kolom :attribute harus bertipe email',
                 'unique' => 'email yang anda berikan sudah dipakai',
                 'min' => ':attribute minimal :min digit',
+                'max' => ':attribute maksimal :max',
                 'role' => ':attribute tidak valid',
                 'image' => 'foto profil harus berjenis gambar',
                 'mimes' => 'foto profil harus bertipe :values',
@@ -139,7 +140,7 @@ class DataAdminController extends Controller
             'email' => 'required|string|email|unique:company,email',
             'password' => 'required|string|min:5',
             'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
-            'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
+            'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
         ];
 
         $messages = [
@@ -148,6 +149,7 @@ class DataAdminController extends Controller
             'email' => 'Kolom :attribute harus bertipe email',
             'unique' => ':attribute yang anda berikan sudah dipakai',
             'min' => ':attribute minimal :min digit',
+            'image_profile.max' => 'Foto profil maksimal berukuran +-2MB',
             'role' => ':attribute tidak valid',
             'image' => 'foto profil harus berjenis gambar',
             'mimes' => 'foto profil harus bertipe :values',

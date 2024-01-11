@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="title-box  d-flex gap-2 align-items-baseline"><i class="ri-team-line fs-2"></i>
-  <p class="fs-3 m-0">Data Pelanggan</p>
+  <p class="fs-3 m-0">Data Perusahaan</p>
 </div>
 <div class="breadcrumbs-box mt-2 rounded rounded-2 bg-white p-2">
   <nav
@@ -10,7 +10,7 @@
     aria-label="breadcrumb">
     <ol class="breadcrumb m-0">
       <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby Gentle</li>
-      <li class="breadcrumb-item active" aria-current="page">Data Pelanggan</li>
+      <li class="breadcrumb-item active" aria-current="page">Data Perusahaan</li>
     </ol>
   </nav>
 </div>
@@ -29,7 +29,7 @@
       </div>
       @endif
       <div id="add" data-bs-toggle="modal" data-bs-target="#addnew" class="btn btn-success"><i
-          class="ri-add-box-line me-2"></i>Tambah Pelanggan</div>
+          class="ri-add-box-line me-2"></i>Tambah Perusahaan</div>
     </div>
     <div class="table-wrapper mt-2 mb-2">
       <table id="example" class="table mt-3 table-hover table-borderless" style="width: 100%">
@@ -56,10 +56,10 @@
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">
                 <a href="#" data-id="{{$company->id}}" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
-                  data-bs-title="Perbarui data pelanggan" data-name="{{$company->name}}"
+                  data-bs-title="Perbarui data perusahaan" data-name="{{$company->name}}"
                   class="btn edit btn-action btn-warning text-white"><i class="bx bx-edit"></i></a>
                 <a href="#" class="delete btn btn-action btn-danger text-white" data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip" data-bs-title="Hapus data pelanggan"
+                  data-bs-custom-class="custom-tooltip" data-bs-title="Hapus data perusahaan"
                   data-name="{{$company->name}}" data-id="{{$company->id}}">
                   <i class="bx bx-trash"></i>
                 </a>

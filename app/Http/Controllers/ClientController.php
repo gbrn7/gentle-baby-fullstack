@@ -15,10 +15,9 @@ class ClientController extends Controller
         $currentUser = auth()->user();
         $currentUser['password'] = Crypt::decryptString($currentUser['password']);
         if($currentUser){
-            return view('modal.data-admin-modal.data-admin-form', 
+            return view('modal.data-admin.data-admin-form', 
             ['form' => $currentUser]);
         }else{
-            dd('test');
             return response()->json('[Access Denied or id not found]', 404);   
         }
     }
