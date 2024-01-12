@@ -71,6 +71,7 @@
           </div>
         </div>
       </a>
+      @if(auth()->user()->role === 'super_admin')
       <a href="{{route('data.admin')}}" class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
@@ -84,6 +85,8 @@
           </div>
         </div>
       </a>
+      @endif
+      @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')
       <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
@@ -97,8 +100,7 @@
           </div>
         </div>
       </a>
-
-
+      @endif
     </div>
   </div>
 </div>

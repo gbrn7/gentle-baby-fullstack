@@ -167,27 +167,6 @@ class CompanyController extends Controller
         }
     }
 
-    public function delete(Request $request){
-        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust'){
-            $companyId = $request->id;
-            
-            $company = Company::find($companyId);
-
-            if($company){
-                $company->delete();
-
-                return back()->with('toast_success', 'Admin '.$company->name.' dihapus!');
-            }
-            else{
-                return back()
-                ->with('toast_error', 'Company ID not found');
-            }
-
-        }else{
-            return back()->with('toast_error', 'Access Denied!');
-
-        }
-    }
 
     public function getCurrentCompany(Request $request){
         $currentUser = auth()->user()->id;
@@ -376,7 +355,7 @@ class CompanyController extends Controller
         if(auth()->user()->role == 'super_admin'){
             $adminId = $request->id;
             $dataAdmin = User::find($adminId);
-            if($adminId && $adminId != auth()->user()->id && $dataAdmin){
+            if($adminId && $adminId != auth()->user()->id && $dataAdmin->role !== 'super_admin_cust'){
                 $dataAdmin->delete();
 
             return back()
@@ -384,7 +363,7 @@ class CompanyController extends Controller
             }
 
             return back()
-            ->with('toast_error', 'Admin ID not found');
+            ->with('toast_error', 'Cannot delete admin');
         }else{
             return back()->with('toast_error', 'Access Denied!');
         }

@@ -80,45 +80,8 @@
   </form>
 </div>
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog ">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel">Hapus Admin</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h4 class="text-center">Apakah anda yakin mengapus pelanggan <span class="criteria-name"></span>?</h4>
-      </div>
-      <form action={{route('data.pelanggan.delete')}} method="post">
-        @method('delete')
-        @csrf
-        <input type="hidden" name="id" id="delete-id">
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" id="deletecriteria" class="btn btn-danger">Hapus</button>
-      </form>
-    </div>
-  </div>
-</div>
-</div>
-
-
 @push('js')
 <script type="text/javascript">
-  $(document).ready(function(){
-      $(document).on('click', '.delete', function(event){
-          event.preventDefault();
-          var id = $(this).data('id');
-          var name = $(this).data('name');
-          $('#deletemodal').modal('show');
-          $('#delete-id').val(id);
-          $('.criteria-name').html(name);
-      });  
-
-  });
-
   function imageHandler(input) {
     const img = document.querySelector('.img-avatar-create')
     const file =input.files[0]; 

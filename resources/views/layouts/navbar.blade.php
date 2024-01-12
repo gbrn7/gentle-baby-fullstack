@@ -23,12 +23,12 @@
           <li class="rounded-2 dropdown-list my-profile"><a class="dropdown-item rounded-2" href="#"><i
                 class="ri-user-3-line me-2"></i>Profil Saya</a>
           </li>
+          <li class="rounded-2 dropdown-list my-company-profile"><a class="dropdown-item rounded-2" href="#"><i
+                class="ri-building-2-line me-2"></i>Profile Perusahaan</a>
+          </li>
           <li class="rounded-2 dropdown-list"> <a href="{{route('logout')}}" class="dropdown-item rounded-2"><i
                 class="ri-logout-circle-line me-2"></i>Sign
               Out</a>
-          </li>
-          <li class="rounded-2 dropdown-list my-company-profile"><a class="dropdown-item rounded-2" href="#"><i
-                class="ri-building-2-line me-2"></i>Profile Perusahaan</a>
           </li>
         </ul>
       </div>

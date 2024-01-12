@@ -58,11 +58,6 @@
                 <a href="#" data-id="{{$company->id}}" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
                   data-bs-title="Perbarui data perusahaan" data-name="{{$company->name}}"
                   class="btn edit btn-action btn-warning text-white"><i class="bx bx-edit"></i></a>
-                <a href="#" class="delete btn btn-action btn-danger text-white" data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip" data-bs-title="Hapus data perusahaan"
-                  data-name="{{$company->name}}" data-id="{{$company->id}}">
-                  <i class="bx bx-trash"></i>
-                </a>
                 <a type="button" href={{route('data.admin.pelanggan', $company->id)}} class="btn btn-secondary"
                   data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Data admin pelanggan">
                   <i class="ri-list-check"></i>
