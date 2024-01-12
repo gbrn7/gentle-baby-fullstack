@@ -25,7 +25,7 @@ class CompanyController extends Controller
                         ->get();
             return view('data-pelanggan.data-pelanggan', compact('companies'));
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 
@@ -94,7 +94,7 @@ class CompanyController extends Controller
                 ->withErrors($th->getMessage());
             }
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
 
         }
     }
@@ -109,7 +109,7 @@ class CompanyController extends Controller
 
             return response()->json('[Access Denied or id not found]', 404);   
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 
@@ -162,7 +162,7 @@ class CompanyController extends Controller
             }
 
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
 
         }
     }
@@ -189,7 +189,7 @@ class CompanyController extends Controller
 
             return view('data-pelanggan.data-admin-pelanggan', ['admins' => $adminCompany]);
         }
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
     }
 
     public function storeAdmin(Request $request){
@@ -256,7 +256,7 @@ class CompanyController extends Controller
                 ->withErrors($th->getMessage());
             }
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 
@@ -279,7 +279,7 @@ class CompanyController extends Controller
 
             return response()->json('[Access Denied or id not found]', 404);   
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 
@@ -346,7 +346,7 @@ class CompanyController extends Controller
             }
 
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
 
         }
     }
@@ -365,7 +365,7 @@ class CompanyController extends Controller
             return back()
             ->with('toast_error', 'Cannot delete admin');
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 

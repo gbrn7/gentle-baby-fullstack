@@ -96,7 +96,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h4 class="text-center">Apakah anda yakin mengapus admin <span class="criteria-name"></span>?</h4>
+        <h4 class="text-center">Apakah anda yakin mengapus admin <span class="admin-name"></span>?</h4>
       </div>
       <form action={{route('data.admin.delete')}} method="post">
         @method('delete')
@@ -121,7 +121,7 @@
           var name = $(this).data('name');
           $('#deletemodal').modal('show');
           $('#delete-id').val(id);
-          $('.criteria-name').html(name);
+          $('.admin-name').html(name);
       });  
 
   });

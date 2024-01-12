@@ -55,10 +55,10 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
   Route::prefix('/data-product')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('data.product');
     Route::get('/create', [ProductController::class, 'createProduct'])->name('data.product.create');
-    // Route::post('/store', [DataAdminController::class, 'store'])->name('data.admin.store');
-    // Route::get('/getforms', [DataAdminController::class, 'getForm'])->name('data.admin.getForm');
-    // Route::put('/update', [DataAdminController::class, 'update'])->name('data.admin.update');
-    // Route::delete('/destroy', [DataAdminController::class, 'delete'])->name('data.admin.delete');
+    Route::post('/store', [ProductController::class, 'store'])->name('data.product.store');
+    Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('data.product.edit');
+    Route::put('/update/{id}', [ProductController::class, 'update'])->name('data.product.update');
+    Route::delete('/destroy', [ProductController::class, 'delete'])->name('data.product.delete');
   });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');

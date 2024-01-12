@@ -18,7 +18,7 @@ class ClientController extends Controller
             return view('modal.data-admin.data-admin-form', 
             ['form' => $currentUser]);
         }else{
-            return response()->json('[Access Denied or id not found]', 404);   
+            return response()->json('[Akses Ditolak atau Id Tidak Ditemukan!!]', 404);   
         }
     }
 

@@ -33,6 +33,10 @@ body{
   background-color: whitesmoke;
 }
 
+.img-thumbnail{
+  height: 580;
+}
+
 .img-view img{
   object-fit: cover;
 }

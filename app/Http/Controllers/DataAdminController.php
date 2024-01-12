@@ -35,7 +35,7 @@ class DataAdminController extends Controller
             }
             return view('data-admin', compact('admins'));
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 
@@ -45,7 +45,6 @@ class DataAdminController extends Controller
             $validation = [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
-                'email' => 'required|string|email|unique:company',
                 'password' => 'required|string|min:5',
                 'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
@@ -61,6 +60,7 @@ class DataAdminController extends Controller
                 'role' => ':attribute tidak valid',
                 'image' => 'foto profil harus berjenis gambar',
                 'mimes' => 'foto profil harus bertipe :values',
+                'in' => 'role hanya boleh memiliki :values',
             ];
 
             $validator = Validator::make($request->all(), $validation, $messages);
@@ -105,7 +105,7 @@ class DataAdminController extends Controller
                 ->withErrors($th->getMessage());
             }
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 
@@ -126,7 +126,7 @@ class DataAdminController extends Controller
 
             return response()->json('[Access Denied or id not found]', 404);   
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 
@@ -196,7 +196,7 @@ class DataAdminController extends Controller
             ->withErrors($th->getMessage());
         }
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
             }
     }
 
@@ -215,7 +215,7 @@ class DataAdminController extends Controller
             return back()
             ->with('toast_error', 'Admin ID not found');
         }else{
-            return back()->with('toast_error', 'Access Denied!');
+            return back()->with('toast_error', 'Akses Ditolak!!');
         }
     }
 }
