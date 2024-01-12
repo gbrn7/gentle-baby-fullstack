@@ -137,7 +137,6 @@ class DataAdminController extends Controller
         $validation = [
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
-            'email' => 'required|string|email|unique:company,email',
             'password' => 'required|string|min:5',
             'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
             'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',

@@ -35,12 +35,10 @@ class CompanyController extends Controller
             $validation = [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
-                'email' => 'required|string|email|unique:company',
                 'password' => 'required|string|min:5',
                 'phone_number' => 'required',
                 'name_company' => 'required|string',
                 'email_company' => 'nullable|email|unique:company,email',
-                'email_company' => 'nullable|email|unique:users,email',
             ];
 
             $messages = [
@@ -120,7 +118,6 @@ class CompanyController extends Controller
             $validation = [
                 'name' => 'required|string',
                 'email' => 'nullable|string|email|unique:company,email,'.$companyId.',id',
-                'email' => 'nullable|string|email|unique:users,email,',
                 'address' => 'nullable|string',
                 'phone_number' => 'nullable|string',
             ];
@@ -167,7 +164,6 @@ class CompanyController extends Controller
         }
     }
 
-
     public function getCurrentCompany(Request $request){
         $currentUser = auth()->user()->id;
         $currentCompany = CompanyMember::with('company')
@@ -197,7 +193,6 @@ class CompanyController extends Controller
             $validation = [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
-                'email' => 'required|string|email|unique:company',
                 'password' => 'required|string|min:5',
                 'role' => 'required|in:super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
@@ -289,7 +284,6 @@ class CompanyController extends Controller
             $validation = [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
-                'email' => 'required|string|email|unique:company,email',
                 'password' => 'required|string|min:5',
                 'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
