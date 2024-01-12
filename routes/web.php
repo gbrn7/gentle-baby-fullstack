@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DataAdminController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,15 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
       Route::put('/update', [CompanyController::class, 'updateAdmin'])->name('data.admin.pelanggan.update');
       Route::delete('/destroy', [CompanyController::class, 'deleteAdmin'])->name('data.admin.pelanggan.delete');
     });
+  });
+
+  Route::prefix('/data-product')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('data.product');
+    Route::get('/create', [ProductController::class, 'createProduct'])->name('data.product.create');
+    // Route::post('/store', [DataAdminController::class, 'store'])->name('data.admin.store');
+    // Route::get('/getforms', [DataAdminController::class, 'getForm'])->name('data.admin.getForm');
+    // Route::put('/update', [DataAdminController::class, 'update'])->name('data.admin.update');
+    // Route::delete('/destroy', [DataAdminController::class, 'delete'])->name('data.admin.delete');
   });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');

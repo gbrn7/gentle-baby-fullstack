@@ -13,7 +13,8 @@
             class="ri-dashboard-line me-2"></i>Beranda</a>
       </li>
       <li class="rounded {{Request::segment(2) === 'criteria' ? 'active' : ''}} rounded-2">
-        <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
+        <a href="{{route('data.product')}}"
+          class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-instance-line me-2"></i>Data Produk</a>
       </li>
       <li class="rounded {{Request::segment(2) === 'alternatives' ? 'active' : ''}} rounded-2">
@@ -38,10 +39,6 @@
             class="ri-admin-line me-2"></i>Data Admin</a>
       </li>
       @endif
-      <li class="rounded {{Request::segment(2) === 'results' ? 'active' : ''}} rounded-2">
-        <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-profile-line me-2"></i></i>Pengaturan Profil</a>
-      </li>
     </ul>
   </div>
 
