@@ -17,8 +17,9 @@
           class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-instance-line me-2"></i>Data Produk</a>
       </li>
-      <li class="rounded {{Request::segment(2) === 'alternatives' ? 'active' : ''}} rounded-2">
-        <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
+      <li class="rounded {{Request::segment(2) === 'data-transaksi' ? 'active' : ''}} rounded-2">
+        <a href={{route('data.transaksi')}}
+          class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-arrow-left-right-line me-2"></i>Data Transaksi</a>
       </li>
       <li class="rounded {{Request::segment(2) === 'grades' ? 'active' : ''}} rounded-2">

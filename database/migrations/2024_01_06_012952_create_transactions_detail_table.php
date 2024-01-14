@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('qty' );
             $table->boolean('is_cashback');
             $table->float('cashback_value', 10,2);
-            $table->float('qty_cashback_item', 10,2)->default(0);
+            $table->integer('qty_cashback_item');
             $table->timestamps();
         });
     }

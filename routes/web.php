@@ -6,6 +6,9 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DataAdminController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
+use App\Livewire\DataTransaksi;
+use App\Livewire\DataDetailTransaksi;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +20,6 @@ use App\Http\Controllers\ProductController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 
 Route::get('/sign-in', [AuthController::class, 'index'])->name('sign-in');
 Route::post('/sign-in', [AuthController::class, 'authenticate'])->name('sign-in.auth');
@@ -59,6 +61,16 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
     Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('data.product.edit');
     Route::put('/update/{id}', [ProductController::class, 'update'])->name('data.product.update');
     Route::delete('/destroy', [ProductController::class, 'delete'])->name('data.product.delete');
+  });
+
+  Route::prefix('/data-transaksi')->group(function () {
+    Route::get('/', DataTransaksi::class)->name('data.transaksi');
+    Route::get('/{id}', DataDetailTransaksi::class)->name('data.transaksi.detail');
+    // Route::get('/create', [TransactionController::class, 'createProduct'])->name('data.product.create');
+    // Route::post('/store', [TransactionController::class, 'store'])->name('data.product.store');
+    // Route::get('/edit/{id}', [TransactionController::class, 'edit'])->name('data.product.edit');
+    // Route::put('/update/{id}', [TransactionController::class, 'update'])->name('data.product.update');
+    // Route::delete('/destroy', [TransactionController::class, 'delete'])->name('data.product.delete');
   });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');

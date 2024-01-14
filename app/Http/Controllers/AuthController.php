@@ -21,7 +21,9 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails()){
-            return back()->with('toast_error', join(', ', $validator->messages()->all()))->withInput();
+            return back()->with('toast_error', join(', ', $validator->messages()->all()))
+            ->withInput()
+            ->withErrors($validator->messages());
         }
 
         $credentials = $request->only('email', 'password');

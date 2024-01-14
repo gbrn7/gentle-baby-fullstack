@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class TransactionSeeder extends Seeder
 {
@@ -15,7 +16,9 @@ class TransactionSeeder extends Seeder
     {
         DB::table('transactions')->insert([
             [
+                "transaction_code" => Str::random(10),
                 "company_id" => 2,
+                "amount" => 7375000,
                 "jatuh_tempo_dp" => null,
                 "jatuh_tempo" => now(),
                 "process_status" => "unprocessed",
@@ -26,7 +29,10 @@ class TransactionSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+
+                "transaction_code" => Str::random(10),
                 "company_id" => 2,
+                "amount" => 4000000,
                 "jatuh_tempo_dp" => date_add(now(), date_interval_create_from_date_string('1 days')),
                 "jatuh_tempo" => date_add(now(), date_interval_create_from_date_string('6 weeks')),
                 "process_status" => "processed",

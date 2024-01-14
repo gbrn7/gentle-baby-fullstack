@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_code');
             $table->foreignId('company_id')->constrained('company');
+            $table->float('amount', 10, 2);
             $table->date('jatuh_tempo_dp')->nullable();
             $table->date('jatuh_tempo');
             $table->enum('process_status', ['unprocessed ', 'processing', 'processed', 'taken']);

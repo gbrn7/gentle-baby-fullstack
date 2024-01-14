@@ -157,6 +157,8 @@
         document.querySelector(".default-view").classList.add("d-none");
         document.querySelector(".btn-clear").classList.remove("d-none");
         imageView.classList.add("border-0");
+        document.querySelector(".file-desc").innerHTML = "Drag and drop or click here <br>to upload image";
+
       }
 
       function setDefaultImage(){

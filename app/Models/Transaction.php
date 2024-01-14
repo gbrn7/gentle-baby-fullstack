@@ -12,6 +12,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'company_id',
+        'amount',
         'jatuh_tempo_dp',
         'jatuh_tempo',
         'process_status',

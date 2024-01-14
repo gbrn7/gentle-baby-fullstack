@@ -39,16 +39,6 @@
               <h1 class="my-0 mt-lg-3">@yield('title')</h1>
             </div>
 
-            {{-- alert here --}}
-            @if($errors->any()) {{-- handling jika ada eror --}}
-            <div class="alert alert-danger m-2">
-              <ul>
-                @foreach ($errors-> all() as $error )
-                <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-            @endif
           </div>
           @yield('content')
           <div class="auth-footer text-center text-secondary mt-2">

@@ -24,7 +24,7 @@ class CompanySeeder extends Seeder
             'updated_at' => now(),
             ],
             [
-            'name' => 'berkahjaya',
+            'name' => 'CV Berkah Jaya',
             'address' => 'Malang',
             'email' => 'berkahjaya@gmail.com',
             'phone_number' => '78787845',

@@ -141,6 +141,8 @@
         imageView.style.backgroundImage = `none`;
         inputFile.files = null;
         imageView.classList.remove("border-0");
+        document.querySelector(".file-desc").innerHTML = "Drag and drop or click here <br>to upload image";
+
       });
 
       function uploadImage() {
