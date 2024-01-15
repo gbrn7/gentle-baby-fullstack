@@ -78,13 +78,16 @@ class DataDetailTransaksi extends Component
             try {
                 $transaction->update($imagesName);                
                 
-                DB::commit();     
+                DB::commit();   
+                
+                session()->flash('success', ' Data Transaksi di Perbarui!!');
 
-                return back()
-                ->with('toast_success', 'Data Transaksi Diperbarui!!');  
-
+                return back();
             } catch (\Throwable $th) {
                 DB::rollback();
+
+                session()->flash('error', 'Internal Server Error');
+
                 return back()
                 ->with('toast_error', $th->getMessage())
                 ->withInput()

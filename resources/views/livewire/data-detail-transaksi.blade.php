@@ -419,8 +419,46 @@
             </div>
         </div>
     </div>
+
+    @script
     <script>
         const dropAreas = document.querySelectorAll("#drop-area");
+        var toastMixin = Swal.mixin({
+        toast: true,
+        icon: 'success',
+        title: 'General Title',
+        animation: false,
+        position: 'top-right',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
+    const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-right',
+  iconColor: 'white',
+  customClass: {
+    popup: 'colored-toast',
+  },
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+})
+
+
+        @if (session()->has('success'))
+        console.log('first')
+        Toast.fire({
+        icon: 'success',
+        title: "{{session('success')}}",
+        })  
+        @endif
+
         @if ($transaction->dp_payment_receipt)
         console.log('check');
         setDpPaymentImage();
@@ -453,27 +491,6 @@
         imageView.classList.add("border-0");
       }
 
-      function loadURLToInputFiled(url, inputNode){
-        getImgURL(url, (imgBlob)=>{
-            // Load img blob to input
-            // WIP: UTF8 character error
-            let fileName = 'hasFilename.jpg'
-            let file = new File([imgBlob], fileName,{type:"image/jpeg", lastModified:new Date().getTime()}, 'utf-8');
-            let container = new DataTransfer(); 
-            container.items.add(file);
-            inputNode.files = container.files;   
-        })
-}
-        // xmlHTTP return blob respond
-        function getImgURL(url, callback){
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            callback(xhr.response);
-        };
-        xhr.open('GET', url);
-        xhr.responseType = 'blob';
-        xhr.send();
-        }
             
             dropAreas.forEach((dropArea) => {
                 const imageView =  dropArea.querySelector(".img-view");
@@ -513,7 +530,6 @@
                     let imgLink = window.URL.createObjectURL(inputFile.files[0]);
                     imageView.style.backgroundImage = `url(${imgLink})`;
                     defaultView.classList.add("d-none");
-                    cardFooter.classList.remove("d-none");
                     imageView.classList.add("border-0");
                 })
 
@@ -523,4 +539,5 @@
       
       
     </script>
+    @endscript
 </div>
