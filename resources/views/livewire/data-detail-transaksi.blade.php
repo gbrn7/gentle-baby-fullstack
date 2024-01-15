@@ -33,10 +33,19 @@
                     </div>
                     @endif
                 </div>
+
+                <div class="row mb-2">
+                    <div class="col-6 col-md-2">
+                        <div class="btn btn-success" wire:click="downloadPDF()">
+                            Download Invoice
+                        </div>
+                    </div>
+                </div>
                 @switch(auth()->user()->role)
 
-                @case('super_admin')
-                <form method="POST" action={{route('data.transaksi.detail.update', $transaction->id)}}
+
+                @case(' super_admin') <form method="POST" action={{route('data.transaksi.detail.update', $transaction->
+                    id)}}
                     enctype="multipart/form-data">
                     @csrf
                     @method('put')
@@ -51,7 +60,8 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Nilai Pelunasan</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0, ".",
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0,
+                                        ".",
                                         ".")}}
                                     </p>
                                 </div>
@@ -59,7 +69,8 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Nilai DP</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0, ".",
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0,
+                                        ".",
                                         ".")}}</p>
                                 </div>
                             </div>
@@ -80,7 +91,8 @@
                                                 class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
                                                 <div class="default-view">
                                                     <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
-                                                    <p class="file-desc file-desc-custom">Drag and drop or click here
+                                                    <p class="file-desc file-desc-custom">Drag and drop or click
+                                                        here
                                                         <br>to
                                                         upload image
                                                     </p>
@@ -101,14 +113,16 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Profit</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->profit,0, ".",
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->profit,0,
+                                        ".",
                                         ".")}}</p>
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Status Pelunasan</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->payment_status === 1 ? 'Terbayar' :
+                                    <p class="card-title fw-bold">{{$transaction->payment_status === 1 ?
+                                        'Terbayar' :
                                         'Belum
                                         Dibayar'}}</p>
                                 </div>
@@ -130,7 +144,8 @@
                                             class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
                                             <div class="default-view">
                                                 <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
-                                                <p class="file-desc file-desc-custom">Drag and drop or click here <br>to
+                                                <p class="file-desc file-desc-custom">Drag and drop or click
+                                                    here <br>to
                                                     upload image</p>
                                             </div>
                                         </div>
@@ -154,7 +169,8 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Status DP</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' : 'Belum
+                                    <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' :
+                                        'Belum
                                         Dibayar'}}</p>
                                 </div>
                             </div>
@@ -167,7 +183,8 @@
                             <div class="card action-card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Aksi</div>
                                 <div class="card-body">
-                                    <button type="submit" class="btn btn-warning text-white">Perbarui Data</button>
+                                    <button type="submit" class="btn btn-warning text-white">Perbarui
+                                        Data</button>
                                 </div>
                             </div>
                         </div>
@@ -187,14 +204,16 @@
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Nilai Pelunasan</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0, ".", ".")}}
+                                <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0,
+                                    ".", ".")}}
                                 </p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Status Pelunasan</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">{{$transaction->payment_status === 1 ? 'Terbayar' :
+                                <p class="card-title fw-bold">{{$transaction->payment_status === 1 ?
+                                    'Terbayar' :
                                     'Belum
                                     Dibayar'}}</p>
                             </div>
@@ -210,7 +229,8 @@
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Nilai DP</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0, ".",
+                                <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0,
+                                    ".",
                                     ".")}}</p>
                             </div>
                         </div>
@@ -232,7 +252,8 @@
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Status DP</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' : 'Belum
+                                <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' :
+                                    'Belum
                                     Dibayar'}}</p>
                             </div>
                         </div>
@@ -262,14 +283,16 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Tagihan DP</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0, ".",
+                                    <p class="card-title fw-bold">Rp
+                                        {{number_format($transaction->dp_value,0, ".",
                                         ".")}}</p>
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Status DP</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' :
+                                    <p class="card-title fw-bold">{{$transaction->dp_status === 1 ?
+                                        'Terbayar' :
                                         'Belum
                                         Dibayar'}}</p>
                                 </div>
@@ -285,7 +308,8 @@
                                                 class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
                                                 <div class="default-view">
                                                     <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
-                                                    <p class="file-desc file-desc-custom">Drag and drop or click here
+                                                    <p class="file-desc file-desc-custom">Drag and drop or
+                                                        click here
                                                         <br>to
                                                         upload image
                                                     </p>
@@ -306,7 +330,8 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Tagihan Pelunasan</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0, ".",
+                                    <p class="card-title fw-bold">Rp
+                                        {{number_format($transaction->revenue,0, ".",
                                         ".")}}
                                     </p>
                                 </div>
@@ -328,7 +353,8 @@
                                             class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
                                             <div class="default-view">
                                                 <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
-                                                <p class="file-desc file-desc-custom">Drag and drop or click here <br>to
+                                                <p class="file-desc file-desc-custom">Drag and drop or click
+                                                    here <br>to
                                                     upload image</p>
                                             </div>
                                         </div>
@@ -346,7 +372,8 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Status Pembayaran</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->payment_status === 1 ? 'Terbayar' :
+                                    <p class="card-title fw-bold">{{$transaction->payment_status === 1 ?
+                                        'Terbayar' :
                                         'Belum
                                         Dibayar'}}</p>
                                 </div>
@@ -360,7 +387,8 @@
                             <div class="card action-card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Aksi</div>
                                 <div class="card-body">
-                                    <button type="submit" class="btn btn-warning text-white">Perbarui Data</button>
+                                    <button type="submit" class="btn btn-warning text-white">Perbarui
+                                        Data</button>
                                 </div>
                             </div>
                         </div>
@@ -388,7 +416,8 @@
                                         wire:click="sort('price')">Harga</th>
                                     <th class="text-secondary sort @if ($sortColumn=='qty') {{$sortDirection}}@endif "
                                         wire:click="sort('qty')">Qty</th>
-                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role === 'admin')
+                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role ===
+                                    'admin')
                                     <th class="text-secondary sort @if ($sortColumn=='hpp') {{$sortDirection}}@endif"
                                         wire:click="sort('hpp')">hpp</th>
                                     <th class="text-secondary sort @if ($sortColumn=='is_cashback') {{$sortDirection}}@endif"
@@ -408,13 +437,15 @@
                                     <td>{{$detailsTransaction->product->name }}</td>
                                     <td>Rp {{number_format($detailsTransaction->price,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->qty }}</td>
-                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role === 'admin')
+                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role ===
+                                    'admin')
                                     <td>{{$detailsTransaction->hpp}}</td>
                                     <td>{{$detailsTransaction->is_cashback == 1 ? 'Iya' : 'Tidak'}}</td>
                                     <td>{{$detailsTransaction->cashback_value}}</td>
                                     <td>{{$detailsTransaction->qty_cashback_item}}</td>
                                     @endif
-                                    <td>Rp {{number_format(($detailsTransaction->price * $detailsTransaction->qty),0,
+                                    <td>Rp {{number_format(($detailsTransaction->price *
+                                        $detailsTransaction->qty),0,
                                         ".",".")}}</td>
                                 </tr>
                                 @endforeach
