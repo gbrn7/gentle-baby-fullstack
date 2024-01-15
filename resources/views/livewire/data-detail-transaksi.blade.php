@@ -49,15 +49,18 @@
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
-                                <div class="card-header text-secondary">Pendapatan</div>
+                                <div class="card-header text-secondary">Nilai Pelunasan</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp.{{$transaction->revenue}}</p>
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0, ".",
+                                        ".")}}
+                                    </p>
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Nilai DP</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp.{{$transaction->dp_value}}</p>
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0, ".",
+                                        ".")}}</p>
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
@@ -98,7 +101,8 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Profit</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp.{{$transaction->profit}}</p>
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->profit,0, ".",
+                                        ".")}}</p>
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
@@ -181,9 +185,10 @@
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Pendapatan</div>
+                            <div class="card-header text-secondary">Nilai Pelunasan</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp.{{$transaction->revenue}}</p>
+                                <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0, ".", ".")}}
+                                </p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
@@ -205,7 +210,8 @@
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Nilai DP</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp.{{$transaction->dp_value}}</p>
+                                <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0, ".",
+                                    ".")}}</p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
@@ -256,7 +262,8 @@
                             <div class="card text-bg-light mb-3">
                                 <div class="card-header text-secondary">Tagihan DP</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp.{{$transaction->dp_value}}</p>
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0, ".",
+                                        ".")}}</p>
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
@@ -297,9 +304,11 @@
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">
-                                <div class="card-header text-secondary">Tagihan</div>
+                                <div class="card-header text-secondary">Tagihan Pelunasan</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp.{{$transaction->revenue}}</p>
+                                    <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0, ".",
+                                        ".")}}
+                                    </p>
                                 </div>
                             </div>
                             <div class="card text-bg-light mb-3">

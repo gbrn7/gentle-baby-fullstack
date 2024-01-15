@@ -47,10 +47,8 @@
                             <th class="text-secondary sort @if ($sortColumn=='created_at') {{$sortDirection}}@endif"
                                 wire:click="sort('created_at')">Tanggal Transaksi</th>
                             <th class="text-secondary">Nama Perusahaan</th>
-                            @if (auth()->user()->role === 'super_admin')
                             <th class="text-secondary sort @if ($sortColumn=='amount') {{$sortDirection}}@endif"
                                 wire:click="sort('amount')">Nominal</th>
-                            @endif
                             <th class="text-secondary sort @if ($sortColumn=='jatuh_tempo') {{$sortDirection}}@endif "
                                 wire:click="sort('jatuh_tempo')">Jatuh Tempo</th>
                             <th class="text-secondary sort @if ($sortColumn=='payment_status') {{$sortDirection}}@endif"
@@ -70,9 +68,7 @@
                             <td>{{$transaction->transaction_code }}</td>
                             <td>{{$transaction->created_at }}</td>
                             <td>{{$transaction->company->name }}</td>
-                            @if (auth()->user()->role === 'super_admin')
-                            <td>{{$transaction->amount}}</td>
-                            @endif
+                            <td>Rp {{number_format($transaction->amount,0, ".", ".")}}</td>
                             <td>{{$transaction->jatuh_tempo }}</td>
                             <td>{{$transaction->payment_status == 1 ? 'Terbayar' : 'Belum Dibayar'}}</td>
                             <td class="text-capitalize">{{$transaction->process_status }}</td>

@@ -53,7 +53,7 @@
             <td>{{$product->id }}</td>
             <td>{{$product->name }}</td>
             <td>{{$product->hpp }}</td>
-            <td>{{$product->price }}</td>
+            <td>Rp {{number_format($product->price,0, ".", ".")}}</td>
             <td>{{$product->size_volume }}</td>
             <td>{{$product->is_cashback == 1 ? 'Ya' : 'Tidak'}}</td>
             <td>{{$product->cashback_value }}</td>
