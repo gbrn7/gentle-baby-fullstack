@@ -384,18 +384,21 @@
                                     <th class="text-secondary sort @if ($sortColumn=='id') {{$sortDirection}}@endif"
                                         wire:click="sort('id')">ID</th>
                                     <th class="text-secondary">Nama</th>
+                                    <th class="text-secondary sort @if ($sortColumn=='price') {{$sortDirection}}@endif"
+                                        wire:click="sort('price')">Harga</th>
+                                    <th class="text-secondary sort @if ($sortColumn=='qty') {{$sortDirection}}@endif "
+                                        wire:click="sort('qty')">Qty</th>
+                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role === 'admin')
                                     <th class="text-secondary sort @if ($sortColumn=='hpp') {{$sortDirection}}@endif"
                                         wire:click="sort('hpp')">hpp</th>
-                                    <th class="text-secondary sort @if ($sortColumn=='price') {{$sortDirection}}@endif"
-                                        wire:click="sort('price')">harga</th>
-                                    <th class="text-secondary sort @if ($sortColumn=='qty') {{$sortDirection}}@endif "
-                                        wire:click="sort('qty')">qty</th>
                                     <th class="text-secondary sort @if ($sortColumn=='is_cashback') {{$sortDirection}}@endif"
                                         wire:click="sort('is_cashback')">Status Cashback</th>
                                     <th class="text-secondary sort @if ($sortColumn=='cashback_value') {{$sortDirection}}@endif"
                                         wire:click="sort('cashback_value')">Nilai Cashback</th>
                                     <th class="text-secondary sort @if ($sortColumn=='qty_cashback_item') {{$sortDirection}}@endif"
                                         wire:click="sort('qty_cashback_item')">Total Cashback</th>
+                                    @endif
+                                    <th class="text-secondary">Total</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody">
@@ -403,12 +406,16 @@
                                 <tr>
                                     <td>{{$detailsTransaction->product->id }}</td>
                                     <td>{{$detailsTransaction->product->name }}</td>
-                                    <td>{{$detailsTransaction->hpp}}</td>
-                                    <td>{{$detailsTransaction->price }}</td>
+                                    <td>Rp {{number_format($detailsTransaction->price,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->qty }}</td>
+                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role === 'admin')
+                                    <td>{{$detailsTransaction->hpp}}</td>
                                     <td>{{$detailsTransaction->is_cashback == 1 ? 'Iya' : 'Tidak'}}</td>
                                     <td>{{$detailsTransaction->cashback_value}}</td>
                                     <td>{{$detailsTransaction->qty_cashback_item}}</td>
+                                    @endif
+                                    <td>Rp {{number_format(($detailsTransaction->price * $detailsTransaction->qty),0,
+                                        ".",".")}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="table-wrapper mb-2 overflow-auto">
+            <div class="table-wrapper mb-2 pb-5 overflow-auto">
                 <table id="" class="table table-sortable mt-3 table-hover table-borderless" style="width: 100%">
                     <thead>
                         <tr>
@@ -55,8 +55,7 @@
                                 wire:click="sort('payment_status')">Status Pembayaran</th>
                             <th class="text-secondary">Status Proses</th>
                             <th class="text-secondary sort @if ($sortColumn=='transaction_complete_date') {{$sortDirection}}@endif"
-                                wire:click="sort('transaction_complete_date')">Tanggal
-                                Transaksi Selesai
+                                wire:click="sort('transaction_complete_date')">Tanggal Selesai
                             </th>
                             <th class="text-secondary">Aksi</th>
                         </tr>
@@ -75,13 +74,40 @@
                             <td>{{$transaction->transaction_complete_date ? $transaction->transaction_complete_date :
                                 '-'}}</td>
                             <td class="">
-                                <div class="btn-wrapper d-flex gap-2 flex-wrap">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Aksi
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end px-2">
+                                        <li>
+                                            <a class="text-decoration-none" href={{route('data.transaksi.detail',
+                                                $transaction->id)}}>
+                                                <div class="dropdown-item rounded-2" type="button">
+                                                    Detail transaksi
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown-item rounded-2"
+                                                wire:click="downloadPDF({{$transaction->id}})" type="button">
+                                                Download invoice
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="dropdown-item rounded-2" type="button">
+                                                Edit status
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {{-- <div class="btn-wrapper d-flex gap-2 flex-wrap">
                                     <a type="button" href={{route('data.transaksi.detail', $transaction->id)}}
                                         class="btn btn-secondary" data-bs-toggle="tooltip"
                                         data-bs-custom-class="custom-tooltip" data-bs-title="Detail transaksi">
                                         <i class="ri-list-check"></i>
                                     </a>
-                                </div>
+                                </div> --}}
                             </td>
                         </tr>
                         @endforeach
