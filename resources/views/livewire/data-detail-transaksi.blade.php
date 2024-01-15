@@ -36,296 +36,331 @@
                 @switch(auth()->user()->role)
 
                 @case('super_admin')
-                <div class="info-wrapper row">
-                    <div class="col-12 col-sm-4  col-md-3">
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Nama Perusahaan</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">CV Berkah Jaya</p>
+                <form method="POST" action={{route('data.transaksi.detail.update', $transaction->id)}}
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('put')
+                    <div class="info-wrapper row">
+                        <div class="col-12 col-sm-4">
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Nama Perusahaan</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->companyName}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Pendapatan</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">Rp.{{$transaction->revenue}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Nilai DP</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">Rp.{{$transaction->dp_value}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Cashback Item</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->cashback_item}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3 dp-receipt-card">
+                                <div class="card-header text-secondary">Bukti Transfer DP</div>
+                                <form>
+                                    <div class="card-body receipt-wrapper ratio ratio-1x1">
+                                        <label class=" drop-area" id="drop-area">
+                                            <input type="file" name="dp_payment_receipt" hidden accept="image/*"
+                                                id="input-file">
+                                            <div
+                                                class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
+                                                <div class="default-view">
+                                                    <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
+                                                    <p class="file-desc file-desc-custom">Drag and drop or click here
+                                                        <br>to
+                                                        upload image
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Pendapatan</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Rp.20.000.000</p>
+                        <div class="col-12 col-sm-4">
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Tanggal Transaksi</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Nilai DP</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Rp.2.000.000</p>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Profit</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">Rp.{{$transaction->profit}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Cashback Item</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">50</p>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Status Pelunasan</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->payment_status === 1 ? 'Terbayar' :
+                                        'Belum
+                                        Dibayar'}}</p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4  col-md-3">
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Tanggal Transaksi</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">20-12-2022</p>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Jatuh Tempo DP</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->jatuh_tempo_dp ?
+                                        $transaction->jatuh_tempo_dp : "-"}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Profit</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Rp.3.000.000</p>
-                            </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Status Pembayaran</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Sudah Dibayar</p>
-                            </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Jatuh Tempo DP</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">21-12-2022</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4  col-md-3">
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Status Proses</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Unprocessed</p>
-                            </div>
-                        </div>
-
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Nilai Cashback</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Rp.200.000</p>
-                            </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Status DP</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Belum dibayar</p>
-                            </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Jatuh Tempo</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">25-12-2022</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4 col-md-3">
-                        <div class="card text-bg-light mb-3 receipt-card">
-                            <div class="card-header text-secondary">Bukti Transfer</div>
-                            <form action="#">
+                            <div class="card text-bg-light mb-3 full-receipt-card">
+                                <div class="card-header text-secondary">Bukti Transfer Pelunasan</div>
                                 <div class="card-body receipt-wrapper ratio ratio-1x1">
                                     <label class=" drop-area" id="drop-area">
-                                        <input type="file" name="thumbnail" hidden accept="image/*" id="input-file">
+                                        <input type="file" name="full_payment_receipt" hidden accept="image/*"
+                                            id="input-file">
                                         <div
                                             class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
                                             <div class="default-view">
-                                                <i class='bx bxs-cloud-upload upload-icon custom-upload-icon'></i>
+                                                <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
                                                 <p class="file-desc file-desc-custom">Drag and drop or click here <br>to
                                                     upload image</p>
                                             </div>
                                         </div>
                                     </label>
                                 </div>
-                                <div
-                                    class="card-footer d-none text-center d-flex flex-wrap gap-2 justify-content-center">
-                                    <div class="btn btn-secondary btn-clear">Hapus Gambar</div>
-                                    <button type="submit" class="btn btn-primary btn-upload">Upload Gambar</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Status Proses</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Nilai Cashback</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">Rp.{{$transaction->cashback}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Status DP</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' : 'Belum
+                                        Dibayar'}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Jatuh Tempo</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->jatuh_tempo}}</p>
+                                </div>
+                            </div>
+                            <div class="card action-card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Aksi</div>
+                                <div class="card-body">
+                                    <button type="submit" class="btn btn-warning text-white">Perbarui Data</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 @break
 
                 @case('admin')
                 <div class="info-wrapper row">
-                    <div class="col-12 col-sm-4  col-md-3">
+                    <div class="col-12 col-sm-4">
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Nama Perusahaan</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">CV Berkah Jaya</p>
+                                <p class="card-title fw-bold">{{$transaction->companyName}}</p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Pendapatan</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp.20.000.000</p>
+                                <p class="card-title fw-bold">Rp.{{$transaction->revenue}}</p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Status Pembayaran</div>
+                            <div class="card-header text-secondary">Status Pelunasan</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Sudah Dibayar</p>
+                                <p class="card-title fw-bold">{{$transaction->payment_status === 1 ? 'Terbayar' :
+                                    'Belum
+                                    Dibayar'}}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-4  col-md-3">
+                    <div class="col-12 col-sm-4">
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Tanggal Transaksi</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">20-12-2022</p>
+                                <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Nilai DP</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp.2.000.000</p>
+                                <p class="card-title fw-bold">Rp.{{$transaction->dp_value}}</p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Jatuh Tempo DP</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">21-12-2022</p>
+                                <p class="card-title fw-bold">{{$transaction->jatuh_tempo_dp ?
+                                    $transaction->jatuh_tempo_dp : "-"}}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-4  col-md-3">
+                    <div class="col-12 col-sm-4">
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Status Proses</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Unprocessed</p>
+                                <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Status DP</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Belum dibayar</p>
+                                <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' : 'Belum
+                                    Dibayar'}}</p>
                             </div>
                         </div>
                         <div class="card text-bg-light mb-3">
                             <div class="card-header text-secondary">Jatuh Tempo</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">25-12-2022</p>
+                                <p class="card-title fw-bold">{{$transaction->jatuh_tempo}}</p>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4 col-md-3">
-                        <div class="card text-bg-light mb-3 receipt-card">
-                            <div class="card-header text-secondary">Bukti Transfer</div>
-                            <form action="#">
-                                <div class="card-body receipt-wrapper ratio ratio-1x1">
-                                    <label class=" drop-area" id="drop-area">
-                                        <input type="file" name="thumbnail" hidden accept="image/*" id="input-file">
-                                        <div
-                                            class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
-                                            <div class="default-view">
-                                                <i class='bx bxs-cloud-upload upload-icon custom-upload-icon'></i>
-                                                <p class="file-desc file-desc-custom">Drag and drop or click here <br>to
-                                                    upload image</p>
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div
-                                    class="card-footer d-none text-center d-flex flex-wrap gap-2 justify-content-center">
-                                    <div class="btn btn-secondary btn-clear">Hapus Gambar</div>
-                                    <button type="submit" class="btn btn-primary btn-upload">Upload Gambar</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 @break
 
                 @case('super_admin_cust' || 'admin_cust' )
-                <div class="info-wrapper row">
-                    <div class="col-12 col-sm-4  col-md-3">
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Nama Perusahaan</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">CV Berkah Jaya</p>
+                <form method="POST" action={{route('data.transaksi.detail.update', $transaction->id)}}
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('put')
+                    <div class="info-wrapper row">
+                        <div class="col-12 col-sm-4">
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Nama Perusahaan</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->companyName}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Tagihan DP</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">Rp.{{$transaction->dp_value}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Status DP</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' :
+                                        'Belum
+                                        Dibayar'}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3 dp-receipt-card">
+                                <div class="card-header text-secondary">Bukti Transfer DP</div>
+                                <form>
+                                    <div class="card-body receipt-wrapper ratio ratio-1x1">
+                                        <label class=" drop-area" id="drop-area">
+                                            <input type="file" name="dp_payment_receipt" hidden accept="image/*"
+                                                id="input-file">
+                                            <div
+                                                class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
+                                                <div class="default-view">
+                                                    <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
+                                                    <p class="file-desc file-desc-custom">Drag and drop or click here
+                                                        <br>to
+                                                        upload image
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Tagihan</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Rp.20.000.000</p>
+                        <div class="col-12 col-sm-4">
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Tanggal Transaksi</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Status DP</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Sudah Dibayar</p>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Tagihan</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">Rp.{{$transaction->revenue}}</p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4  col-md-3">
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Tanggal Transaksi</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">20-12-2022</p>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Jatuh Tempo Dp</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->jatuh_tempo_dp ?
+                                        $transaction->jatuh_tempo_dp : "-"}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Tagihan DP</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Rp.20.000.000</p>
-                            </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Jatuh Tempo</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">25-12-2022</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4  col-md-3">
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Status Proses</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Unprocessed</p>
-                            </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Status Pembayaran</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">Belum dibayar</p>
-                            </div>
-                        </div>
-                        <div class="card text-bg-light mb-3">
-                            <div class="card-header text-secondary">Jatuh Tempo DP</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">21-12-2022</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4 col-md-3">
-                        <div class="card text-bg-light mb-3 receipt-card">
-                            <div class="card-header text-secondary">Bukti Transfer</div>
-                            <form action="#">
+                            <div class="card text-bg-light mb-3 full-receipt-card">
+                                <div class="card-header text-secondary">Bukti Transfer Pelunasan</div>
                                 <div class="card-body receipt-wrapper ratio ratio-1x1">
                                     <label class=" drop-area" id="drop-area">
-                                        <input type="file" name="thumbnail" hidden accept="image/*" id="input-file">
+                                        <input type="file" name="full_payment_receipt" hidden accept="image/*"
+                                            id="input-file">
                                         <div
                                             class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
                                             <div class="default-view">
-                                                <i class='bx bxs-cloud-upload upload-icon custom-upload-icon'></i>
+                                                <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
                                                 <p class="file-desc file-desc-custom">Drag and drop or click here <br>to
                                                     upload image</p>
                                             </div>
                                         </div>
                                     </label>
                                 </div>
-                                <div
-                                    class="card-footer d-none text-center d-flex flex-wrap gap-2 justify-content-center">
-                                    <div class="btn btn-secondary btn-clear">Hapus Gambar</div>
-                                    <button type="submit" class="btn btn-primary btn-upload">Upload Gambar</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Status Proses</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Status Pembayaran</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->payment_status === 1 ? 'Terbayar' :
+                                        'Belum
+                                        Dibayar'}}</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Jatuh Tempo</div>
+                                <div class="card-body">
+                                    <p class="card-title fw-bold">{{$transaction->jatuh_tempo}}</p>
+                                </div>
+                            </div>
+                            <div class="card action-card text-bg-light mb-3">
+                                <div class="card-header text-secondary">Aksi</div>
+                                <div class="card-body">
+                                    <button type="submit" class="btn btn-warning text-white">Perbarui Data</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 @break
                 @endswitch
 
-                <div class="table-wrapper card text-bg-light mb-2 mt-2">
+                <div class="table-wrapper card text-bg-light mb-5 mt-2">
                     <div class="card-header text-secondary ">Rincian Produk</div>
                     <div class="card-body receipt-wrapper">
                         <div class="filter-wrapper">
@@ -376,49 +411,107 @@
         </div>
     </div>
     <script>
-        const dropArea = document.querySelector("#drop-area");
-        const inputFile = document.querySelector("#input-file");
-        const imageView = document.querySelector(".img-view");
-        const btnClear = document.querySelector(".btn-clear");
-        const cardFooter = document.querySelector(".card-footer");
-      
-            inputFile.addEventListener('change', uploadImage);
-      
-            dropArea.addEventListener('dragover', function (e) {
-              e.preventDefault();
-              dropArea.classList.add('active');
-              document.querySelector(".file-desc").textContent = "Release to upload file";
-              imageView.classList.remove("border-0");
+        const dropAreas = document.querySelectorAll("#drop-area");
+        @if ($transaction->dp_payment_receipt)
+        console.log('check');
+        setDpPaymentImage();
+        @endif
+
+        @if ($transaction->full_payment_receipt)
+        console.log('check');
+        setFullPaymentImage();
+        @endif
+
+        function setDpPaymentImage(){
+        const dpReceipCart = document.querySelector(".dp-receipt-card");
+        const imageView = dpReceipCart.querySelector(".img-view")
+        const defaultView = dpReceipCart.querySelector(".default-view");
+        const inputFile = dpReceipCart.querySelector("#input-file");
+
+        imageView.style.backgroundImage = "url({{asset('Storage/paymentReceipt/'.$transaction->dp_payment_receipt)}})";
+        defaultView.classList.add("d-none");
+        imageView.classList.add("border-0");
+      }
+
+        function setFullPaymentImage(){
+        const fullReceipCart = document.querySelector(".full-receipt-card");
+        const imageView = fullReceipCart.querySelector(".img-view")
+        const defaultView = fullReceipCart.querySelector(".default-view")
+        const inputFile = fullReceipCart.querySelector("#input-file");
+
+        imageView.style.backgroundImage = "url({{asset('Storage/paymentReceipt/'.$transaction->full_payment_receipt)}})";
+        defaultView.classList.add("d-none");
+        imageView.classList.add("border-0");
+      }
+
+      function loadURLToInputFiled(url, inputNode){
+        getImgURL(url, (imgBlob)=>{
+            // Load img blob to input
+            // WIP: UTF8 character error
+            let fileName = 'hasFilename.jpg'
+            let file = new File([imgBlob], fileName,{type:"image/jpeg", lastModified:new Date().getTime()}, 'utf-8');
+            let container = new DataTransfer(); 
+            container.items.add(file);
+            inputNode.files = container.files;   
+        })
+}
+        // xmlHTTP return blob respond
+        function getImgURL(url, callback){
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            callback(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+        }
+            
+            dropAreas.forEach((dropArea) => {
+                const imageView =  dropArea.querySelector(".img-view");
+                const fileDesc =  dropArea.querySelector(".file-desc");
+                const inputFile =  dropArea.querySelector("#input-file");
+                const form = dropArea.parentNode.parentNode;
+                const cardFooter = form.querySelector(".card-footer");
+                const btnClear =  form.querySelector(".btn-clear");
+                const defaultView =  form.querySelector(".default-view");
+
+                inputFile.addEventListener('change', () => {
+                    let imgLink = window.URL.createObjectURL(inputFile.files[0]);
+                    imageView.style.backgroundImage = `url(${imgLink})`;
+                    defaultView.classList.add("d-none");
+                    cardFooter.classList.remove("d-none");                    
+                    imageView.classList.add("border-0");
+                });
+
+                dropArea.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                    dropArea.classList.add('active');
+                    fileDesc.textContent = "Release to upload file";
+                    imageView.classList.remove("border-0");
+                })
+        
+                dropArea.addEventListener("dragleave", ()=>{
+                    fileDesc.innerHTML = "Drag and drop or click here <br>to upload image";
+                    dropArea.classList.remove('active');
+                    imageView.classList.add("border-0");
+                });
+        
+                dropArea.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    inputFile.files = e.dataTransfer.files;
+                    
+                    //upload image
+                    let imgLink = window.URL.createObjectURL(inputFile.files[0]);
+                    imageView.style.backgroundImage = `url(${imgLink})`;
+                    defaultView.classList.add("d-none");
+                    cardFooter.classList.remove("d-none");
+                    imageView.classList.add("border-0");
+                })
+
+
             })
+
       
-            dropArea.addEventListener("dragleave", ()=>{
-            document.querySelector(".file-desc").innerHTML = "Drag and drop or click here <br>to upload image";
-            dropArea.classList.remove('active');
-            imageView.classList.add("border-0");
-          });
       
-            dropArea.addEventListener('drop', function (e) {
-              e.preventDefault();
-              inputFile.files = e.dataTransfer.files;
-              uploadImage();
-            })
-      
-            btnClear.addEventListener('click', function(){
-              document.querySelector(".default-view").classList.remove("d-none");
-              cardFooter.classList.add("d-none");
-              dropArea.classList.remove("active")
-              imageView.style.backgroundImage = `none`;
-              inputFile.files = null;
-              imageView.classList.remove("border-0");
-            document.querySelector(".file-desc").innerHTML = "Drag and drop or click here <br>to upload image";
-            });
-      
-            function uploadImage() {
-              let imgLink = URL.createObjectURL(inputFile.files[0]);
-              imageView.style.backgroundImage = `url(${imgLink})`;
-              document.querySelector(".default-view").classList.add("d-none");
-              cardFooter.classList.remove("d-none");
-              imageView.classList.add("border-0");
-            }
     </script>
 </div>

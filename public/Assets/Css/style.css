@@ -263,6 +263,10 @@ color: black;
   border-color: white;
 }
 
+.custom-upload-icon{
+  font-size: 60px;
+}
+
 .card-dashboard:hover .card{
   background-color: #000;
   color: white;
@@ -451,7 +455,7 @@ color: black;
 
 @media(max-width: 820px){
 
-  .drop-area .default-view .upload-icon{
+  .drop-area .default-view .custom-upload-icon{
     font-size: 40px;
   }
 

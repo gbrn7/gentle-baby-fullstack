@@ -31,7 +31,7 @@
           </div>
         </div>
       </a>
-      <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
+      <a href={{route('data.transaksi')}} class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
@@ -58,6 +58,7 @@
           </div>
         </div>
       </a>
+      @if(auth()->user()->role === 'super_admin')
       <a href={{route('data.pelanggan')}} class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
@@ -71,7 +72,6 @@
           </div>
         </div>
       </a>
-      @if(auth()->user()->role === 'super_admin')
       <a href="{{route('data.admin')}}" class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
@@ -81,21 +81,6 @@
                 menambah, menghapus, memperbarui data admin.</p>
             </div>
             <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-admin-line"></i>
-            </div>
-          </div>
-        </div>
-      </a>
-      @endif
-      @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')
-      <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
-        <div class="card ">
-          <div class="card-body  row justify-content-between align-items-center">
-            <div class="card-body-content col-9">
-              <h3 class="card-title">Pengaturan Profil</h3>
-              <p class="card-text text-secondary fw-light">Pengaturan profil merupakan fitur yang digunakan untuk
-                melakukan pengaturan profil perusahaan atau profil pengguna.</p>
-            </div>
-            <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-profile-line"></i>
             </div>
           </div>
         </div>

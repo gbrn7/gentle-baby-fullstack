@@ -23,7 +23,8 @@ return new class extends Migration
             $table->float('dp_value', 10, 2)->default(0);
             $table->boolean('dp_status')->default(0);
             $table->date('transaction_complete_date')->nullable();
-            $table->string('payment_receipt')->nullable();
+            $table->string('dp_payment_receipt')->nullable();
+            $table->string('full_payment_receipt')->nullable();
             $table->timestamps();
         });
     }

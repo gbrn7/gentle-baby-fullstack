@@ -10,6 +10,7 @@ class Transaction extends Model
     use HasFactory;
     protected $table = 'transactions';
 
+    //this mean that the what column permitted to fill
     protected $fillable = [
         'company_id',
         'amount',
@@ -20,7 +21,8 @@ class Transaction extends Model
         'dp_value',
         'dp_status',
         'transaction_complete_date',
-        'payment_receipt',
+        'full_payment_receipt',
+        'dp_payment_receipt',
     ];
 
     public function company(){
