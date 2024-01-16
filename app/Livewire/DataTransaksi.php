@@ -9,6 +9,8 @@ use App\Models\CompanyMember;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class DataTransaksi extends Component
 {
@@ -31,6 +33,47 @@ class DataTransaksi extends Component
             ->where('user_id', auth()->user()->id)
             ->first();
         }
+    }
+
+    public function viewPDF( $transactionId){
+        $transaction = DB::table('transactions as t')
+        ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
+        ->join('company as c', 't.company_id', '=', 'c.id')
+        ->join('users as u', 'u.id', '=', 'c.owner_id')
+        ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate,
+                    t.process_status as processStatus, t.amount as revenue, t.dp_value as dp_value, 
+                    t.payment_status as payment_status, t.dp_status as dp_status, t.jatuh_tempo as jatuh_tempo, t.jatuh_tempo_dp as jatuh_tempo_dp, t.dp_payment_receipt, t.full_payment_receipt, 
+                    u.name as owner_name ,u.email as owner_email, u.phone_number as owner_phone_number")
+        ->where('t.id', $transactionId)
+        ->groupBy('t.id')
+        ->groupBy('u.email')
+        ->groupBy('u.name')
+        ->groupBy('u.phone_number')
+        ->groupBy('t.transaction_code')
+        ->groupBy('c.name')
+        ->groupBy('t.created_at')
+        ->groupBy('t.process_status')
+        ->groupBy('t.amount')
+        ->groupBy('t.dp_value')
+        ->groupBy('t.payment_status')
+        ->groupBy('t.dp_status')
+        ->groupBy('t.jatuh_tempo')
+        ->groupBy('t.jatuh_tempo_dp')
+        ->groupBy('t.dp_payment_receipt')
+        ->groupBy('t.full_payment_receipt')
+        ->first();
+
+        $detailsTransactions = TransactionDetail::with('transaction')
+        ->with('product')
+        ->where('transaction_id', $transactionId)
+        ->get();
+
+        $pdf = Pdf::loadView('invoice', [
+            'transaction' => $transaction, 
+            'detailsTransactions' => $detailsTransactions
+        ]);
+
+        return $pdf->stream('Invoice-'.$transaction->transaction_code.'.pdf', array("Attachment" => false));
     }
 
     public function downloadPDF($transactionId){
@@ -70,7 +113,10 @@ class DataTransaksi extends Component
                 'transaction' => $transaction, 
                 'detailsTransactions' => $detailsTransactions
             ]);
-            
+
+            // $content = $pdf->download()->getOriginalContent();
+            // Storage::put('public/invoices/'.'test'.'.pdf', $content);
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->stream();
                 }, 'Invoice-'.$transaction->transaction_code.'.pdf');    

@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Invoice #6</title>
+  <title>Invoice-{{$transaction->transaction_code}}</title>
 
   <style>
     html,

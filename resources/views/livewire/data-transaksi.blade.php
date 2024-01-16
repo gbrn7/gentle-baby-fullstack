@@ -89,15 +89,24 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <div class="dropdown-item rounded-2" type="button">
+                                                Edit status
+                                            </div>
+                                        </li>
+                                        <li>
                                             <div class="dropdown-item rounded-2"
                                                 wire:click="downloadPDF({{$transaction->id}})" type="button">
                                                 Download invoice
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="dropdown-item rounded-2" type="button">
-                                                Edit status
-                                            </div>
+                                            <a class="text-decoration-none" target="_blank"
+                                                href={{route('data.transaksi.viewPDF', $transaction->id)}}>
+                                                <div class="dropdown-item rounded-2" type="button">
+                                                    View Invoice
+                                                </div>
+
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
