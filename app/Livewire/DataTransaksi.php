@@ -10,7 +10,8 @@ use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DataTransaksi extends Component
 {
@@ -35,7 +36,70 @@ class DataTransaksi extends Component
         }
     }
 
-    public function viewPDF( $transactionId){
+    public function updateStatus(Request $request){
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin'){
+        
+            $validation = [
+                'payment_status' => 'required|in:0,1',
+                'process_status' => 'required|in:unprocessed,processing,processed,taken',
+                'dp_status' => 'required|in:0,1',
+            ];
+    
+            $messages = [
+                'payment_status' => ':attribute tidak valid',
+                'process_status' => ':attribute tidak valid',
+                'dp_status' => ':attribute tidak valid',
+            ];
+    
+            $validator = Validator::make($request->all(), $validation, $messages);
+    
+            if($validator->fails()){
+    
+                session()->flash('error', join(', ', $validator->messages()->all()));
+
+                return back()
+                ->with('toast_error', join(', ', $validator->messages()->all()))
+                ->withInput()
+                ->withErrors($validator->messages()->all());
+            }
+    
+            $oldTransaction = Transaction::find($request->transaction_id);
+    
+            DB::beginTransaction();
+            try {
+                $oldTransaction->update([
+                    'process_status' => $request->process_status,
+                    'payment_status' => $request->payment_status,
+                    'dp_status' => $request->dp_status,
+                ]);
+                DB::commit();
+
+                session()->flash('success', 'Data Transaksi di Perbarui!!');
+
+                return back()
+                ->with('toast_success', 'Data Transaksi Diperbarui!!'); 
+
+            } catch (\Throwable $th) {
+                DB::rollback();
+
+                session()->flash('error', $th->getMessage());
+
+                return back()
+                ->with('toast_error', $th->getMessage())
+                ->withInput()
+                ->withErrors($th->getMessage());
+            }
+        
+        
+        }else{
+            session()->flash('error', 'Akses Ditolak');
+
+            return back()->with('toast_error', 'Akses Ditolak!!');
+        }
+
+    }
+
+    public function viewPDF($transactionId){
         $transaction = DB::table('transactions as t')
         ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
         ->join('company as c', 't.company_id', '=', 'c.id')
@@ -151,7 +215,6 @@ class DataTransaksi extends Component
                 ->orderBy($this->sortColumn, $this->sortDirection)    
                 ->paginate(10);
             }
-
 
         return view('livewire.data-transaksi', compact('transactions'));
     }

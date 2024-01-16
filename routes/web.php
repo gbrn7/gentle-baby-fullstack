@@ -65,9 +65,10 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
 
   Route::prefix('/data-transaksi')->group(function () {
     Route::get('/', DataTransaksi::class)->name('data.transaksi');
+    Route::put('/edit', [DataTransaksi::class, 'updateStatus'])->name('data.transaksi.update.status');
     Route::get('/view/pdf/{id}', [DataTransaksi::class, 'viewPDF'])->name('data.transaksi.viewPDF');
     Route::get('/{id}', DataDetailTransaksi::class)->name('data.transaksi.detail');
-    Route::put('/edit/{id}', [DataDetailTransaksi::class, 'updateTransaction'])->name('data.transaksi.detail.update');
+    Route::put('/detailTransaksi/{id}', [DataDetailTransaksi::class, 'updateTransaction'])->name('data.transaksi.detail.update');
     // Route::get('/create', [TransactionController::class, 'createProduct'])->name('data.product.create');
     // Route::post('/store', [TransactionController::class, 'store'])->name('data.product.store');
     // Route::get('/edit/{id}', [TransactionController::class, 'edit'])->name('data.product.edit');

@@ -81,7 +81,7 @@ class DataDetailTransaksi extends Component
                 
                 DB::commit();   
                 
-                session()->flash('success', ' Data Transaksi di Perbarui!!');
+                session()->flash('success', 'Data Transaksi di Perbarui!!');
 
                 return back();
             } catch (\Throwable $th) {

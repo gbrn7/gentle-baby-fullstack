@@ -13,24 +13,6 @@ $('.content-right').on('click', function () {
   $('.sidebar').removeClass('active');
 });
 
-var menuItems = document.querySelectorAll('.menu li');
-
-for (var i = 0; i < menuItems.length; i++) {
-  menuItems[i].addEventListener('mouseover', function () {
-    var subMenu = this.querySelector('ul');
-    if (subMenu) {
-      subMenu.style.display = 'block';
-    }
-  });
-
-  menuItems[i].addEventListener('mouseout', function () {
-    var subMenu = this.querySelector('ul');
-    if (subMenu) {
-      subMenu.style.display = 'none';
-    }
-  });
-}
-
 
 $(document).ready(function () {
 

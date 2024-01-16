@@ -89,7 +89,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <div class="dropdown-item rounded-2" type="button">
+                                            <div class="dropdown-item rounded-2 edit"
+                                                data-edit-id="{{$transaction->id}}"
+                                                data-transaction-code="{{$transaction->transaction_code}}"
+                                                data-company-name="{{$transaction->company->name}}"
+                                                data-payment-status="{{$transaction->payment_status}}"
+                                                data-process-status="{{$transaction->process_status}}"
+                                                data-dp-status="{{$transaction->dp_status}}">
                                                 Edit status
                                             </div>
                                         </li>
@@ -110,13 +116,6 @@
                                         </li>
                                     </ul>
                                 </div>
-                                {{-- <div class="btn-wrapper d-flex gap-2 flex-wrap">
-                                    <a type="button" href={{route('data.transaksi.detail', $transaction->id)}}
-                                        class="btn btn-secondary" data-bs-toggle="tooltip"
-                                        data-bs-custom-class="custom-tooltip" data-bs-title="Detail transaksi">
-                                        <i class="ri-list-check"></i>
-                                    </a>
-                                </div> --}}
                             </td>
                         </tr>
                         @endforeach
@@ -126,4 +125,87 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <form action={{route("data.transaksi.update.status")}} id="editForm" method="POST">
+            @method('put')
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Edit Status Transaksi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        <input type="hidden" name="transaction_id" id="edit-id">
+                        <div class="form-group mb-3">
+                            <label for="nama" class="mb-1">Kode Transaksi</label>
+                            <input class="form-control" type="text" name="transaction_code" id="transaction-code"
+                                disabled />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="nama" class="mb-1">Nama Perusahaan</label>
+                            <input class="form-control" type="text" name="companyName" id="companyName" disabled />
+                        </div>
+                        @if(auth()->user()->role == 'super_admin')
+                        <div class="form-group mb-3">
+                            <label for="Status" class="mb-1">Status Pembayaran</label>
+                            <select required id="payment-status" name="payment_status" class="form-select status"
+                                aria-label="Default select example">
+                                <option value="0" class="text-secondary">Belum Dibayar</option>
+                                <option value="1" class="text-secondary">Terbayar</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Status" class="mb-1">Status DP</label>
+                            <select required id="dp-status" name="dp_status" class="form-select status"
+                                aria-label="Default select example">
+                                <option value="0" class="text-secondary">Belum Dibayar</option>
+                                <option value="1" class="text-secondary">Terbayar</option>
+                            </select>
+                        </div>
+                        @endif
+                        <div class="form-group mb-3">
+                            <label for="Status" class="mb-1">Status Proses</label>
+                            <select required id="process_status" name="process_status" class="form-select status"
+                                aria-label="Default select example">
+                                <option value="unprocessed" class="text-secondary text-capitalize">unprocessed</option>
+                                <option value="processing" class="text-secondary text-capitalize">processing</option>
+                                <option value="processed" class="text-secondary text-capitalize">processed</option>
+                                <option value="taken" class="text-secondary text-capitalize">taken</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-warning text-white">Update</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    @script
+    <script type="text/javascript">
+        $(document).on('click', '.edit', function (event){
+                event.preventDefault();
+                const editId = $(this).data('edit-id');
+                const transactionCode = $(this).data('transaction-code');
+                const companyName = $(this).data('company-name');
+                const paymentStatus = $(this).data('payment-status');
+                const processStatus = $(this).data('process-status');
+                const dpStatus = $(this).data('dp-status');
+                
+                $('#editmodal').modal('show');
+                $('#edit-id').val(editId);
+                $('#transaction-code').val(transactionCode);
+                $('#companyName').val(companyName);
+                $('#payment-status').val(paymentStatus);
+                $('#process_status').val(processStatus);
+                $('#dp-status').val(dpStatus);
+            });
+    
+    </script>
+    @endscript
 </div>

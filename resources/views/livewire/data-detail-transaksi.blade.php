@@ -469,41 +469,6 @@
     @script
     <script>
         const dropAreas = document.querySelectorAll("#drop-area");
-        var toastMixin = Swal.mixin({
-        toast: true,
-        icon: 'success',
-        title: 'General Title',
-        animation: false,
-        position: 'top-right',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    });
-
-    const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-right',
-  iconColor: 'white',
-  customClass: {
-    popup: 'colored-toast',
-  },
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-})
-
-
-        @if (session()->has('success'))
-        console.log('first')
-        Toast.fire({
-        icon: 'success',
-        title: "{{session('success')}}",
-        })  
-        @endif
 
         @if ($transaction->dp_payment_receipt)
         console.log('check');
