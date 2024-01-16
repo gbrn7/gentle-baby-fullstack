@@ -34,25 +34,11 @@
                     @endif
                 </div>
 
-                <div class="row justify-content-end mb-2">
-                    <div class="col-6 col-md-2">
-                        <div class="btn btn-success btn-pdf w-100" wire:click="downloadPDF()">
-                            Download Invoice
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-2">
-                        <a class="text-decoration-none" href={{route('data.transaksi.viewPDF', $transaction->id)}}
-                            target="_blank" >
-                            <div class="btn btn-primary w-100 btn-pdf">
-                                View Invoice
-                            </div>
-                        </a>
-                    </div>
-                </div>
                 @switch(auth()->user()->role)
 
 
-                @case(' super_admin') <form method="POST" action={{route('data.transaksi.detail.update', $transaction->
+                @case('super_admin') <form id="editForm" method="POST" action={{route('data.transaksi.detail.update',
+                    $transaction->
                     id)}}
                     enctype="multipart/form-data">
                     @csrf
@@ -479,6 +465,12 @@
         console.log('check');
         setFullPaymentImage();
         @endif
+
+        $(document).on('submit', '#editForm', function (event){
+            event.preventDefault();
+            document.querySelector("html").style.cursor = "wait";
+            this.submit();        
+        });
 
         function setDpPaymentImage(){
         const dpReceipCart = document.querySelector(".dp-receipt-card");

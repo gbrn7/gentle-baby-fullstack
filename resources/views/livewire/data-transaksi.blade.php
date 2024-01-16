@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="table-wrapper mb-2 pb-5 overflow-auto">
+            <div class="table-wrapper mb-2 pb-5 ">
                 <table id="" class="table table-sortable mt-3 table-hover table-borderless" style="width: 100%">
                     <thead>
                         <tr>
@@ -88,25 +88,27 @@
                                                 </div>
                                             </a>
                                         </li>
-                                        <li>
-                                            <div class="dropdown-item rounded-2 edit"
-                                                data-edit-id="{{$transaction->id}}"
-                                                data-transaction-code="{{$transaction->transaction_code}}"
-                                                data-company-name="{{$transaction->company->name}}"
-                                                data-payment-status="{{$transaction->payment_status}}"
-                                                data-process-status="{{$transaction->process_status}}"
-                                                data-dp-status="{{$transaction->dp_status}}">
-                                                Edit status
-                                            </div>
+                                        <li class="cursor-pointer">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="dropdown-item rounded-2 edit cursor-pointer"
+                                                    data-edit-id="{{$transaction->id}}"
+                                                    data-transaction-code="{{$transaction->transaction_code}}"
+                                                    data-company-name="{{$transaction->company->name}}"
+                                                    data-payment-status="{{$transaction->payment_status}}"
+                                                    data-process-status="{{$transaction->process_status}}"
+                                                    data-dp-status="{{$transaction->dp_status}}">
+                                                    Edit status
+                                                </div>
                                         </li>
+                                        </a>
                                         <li>
-                                            <div class="dropdown-item rounded-2"
+                                            <div class="dropdown-item rounded-2 button-pdf"
                                                 wire:click="downloadPDF({{$transaction->id}})" type="button">
                                                 Download invoice
                                             </div>
                                         </li>
                                         <li>
-                                            <a class="text-decoration-none" target="_blank"
+                                            <a class="text-decoration-none button-pdf" target="_blank"
                                                 href={{route('data.transaksi.viewPDF', $transaction->id)}}>
                                                 <div class="dropdown-item rounded-2" type="button">
                                                     View Invoice
@@ -205,7 +207,14 @@
                 $('#process_status').val(processStatus);
                 $('#dp-status').val(dpStatus);
             });
+        
+        $(document).on('submit', '#editForm', function (event){
+            event.preventDefault();
+            document.querySelector("html").style.cursor = "wait";
+            this.submit();        
+        });
     
+
     </script>
     @endscript
 </div>

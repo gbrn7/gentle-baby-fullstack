@@ -18,7 +18,6 @@
 
 
             @if (session()->has('success'))
-            console.log('first')
             Toast.fire({
             icon: 'success',
             title: "{{session('success')}}",
@@ -26,11 +25,13 @@
             @endif
 
             @if (session()->has('error'))
-            console.log('first')
             Toast.fire({
             icon: 'error',
             title: "{{session('error')}}",
             })  
             @endif
+
+
+
 </script>
 @endpush

@@ -269,6 +269,14 @@ color: black;
   font-size: 60px;
 }
 
+.dropdown-menu-end{
+  z-index: 2000;
+}
+
+.table-wrapper{
+  z-index: 100;
+}
+
 .card-dashboard:hover .card{
   background-color: #000;
   color: white;
@@ -430,9 +438,7 @@ color: black;
   margin-left: 0;
   }
 
-  .content .table-wrapper{
-    overflow: auto;
-  }
+
 
   .col-2.img-menu i{
     font-size: 30px !important;
@@ -460,6 +466,10 @@ color: black;
 }
 
 @media(max-width: 820px){
+
+  .content .table-wrapper{
+    overflow: auto;
+  }
 
   .drop-area .default-view .custom-upload-icon{
     font-size: 40px;

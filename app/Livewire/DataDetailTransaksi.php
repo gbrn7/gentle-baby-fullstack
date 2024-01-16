@@ -20,6 +20,7 @@ class DataDetailTransaksi extends Component
     public $sortColumn = 'id';
     public $sortDirection = 'desc';
     public $transaction;
+    public $cursorWait =  false;
 
     public function sort($columnName){
         $this->sortColumn = $columnName;
@@ -28,6 +29,8 @@ class DataDetailTransaksi extends Component
 
     public function updateTransaction(Request $request, $id){
         if(auth()->user()->role != 'admin'){
+
+            $cursorWait = true;
 
             $validation = [
                 'dp_payment_receipt' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
@@ -83,11 +86,15 @@ class DataDetailTransaksi extends Component
                 
                 session()->flash('success', 'Data Transaksi di Perbarui!!');
 
+                $cursorWait = false;
+
                 return back();
             } catch (\Throwable $th) {
                 DB::rollback();
 
                 session()->flash('error', 'Internal Server Error');
+
+                $cursorWait = false;
 
                 return back()
                 ->with('toast_error', $th->getMessage())
@@ -102,6 +109,9 @@ class DataDetailTransaksi extends Component
     }
 
     public function downloadPDF(){
+
+        $cursorWait = true;
+
         $transaction = DB::table('transactions as t')
         ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
         ->join('company as c', 't.company_id', '=', 'c.id')
@@ -138,6 +148,8 @@ class DataDetailTransaksi extends Component
             'transaction' => $transaction, 
             'detailsTransactions' => $detailsTransactions
         ]);
+
+        $cursorWait = false;
         
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
