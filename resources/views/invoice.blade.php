@@ -159,15 +159,15 @@
       </tr>
       <tr>
         <td>Status Proses :</td>
-        <td>{{$transaction->processStatus}}</td>
+        <td style="text-transform: capitalize;">{{$transaction->processStatus}}</td>
       </tr>
       <tr>
         <td>Status DP :</td>
-        <td>{{$transaction->dp_status == 1 ? 'Terbayar' : '-'}}</td>
+        <td>{{$transaction->dp_status == 1 ? 'Sudah Dibayar' : '-'}}</td>
       </tr>
       <tr>
         <td>Status Pelunasan :</td>
-        <td>{{$transaction->payment_status == 1 ? 'Terbayar' : '-'}}</td>
+        <td>{{$transaction->payment_status == 1 ? 'Sudah Dibayar' : 'Belum Dibayar'}}</td>
       </tr>
     </tbody>
   </table>

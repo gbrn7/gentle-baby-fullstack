@@ -34,7 +34,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'date:Y-m-d',
+        'created_at' => 'date',
     ];
 
     

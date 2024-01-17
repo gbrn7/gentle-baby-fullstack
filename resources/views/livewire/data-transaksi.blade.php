@@ -33,10 +33,53 @@
                 @endif
             </div>
 
-            <div class="filter-wrapper">
-                <div class="form-group col-12 col-md-3">
-                    <label for="name" class="mb-1 text-left">Search :</label>
-                    <input class="form-control" type="text" wire:model.live.debounce.500ms="keywords" />
+            <div class="filter-wrapper row">
+                <div class="form-group col-12 mt-2 mt-md-0 col-md-1">
+                    <label class="mb-1 text-left">Show :</label>
+                    <select wire:model.live.debounce.300ms="pagination" class="form-select">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <div class="form-group col-12 mt-2 mt-md-0 col-md-3">
+                    <label for="keyword" class="mb-1 text-left">Search :</label>
+                    <div class="input-group">
+                        <select wire:model.live.debounce.300ms="columnFilter" class="form-select">
+                            <option value="t.transaction_code">Kode Transaksi</option>
+                            <option value="t.id">ID</option>
+                            <option value="c.name">Nama Perusahaan</option>
+                            <option value="t.amount">Nominal</option>
+                        </select>
+                        <input class="form-control" type="text" wire:model.live.debounce.500ms="keywords" />
+                    </div>
+                </div>
+                <div class="form-group col-12 mt-2 mt-md-0 col-md-2">
+                    <label class="mb-1 text-left">Status Proses :</label>
+                    <select wire:model.live.debounce.300ms="processStatus" class="form-select">
+                        <option value="" class="text-secondary text-capitalize">Semua</option>
+                        <option value="unprocessed" class="text-secondary text-capitalize">Unprocessed</option>
+                        <option value="processing" class="text-secondary text-capitalize">Processing</option>
+                        <option value="processed" class="text-secondary text-capitalize">Processed</option>
+                        <option value="taken" class="text-secondary text-capitalize">Taken</option>
+                    </select>
+                </div>
+                <div class="form-group col-12 mt-2 mt-md-0 col-md-2">
+                    <label class="mb-1 text-left">Status Pelunasan :</label>
+                    <select wire:model.live.debounce.300ms="paymentStatus" class="form-select">
+                        <option value="" class="text-secondary text-capitalize">Semua</option>
+                        <option value="0" class="text-secondary text-capitalize">Belum Bayar</option>
+                        <option value="1" class="text-secondary text-capitalize">Sudah Bayar</option>
+                    </select>
+                </div>
+                <div class="form-group col-12 mt-2 mt-md-0 col-md-2">
+                    <label class="mb-1 text-left">Status DP :</label>
+                    <select wire:model.live.debounce.300ms="dpStatus" class="form-select">
+                        <option value="" class="text-secondary text-capitalize">Semua</option>
+                        <option value="0" class="text-secondary text-capitalize">Belum Bayar</option>
+                        <option value="1" class="text-secondary text-capitalize">Sudah Bayar</option>
+                    </select>
                 </div>
             </div>
 
@@ -44,36 +87,36 @@
                 <table id="" class="table table-sortable mt-3 table-hover table-borderless" style="width: 100%">
                     <thead>
                         <tr>
-                            <th class="text-secondary sort @if ($sortColumn=='id') {{$sortDirection}}@endif"
+                            <th class="text-secondary sort @if ($sortColumn=='t.id') {{$sortDirection}}@endif"
                                 wire:click="sort('id')">ID
                             </th>
                             <th class="text-secondary">Kode Transaksi</th>
-                            <th class="text-secondary sort @if ($sortColumn=='created_at') {{$sortDirection}}@endif"
+                            <th class="text-secondary sort @if ($sortColumn=='t.created_at') {{$sortDirection}}@endif"
                                 wire:click="sort('created_at')">Tanggal Transaksi</th>
                             <th class="text-secondary">Nama Perusahaan</th>
-                            <th class="text-secondary sort @if ($sortColumn=='amount') {{$sortDirection}}@endif"
+                            <th class="text-secondary sort @if ($sortColumn=='t.amount') {{$sortDirection}}@endif"
                                 wire:click="sort('amount')">Nominal</th>
-                            <th class="text-secondary sort @if ($sortColumn=='jatuh_tempo') {{$sortDirection}}@endif "
+                            <th class="text-secondary sort @if ($sortColumn=='t.jatuh_tempo') {{$sortDirection}}@endif "
                                 wire:click="sort('jatuh_tempo')">Jatuh Tempo</th>
-                            <th class="text-secondary sort @if ($sortColumn=='payment_status') {{$sortDirection}}@endif"
-                                wire:click="sort('payment_status')">Status Pembayaran</th>
+                            <th class="text-secondary sort @if ($sortColumn=='t.payment_status') {{$sortDirection}}@endif"
+                                wire:click="sort('payment_status')">Status Pelunasan</th>
                             <th class="text-secondary">Status Proses</th>
-                            <th class="text-secondary sort @if ($sortColumn=='transaction_complete_date') {{$sortDirection}}@endif"
+                            <th class="text-secondary sort @if ($sortColumn=='t.transaction_complete_date') {{$sortDirection}}@endif"
                                 wire:click="sort('transaction_complete_date')">Tanggal Selesai
                             </th>
                             <th class="text-secondary">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        @foreach ($transactions as $transaction)
+                        @forelse ($transactions as $transaction)
                         <tr>
                             <td>{{$transaction->id }}</td>
                             <td>{{$transaction->transaction_code }}</td>
-                            <td>{{date_format($transaction->created_at,"Y-m-d") }}</td>
-                            <td>{{$transaction->company->name }}</td>
+                            <td>{{date("Y-m-d", strtotime($transaction->created_at)) }}</td>
+                            <td>{{$transaction->name }}</td>
                             <td>Rp {{number_format($transaction->amount,0, ".", ".")}}</td>
                             <td>{{$transaction->jatuh_tempo }}</td>
-                            <td>{{$transaction->payment_status == 1 ? 'Terbayar' : 'Belum Dibayar'}}</td>
+                            <td>{{$transaction->payment_status == 1 ? 'Sudah Bayar' : 'Belum Dibayar'}}</td>
                             <td class="text-capitalize">{{$transaction->process_status }}</td>
                             <td>{{$transaction->transaction_complete_date ? $transaction->transaction_complete_date :
                                 '-'}}</td>
@@ -97,7 +140,7 @@
                                                 <div class="dropdown-item rounded-2 edit cursor-pointer"
                                                     data-edit-id="{{$transaction->id}}"
                                                     data-transaction-code="{{$transaction->transaction_code}}"
-                                                    data-company-name="{{$transaction->company->name}}"
+                                                    data-company-name="{{$transaction->name}}"
                                                     data-payment-status="{{$transaction->payment_status}}"
                                                     data-process-status="{{$transaction->process_status}}"
                                                     data-dp-status="{{$transaction->dp_status}}">
@@ -124,7 +167,11 @@
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td rowspan="10">No matching records found</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
                 {{$transactions->links()}}
@@ -156,11 +203,11 @@
                         </div>
                         @if(auth()->user()->role == 'super_admin')
                         <div class="form-group mb-3">
-                            <label for="Status" class="mb-1">Status Pembayaran</label>
+                            <label for="Status" class="mb-1">Status Pelunasan</label>
                             <select required id="payment-status" name="payment_status" class="form-select status"
                                 aria-label="Default select example">
                                 <option value="0" class="text-secondary">Belum Dibayar</option>
-                                <option value="1" class="text-secondary">Terbayar</option>
+                                <option value="1" class="text-secondary">Sudah Bayar</option>
                             </select>
                         </div>
                         <div class="form-group mb-3">
@@ -168,7 +215,7 @@
                             <select required id="dp-status" name="dp_status" class="form-select status"
                                 aria-label="Default select example">
                                 <option value="0" class="text-secondary">Belum Dibayar</option>
-                                <option value="1" class="text-secondary">Terbayar</option>
+                                <option value="1" class="text-secondary">Sudah Bayar</option>
                             </select>
                         </div>
                         @endif
@@ -176,10 +223,10 @@
                             <label for="Status" class="mb-1">Status Proses</label>
                             <select required id="process_status" name="process_status" class="form-select status"
                                 aria-label="Default select example">
-                                <option value="unprocessed" class="text-secondary text-capitalize">unprocessed</option>
-                                <option value="processing" class="text-secondary text-capitalize">processing</option>
-                                <option value="processed" class="text-secondary text-capitalize">processed</option>
-                                <option value="taken" class="text-secondary text-capitalize">taken</option>
+                                <option value="unprocessed" class="text-secondary text-capitalize">Unprocessed</option>
+                                <option value="processing" class="text-secondary text-capitalize">Processing</option>
+                                <option value="processed" class="text-secondary text-capitalize">Processed</option>
+                                <option value="taken" class="text-secondary text-capitalize">Taken</option>
                             </select>
                         </div>
                     </div>

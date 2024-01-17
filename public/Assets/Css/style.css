@@ -19,7 +19,6 @@ table td{
   font-size: 16px;
 }
 
-
 table .badge{
   font-weight: 500;
 }
@@ -315,6 +314,22 @@ color: black;
   z-index: 2000;
 }
 
+.content .pagination{
+  justify-content: start;
+}
+
+
+.active>.page-link, .page-link{
+  color: var(--bs-secondary);
+}
+
+.active>.page-link, .page-link:active{
+  background-color: #000;
+  border-color: #000;
+  color: #eee;
+}
+
+
 .card-dashboard:hover .card{
   background-color: #000;
   color: white;
@@ -327,7 +342,6 @@ color: black;
 .loading-wrapper {
   -webkit-clip-path: circle(70.7% at 50% 50%);
   clip-path: circle(70.7% at 50% 50%);
-  transition: var(--tran-05);
   z-index: 300;
   background-color: rgba(238, 238, 238, 0.2); 
   backdrop-filter: blur(6.1px);
@@ -342,7 +356,11 @@ color: black;
     overflow: hidden;
 }
 
-
+.filter-wrapper .form-select{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 
 .footer-wrapper {

@@ -22,10 +22,15 @@ class DataTransaksi extends Component
     protected $paginationTheme = 'bootstrap';
  
     public $keywords;
-    public $sortColumn = 'id';
+    public $sortColumn = 't.id';
     public $sortDirection = 'desc';
     public $companyMember;
     public $cursorWait =  false;
+    public $pagination = 10;
+    public $processStatus = '';
+    public $paymentStatus = '';
+    public $columnFilter = 't.transaction_code';
+    public $dpStatus = '';
 
     public function sort($columnName){
         $this->sortColumn = $columnName;
@@ -269,34 +274,41 @@ class DataTransaksi extends Component
     
         public function render(){
                 if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin')
-                $transactions = Transaction::with('company')
-                ->whereRelation('company','name', 'like', '%'.$this->keywords.'%')
-                ->orWhere('id', 'like', '%'.$this->keywords.'%')
-                ->orWhere('transaction_code', 'like', '%'.$this->keywords.'%')
-                ->orWhere('amount', 'like', '%'.$this->keywords.'%')
+                $transactions = DB::table('transactions as t')
+                ->join('company as c', 't.company_id', '=', 'c.id')
+                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
+                t.process_status, t.amount, t.transaction_complete_date, 
+                t.payment_status, t.jatuh_tempo, t.dp_status")
+                ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
+                ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
+                ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
+                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
                 ->orderBy($this->sortColumn, $this->sortDirection)    
-                ->paginate(10);
+                ->paginate($this->pagination);
 
                 else if(auth()->user()->role == 'super_admin_cust'){
                     $transactions = Transaction::with('company')
                     ->whereRelation('company','name', 'like', '%'.$this->keywords.'%')
                     ->whereRelation('company','owner_id', auth()->user()->id)
-                    ->orWhere('id', 'like', '%'.$this->keywords.'%')
-                    ->orWhere('transaction_code', 'like', '%'.$this->keywords.'%')
-                    ->orWhere('amount', 'like', '%'.$this->keywords.'%')
-                    ->orderBy($this->sortColumn, $this->sortDirection)    
-                    ->paginate(10);
+                    // ->orWhere('id', 'like', '%'.$this->keywords.'%')
+                    // ->orWhere('transaction_code', 'like', '%'.$this->keywords.'%')
+                    // ->orWhere('amount', 'like', '%'.$this->keywords.'%')
+                    // ->orderBy($this->sortColumn, $this->sortDirection)    
+                    ->where('process_status', 'like', '%'.$this->processStatus.'%')
+                    ->paginate($this->pagination);
                 }else{
                     $transactions = Transaction::with('company')
                     ->whereRelation('company','name', 'like', '%'.$this->keywords.'%')
                     ->whereRelation('company','owner_id', $this->companyMember)
-                    ->orWhere('id', 'like', '%'.$this->keywords.'%')
-                    ->orWhere('transaction_code', 'like', '%'.$this->keywords.'%')
-                    ->orWhere('amount', 'like', '%'.$this->keywords.'%')
-                    ->orderBy($this->sortColumn, $this->sortDirection)    
-                    ->paginate(10);
+                    ->where('process_status', 'like', '%'.$this->processStatus.'%')
+                    // ->orWhere('id', 'like', '%'.$this->keywords.'%')
+                    // ->orWhere('transaction_code', 'like', '%'.$this->keywords.'%')
+                    // ->orWhere('amount', 'like', '%'.$this->keywords.'%')
+                    // ->orderBy($this->sortColumn, $this->sortDirection)    
+                    ->paginate($this->pagination);
                 }
 
+            // dd($this->columnFilter, $this->keywords);
             return view('livewire.data-transaksi', compact('transactions'));
         }
 }
