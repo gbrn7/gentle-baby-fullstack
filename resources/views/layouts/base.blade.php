@@ -32,7 +32,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
+<body class="">
   {{-- Sweet alert --}}
   @include('sweetalert::alert')
 
@@ -40,7 +40,7 @@
   @include('layouts.preloader')
   {{-- Pre Load End --}}
 
-  <div class="wrapper d-none">
+  <div class="wrapper">
     {{-- Content Start --}}
     <div class="main-container d-flex">
       @include('layouts.sidebar')

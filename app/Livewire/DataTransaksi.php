@@ -179,7 +179,6 @@ class DataTransaksi extends Component
 
     public function viewPDF($transactionId){
 
-        $cursorWait = true;
 
         $transaction = DB::table('transactions as t')
         ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
@@ -218,14 +217,12 @@ class DataTransaksi extends Component
             'detailsTransactions' => $detailsTransactions
         ]);
 
-        $cursorWait = false;
 
         return $pdf->stream('Invoice-'.$transaction->transaction_code.'.pdf', array("Attachment" => false));
     }
 
     public function downloadPDF($transactionId){
 
-            $cursorWait = true;
 
             $transaction = DB::table('transactions as t')
             ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
@@ -264,10 +261,6 @@ class DataTransaksi extends Component
                 'detailsTransactions' => $detailsTransactions
             ]);
 
-            // $content = $pdf->download()->getOriginalContent();
-            // Storage::put('public/invoices/'.'test'.'.pdf', $content);
-            $cursorWait = false;
-
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf->stream();
                 }, 'Invoice-'.$transaction->transaction_code.'.pdf');    
@@ -283,6 +276,7 @@ class DataTransaksi extends Component
                 ->orWhere('amount', 'like', '%'.$this->keywords.'%')
                 ->orderBy($this->sortColumn, $this->sortDirection)    
                 ->paginate(10);
+
                 else if(auth()->user()->role == 'super_admin_cust'){
                     $transactions = Transaction::with('company')
                     ->whereRelation('company','name', 'like', '%'.$this->keywords.'%')

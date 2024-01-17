@@ -45,13 +45,13 @@
                     @method('put')
                     <div class="info-wrapper row">
                         <div class="col-12 col-sm-4">
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nama Perusahaan</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->companyName}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nilai Pelunasan</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0,
@@ -60,7 +60,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nilai DP</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0,
@@ -68,13 +68,13 @@
                                         ".")}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Cashback Item</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->cashback_item}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3 dp-receipt-card">
+                            <div class="card bg-glass mb-3 dp-receipt-card">
                                 <div class="card-header text-secondary">Bukti Transfer DP</div>
                                 <form>
                                     <div class="card-body receipt-wrapper ratio ratio-1x1">
@@ -98,13 +98,13 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Tanggal Transaksi</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Profit</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">Rp {{number_format($transaction->profit,0,
@@ -112,7 +112,7 @@
                                         ".")}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status Pelunasan</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->payment_status === 1 ?
@@ -121,14 +121,14 @@
                                         Dibayar'}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Jatuh Tempo DP</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->jatuh_tempo_dp ?
                                         $transaction->jatuh_tempo_dp : "-"}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3 full-receipt-card">
+                            <div class="card bg-glass mb-3 full-receipt-card">
                                 <div class="card-header text-secondary">Bukti Transfer Pelunasan</div>
                                 <div class="card-body receipt-wrapper ratio ratio-1x1">
                                     <label class=" drop-area" id="drop-area">
@@ -148,19 +148,19 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status Proses</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nilai Cashback</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">Rp.{{$transaction->cashback}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status DP</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' :
@@ -168,13 +168,13 @@
                                         Dibayar'}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Jatuh Tempo</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->jatuh_tempo}}</p>
                                 </div>
                             </div>
-                            <div class="card action-card text-bg-light mb-3">
+                            <div class="card action-card bg-glass mb-3">
                                 <div class="card-header text-secondary">Aksi</div>
                                 <div class="card-body">
                                     <button type="submit" class="btn btn-warning text-white">Perbarui
@@ -189,13 +189,13 @@
                 @case('admin')
                 <div class="info-wrapper row">
                     <div class="col-12 col-sm-4">
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Nama Perusahaan</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">{{$transaction->companyName}}</p>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Nilai Pelunasan</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0,
@@ -203,7 +203,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Status Pelunasan</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">{{$transaction->payment_status === 1 ?
@@ -214,13 +214,13 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Tanggal Transaksi</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Nilai DP</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0,
@@ -228,7 +228,7 @@
                                     ".")}}</p>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Jatuh Tempo DP</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">{{$transaction->jatuh_tempo_dp ?
@@ -237,13 +237,13 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Status Proses</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Status DP</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">{{$transaction->dp_status === 1 ? 'Terbayar' :
@@ -251,7 +251,7 @@
                                     Dibayar'}}</p>
                             </div>
                         </div>
-                        <div class="card text-bg-light mb-3">
+                        <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Jatuh Tempo</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">{{$transaction->jatuh_tempo}}</p>
@@ -268,13 +268,13 @@
                     @method('put')
                     <div class="info-wrapper row">
                         <div class="col-12 col-sm-4">
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nama Perusahaan</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->companyName}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Tagihan DP</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">Rp
@@ -282,7 +282,7 @@
                                         ".")}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status DP</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->dp_status === 1 ?
@@ -291,7 +291,7 @@
                                         Dibayar'}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3 dp-receipt-card">
+                            <div class="card bg-glass mb-3 dp-receipt-card">
                                 <div class="card-header text-secondary">Bukti Transfer DP</div>
                                 <form>
                                     <div class="card-body receipt-wrapper ratio ratio-1x1">
@@ -315,13 +315,13 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Tanggal Transaksi</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Tagihan Pelunasan</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">Rp
@@ -330,14 +330,14 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Jatuh Tempo Dp</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->jatuh_tempo_dp ?
                                         $transaction->jatuh_tempo_dp : "-"}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3 full-receipt-card">
+                            <div class="card bg-glass mb-3 full-receipt-card">
                                 <div class="card-header text-secondary">Bukti Transfer Pelunasan</div>
                                 <div class="card-body receipt-wrapper ratio ratio-1x1">
                                     <label class=" drop-area" id="drop-area">
@@ -357,13 +357,13 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status Proses</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status Pembayaran</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->payment_status === 1 ?
@@ -372,13 +372,13 @@
                                         Dibayar'}}</p>
                                 </div>
                             </div>
-                            <div class="card text-bg-light mb-3">
+                            <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Jatuh Tempo</div>
                                 <div class="card-body">
                                     <p class="card-title fw-bold">{{$transaction->jatuh_tempo}}</p>
                                 </div>
                             </div>
-                            <div class="card action-card text-bg-light mb-3">
+                            <div class="card action-card bg-glass mb-3">
                                 <div class="card-header text-secondary">Aksi</div>
                                 <div class="card-body">
                                     <button type="submit" class="btn btn-warning text-white">Perbarui
@@ -391,7 +391,7 @@
                 @break
                 @endswitch
 
-                <div class="table-wrapper card text-bg-light mb-5 mt-2">
+                <div class="table-wrapper card bg-glass mb-5 mt-2">
                     <div class="card-header text-secondary ">Rincian Produk</div>
                     <div class="card-body receipt-wrapper">
                         <div class="filter-wrapper">

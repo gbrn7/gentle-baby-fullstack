@@ -6,7 +6,7 @@
       </span>
     </h1>
   </div>
-  <div class="list-box  d-flex flex-column justify-content-between gap-5">
+  <div class="list-box  d-flex flex-column">
     <ul class="list-unstyled px-3 pt-3 d-flex flex-column gap-2">
       <li class="rounded {{Request::segment(2) === 'home-page' ? 'active' : ''}} rounded-2">
         <a href={{route('client')}} class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
@@ -20,7 +20,8 @@
       <li class="rounded {{Request::segment(2) === 'data-transaksi' ? 'active' : ''}} rounded-2">
         <a href={{route('data.transaksi')}}
           class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
-            class="ri-arrow-left-right-line me-2"></i>Data Transaksi</a>
+            class="ri-arrow-left-right-line me-2"></i><span class="nav-item-label">Data
+            Transaksi</span></a>
       </li>
       <li class="rounded {{Request::segment(2) === 'grades' ? 'active' : ''}} rounded-2">
         <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i

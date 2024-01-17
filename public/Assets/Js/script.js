@@ -1,4 +1,5 @@
 const body = document.querySelector("body");
+const preloader = document.querySelector(".loading-wrapper");
 
 $(".sidebar ul li").on("click", function () {
   $(".sidebar ul li.active").removeClass("active");
@@ -13,19 +14,25 @@ $('.content-right').on('click', function () {
   $('.sidebar').removeClass('active');
 });
 
-
-$(document).ready(function () {
-
-  let load = document.querySelector(".loading-wrapper");
-
-  body.removeChild(load);
-
-  document.querySelector('.wrapper').classList.remove('d-none');
-
-  $('#example').DataTable({
-    order: [[0, 'desc']]
-  });
-
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+$('#example').DataTable({
+  order: [[0, 'desc']]
 });
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+window.onload = function () {
+  preloader.classList.add("d-none");
+
+};
+
+function startLoading() {
+  preloader.classList.remove('d-none');
+  document.querySelector("html").style.cursor = "wait";
+}
+
+
+function endLoading() {
+  preloader.classList.add("d-none");
+  document.querySelector("html").style.cursor = "default";
+}

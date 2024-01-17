@@ -9,7 +9,11 @@
                 <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby
                     Gentle
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Data Transaksi</li>
+                <li class="breadcrumb-item active" aria-current="page">Data Transaksi /@if ($cursorWait)
+                    {{'wait'}}
+                    @else
+                    {{'no wait'}}
+                    @endif</li>
             </ol>
         </nav>
     </div>
@@ -65,7 +69,7 @@
                         <tr>
                             <td>{{$transaction->id }}</td>
                             <td>{{$transaction->transaction_code }}</td>
-                            <td>{{$transaction->created_at }}</td>
+                            <td>{{date_format($transaction->created_at,"Y-m-d") }}</td>
                             <td>{{$transaction->company->name }}</td>
                             <td>Rp {{number_format($transaction->amount,0, ".", ".")}}</td>
                             <td>{{$transaction->jatuh_tempo }}</td>
@@ -75,7 +79,7 @@
                                 '-'}}</td>
                             <td class="">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                                    <button type="button" class="btn btn-light  dropdown-toggle"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         Aksi
                                     </button>
@@ -207,13 +211,13 @@
                 $('#process_status').val(processStatus);
                 $('#dp-status').val(dpStatus);
             });
-        
+        // 
         $(document).on('submit', '#editForm', function (event){
             event.preventDefault();
-            document.querySelector("html").style.cursor = "wait";
+            startLoading();            
             this.submit();        
         });
-    
+
 
     </script>
     @endscript
