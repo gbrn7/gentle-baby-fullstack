@@ -23,8 +23,9 @@
             class="ri-arrow-left-right-line me-2"></i><span class="nav-item-label">Data
             Transaksi</span></a>
       </li>
-      <li class="rounded {{Request::segment(2) === 'grades' ? 'active' : ''}} rounded-2">
-        <a href="#" class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
+      <li class="rounded {{Request::segment(2) === 'order-product' ? 'active' : ''}} rounded-2">
+        <a href={{route('order.product')}}
+          class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-survey-line me-2"></i>Pemesanan Produk</a>
       </li>
       @if(auth()->user()->role === 'super_admin')

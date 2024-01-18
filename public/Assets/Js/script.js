@@ -21,10 +21,9 @@ $('#example').DataTable({
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-window.onload = function () {
+$(document).ready(function () {
   preloader.classList.add("d-none");
-
-};
+});
 
 function startLoading() {
   preloader.classList.remove('d-none');

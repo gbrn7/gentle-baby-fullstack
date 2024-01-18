@@ -45,7 +45,7 @@
           </div>
         </div>
       </a>
-      <a href="#" class="col-sm-6 card-dashboard text-decoration-none">
+      <a href={{route('order.product')}} class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">

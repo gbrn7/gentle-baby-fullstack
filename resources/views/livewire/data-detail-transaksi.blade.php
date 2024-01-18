@@ -11,7 +11,7 @@
                         Gentle
                     </li>
                     <li class="breadcrumb-item"><a href={{route('data.transaksi')}} class="text-decoration-none">Data
-                            Transaksi</a>
+                            Transaksi</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Detail Transaksi
                         {{$transaction->transaction_code}}
                     </li>

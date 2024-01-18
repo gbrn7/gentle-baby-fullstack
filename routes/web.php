@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Livewire\DataTransaksi;
 use App\Livewire\DataDetailTransaksi;
+use App\Livewire\OrderProduct;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,11 +70,10 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
     Route::get('/view/pdf/{id}', [DataTransaksi::class, 'viewPDF'])->name('data.transaksi.viewPDF');
     Route::get('/{id}', DataDetailTransaksi::class)->name('data.transaksi.detail');
     Route::put('/detailTransaksi/{id}', [DataDetailTransaksi::class, 'updateTransaction'])->name('data.transaksi.detail.update');
-    // Route::get('/create', [TransactionController::class, 'createProduct'])->name('data.product.create');
-    // Route::post('/store', [TransactionController::class, 'store'])->name('data.product.store');
-    // Route::get('/edit/{id}', [TransactionController::class, 'edit'])->name('data.product.edit');
-    // Route::put('/update/{id}', [TransactionController::class, 'update'])->name('data.product.update');
-    // Route::delete('/destroy', [TransactionController::class, 'delete'])->name('data.product.delete');
+  });
+
+  Route::prefix('/order-product')->group(function () {
+    Route::get('/', OrderProduct::class)->name('order.product');
   });
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');

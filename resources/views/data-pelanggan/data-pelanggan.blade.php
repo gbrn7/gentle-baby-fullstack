@@ -31,6 +31,7 @@
       <div id="add" data-bs-toggle="modal" data-bs-target="#addnew" class="btn btn-success"><i
           class="ri-add-box-line me-2"></i>Tambah Perusahaan</div>
     </div>
+
     <div class="table-wrapper mt-2 mb-2">
       <table id="example" class="table mt-3 table-hover table-borderless" style="width: 100%">
         <thead>
@@ -69,6 +70,7 @@
         </tbody>
       </table>
     </div>
+
   </div>
 </div>
 @include('modal.data-pelanggan.data-pelanggan-modal')
