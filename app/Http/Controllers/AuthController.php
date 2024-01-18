@@ -15,10 +15,19 @@ class AuthController extends Controller
     }
 
     public function authenticate(Request $request){
-        $validator = Validator::make($request->all(), [
+
+        $validation = [
             'email' => 'required|email',
             'password' => 'required'
-        ]);
+        ];
+
+        $messages = [
+            'required' => 'Kolom :attribute harus diisi',
+            'email' => 'Kolom :attribute harus bertipe email',
+        ];
+
+
+        $validator = Validator::make($request->all(), $validation, $messages);
 
         if($validator->fails()){
             return back()->with('toast_error', join(', ', $validator->messages()->all()))

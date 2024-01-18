@@ -61,6 +61,30 @@ class TransactionDetailSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                "transaction_id" => 3,
+                "product_id" => 1,
+                "hpp" => 10000,
+                "price" => 12500,
+                "qty" => 200,
+                "is_cashback" => 1,
+                "cashback_value" => 1000,
+                "qty_cashback_item" => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                "transaction_id" => 3,
+                "product_id" => 2,
+                "hpp" => 12000,
+                "price" => 15000,
+                "qty" => 100,
+                "is_cashback" => 0,
+                "cashback_value" => 1000,
+                "qty_cashback_item" => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);      
     }
 }

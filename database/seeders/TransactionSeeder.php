@@ -42,6 +42,20 @@ class TransactionSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+
+                "transaction_code" => Str::random(10),
+                "company_id" => 3,
+                "amount" => 4000000,
+                "jatuh_tempo_dp" => date_add(now(), date_interval_create_from_date_string('1 days')),
+                "jatuh_tempo" => date_add(now(), date_interval_create_from_date_string('6 weeks')),
+                "process_status" => "processed",
+                "payment_status" => 1,
+                "dp_status" => 1,
+                "transaction_complete_date" => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

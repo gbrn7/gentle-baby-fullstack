@@ -56,7 +56,7 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
     });
   });
 
-  Route::prefix('/data-product')->group(function () {
+  Route::group(['prefix' => '/data-product', 'middleware' => ['admin.auth']],function () {
     Route::get('/', [ProductController::class, 'index'])->name('data.product');
     Route::get('/create', [ProductController::class, 'createProduct'])->name('data.product.create');
     Route::post('/store', [ProductController::class, 'store'])->name('data.product.store');

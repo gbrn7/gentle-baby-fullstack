@@ -30,6 +30,10 @@ class CompanyMemberSeeder extends Seeder
                 "company_id" => 2,
                 "user_id" => 4,
             ],
+            [
+                "company_id" => 3,
+                "user_id" => 5,
+            ],
         ]);
     }
 }

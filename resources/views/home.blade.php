@@ -17,6 +17,7 @@
 <div class="content-box p-3 mt-3 rounded rounded-2 bg-white">
   <div class="content rounded rounded-2 border border-1 p-3">
     <div class="row row-gap-3">
+      @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
       <a href={{route('data.product')}} class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
@@ -31,6 +32,7 @@
           </div>
         </div>
       </a>
+      @endif
       <a href={{route('data.transaksi')}} class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">
@@ -72,6 +74,8 @@
           </div>
         </div>
       </a>
+      @endif
+      @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')
       <a href="{{route('data.admin')}}" class="col-sm-6 card-dashboard text-decoration-none">
         <div class="card ">
           <div class="card-body  row justify-content-between align-items-center">

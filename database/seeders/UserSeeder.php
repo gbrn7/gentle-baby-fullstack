@@ -51,6 +51,15 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             ],
+            [
+                'name' => 'fiki',
+                'email' => 'fiki@gmail.com',
+                'password' => Crypt::encryptString('superadmincust'),
+                'role' => 'super_admin_cust',
+                'phone_number' => 'sdsdd',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
         }   
 }

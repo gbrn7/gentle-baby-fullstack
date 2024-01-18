@@ -32,6 +32,15 @@ class CompanySeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             ],
+            [
+            'name' => 'CV Indah',
+            'address' => 'Malang',
+            'email' => 'indah@gmail.com',
+            'phone_number' => 'fdfs',
+            'owner_id' => '5',
+            'created_at' => now(),
+            'updated_at' => now(),
+            ],
         ]);
     }
 }

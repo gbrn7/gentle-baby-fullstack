@@ -12,11 +12,13 @@
         <a href={{route('client')}} class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-dashboard-line me-2"></i>Beranda</a>
       </li>
+      @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
       <li class="rounded {{Request::segment(2) === 'data-product' ? 'active' : ''}} rounded-2">
         <a href="{{route('data.product')}}"
           class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-instance-line me-2"></i>Data Produk</a>
       </li>
+      @endif
       <li class="rounded {{Request::segment(2) === 'data-transaksi' ? 'active' : ''}} rounded-2">
         <a href={{route('data.transaksi')}}
           class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i

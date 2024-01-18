@@ -9,11 +9,7 @@
                 <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby
                     Gentle
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Data Transaksi /@if ($cursorWait)
-                    {{'wait'}}
-                    @else
-                    {{'no wait'}}
-                    @endif</li>
+                <li class="breadcrumb-item active" aria-current="page">Data Transaksi
             </ol>
         </nav>
     </div>
@@ -49,7 +45,9 @@
                         <select wire:model.live.debounce.300ms="columnFilter" class="form-select">
                             <option value="t.transaction_code">Kode Transaksi</option>
                             <option value="t.id">ID</option>
+                            @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <option value="c.name">Nama Perusahaan</option>
+                            @endif
                             <option value="t.amount">Nominal</option>
                         </select>
                         <input class="form-control" type="text" wire:model.live.debounce.500ms="keywords" />
@@ -94,7 +92,9 @@
                             <th class="text-secondary">Kode Transaksi</th>
                             <th class="text-secondary sort @if ($sortColumn=='t.created_at') {{$sortDirection}}@endif"
                                 wire:click="sort('created_at')">Tanggal Transaksi</th>
+                            @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <th class="text-secondary">Nama Perusahaan</th>
+                            @endif
                             <th class="text-secondary sort @if ($sortColumn=='t.amount') {{$sortDirection}}@endif"
                                 wire:click="sort('amount')">Nominal</th>
                             <th class="text-secondary sort @if ($sortColumn=='t.jatuh_tempo') {{$sortDirection}}@endif "
@@ -114,7 +114,9 @@
                             <td>{{$transaction->id }}</td>
                             <td>{{$transaction->transaction_code }}</td>
                             <td>{{date("Y-m-d", strtotime($transaction->created_at)) }}</td>
+                            @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <td>{{$transaction->name }}</td>
+                            @endif
                             <td>Rp {{number_format($transaction->amount,0, ".", ".")}}</td>
                             <td>{{$transaction->jatuh_tempo }}</td>
                             <td>{{$transaction->payment_status == 1 ? 'Sudah Bayar' : 'Belum Dibayar'}}</td>
@@ -136,8 +138,9 @@
                                                 </div>
                                             </a>
                                         </li>
+                                        @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                                         <li class="cursor-pointer">
-                                            <a href="#" class="text-decoration-none">
+                                            <div class="cursor-pointer">
                                                 <div class="dropdown-item rounded-2 edit cursor-pointer"
                                                     data-edit-id="{{$transaction->id}}"
                                                     data-transaction-code="{{$transaction->transaction_code}}"
@@ -147,8 +150,9 @@
                                                     data-dp-status="{{$transaction->dp_status}}">
                                                     Edit status
                                                 </div>
+                                            </div>
                                         </li>
-                                        </a>
+                                        @endif
                                         <li>
                                             <div class="dropdown-item rounded-2 button-pdf"
                                                 wire:click="downloadPDF({{$transaction->id}})" type="button">
@@ -180,6 +184,7 @@
     </div>
 
     <!-- Edit Modal -->
+    @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
     <div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <form action={{route("data.transaksi.update.status")}} id="editForm" method="POST">
             @method('put')
@@ -239,6 +244,8 @@
             </div>
         </form>
     </div>
+    @endif
+
 
     @script
     <script type="text/javascript">
