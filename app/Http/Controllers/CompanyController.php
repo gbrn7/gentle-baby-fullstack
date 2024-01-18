@@ -22,6 +22,7 @@ class CompanyController extends Controller
             
             $companies = Company::with('owner')
                         ->where('id', '<>', $ownerCompany->id)
+                        ->orderBy('id', 'desc')
                         ->get();
             return view('data-pelanggan.data-pelanggan', compact('companies'));
         }else{

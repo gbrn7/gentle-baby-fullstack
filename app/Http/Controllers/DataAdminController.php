@@ -25,12 +25,14 @@ class DataAdminController extends Controller
                 }])
                 ->where('id', '<>', auth()->user()->id)
                 ->whereRelation('company', 'owner_id', auth()->user()->id)
+                ->orderBy('id', 'desc')
                 ->get();
             }else{
                 $admins = CompanyMember::with('company')
                          ->with('user')
                          ->where('id', '<>', auth()->user()->id)
                          ->whereRelation('company', 'owner_id', auth()->user()->id)
+                         ->orderBy('id', 'desc')
                          ->get();
             }
             return view('data-admin', compact('admins'));

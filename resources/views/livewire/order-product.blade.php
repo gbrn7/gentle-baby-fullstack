@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="row justify-content-between gap-x-1">
-                    <div class="col-12 col-md-7 p-0 catalog-wrapper">
+                    <div class="col-12 col-md-7 p-0 left-section">
                         <div class="card p-0 col-12 col-lg-11 company-list-wrapper">
                             <div class="card-header text-bold text-center">Daftar Perusahaan</div>
                             <div class="card-body">
@@ -41,13 +41,13 @@
                                     <label for="keyword" class="mb-1 text-left">Search :</label>
                                     <div class="input-group">
                                         <div class="select-wrapper col-4">
-                                            <select wire:model.live.debounce.300ms="columnFilter" class="form-select">
+                                            <select wire:model.live="companyColFil" class="form-select">
                                                 <option value="c.name">Nama Perusahaan</option>
                                                 <option value="u.name">Nama Pemilik</option>
                                                 <option value="c.address">Alamat Perusahaan</option>
                                             </select>
                                         </div>
-                                        <input class="form-control col-8" type="text" />
+                                        <input class="form-control col-8" type="text" wire:model.live="companyFilVal" />
                                     </div>
                                 </div>
                                 <div class="table-wrapper-custom overflow-auto">
@@ -61,50 +61,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @forelse ($companies as $company)
                                             <tr>
-                                                <td>CV Berkah Jaya</td>
-                                                <td>Muhammad Rayhan Gibran</td>
-                                                <td>Malang</td>
+                                                <td>{{$company->companyName}}</td>
+                                                <td>{{$company->ownerName}}</td>
+                                                <td>{{$company->companyAddress}}</td>
                                                 <td class="">
                                                     <button type="button" class="btn btn-light">
                                                         Pilih
                                                     </button>
                                                 </td>
                                             </tr>
+                                            @empty
                                             <tr>
-                                                <td>CV Berkah Jaya</td>
-                                                <td>Muhammad Rayhan Gibran</td>
-                                                <td>Malang</td>
-                                                <td class="">
-                                                    <button type="button" class="btn btn-light">
-                                                        Pilih
-                                                    </button>
-                                                </td>
+                                                <td rowspan="3">No matching records found</td>
                                             </tr>
-                                            <tr>
-                                                <td>CV Berkah Jaya</td>
-                                                <td>Muhammad Rayhan Gibran</td>
-                                                <td>Malang</td>
-                                                <td class="">
-                                                    <button type="button" class="btn btn-light">
-                                                        Pilih
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>CV Berkah Jaya</td>
-                                                <td>Muhammad Rayhan Gibran</td>
-                                                <td>Malang</td>
-                                                <td class="">
-                                                    <button type="button" class="btn btn-light">
-                                                        Pilih
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
-
+                                {{$companies->links()}}
                             </div>
                         </div>
                         <div class="card p-0 col-12 col-lg-11 product-wrapper mt-md-3">
