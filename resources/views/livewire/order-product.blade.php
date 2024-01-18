@@ -124,9 +124,8 @@
                                     @empty
                                     <p>No matching records found</p>
                                     @endforelse
-                                    {{$companies->links()}}
-
                                 </div>
+                                {{$products->links()}}
                             </div>
                         </div>
                     </div>
