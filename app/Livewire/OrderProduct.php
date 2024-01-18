@@ -19,6 +19,8 @@ class OrderProduct extends Component
 
     public $companyColFil = 'c.name';
     public $companyFilVal = '';
+    public $productColFil = 'name';
+    public $productFilVal = '';
 
     public function render()
     {
@@ -29,7 +31,11 @@ class OrderProduct extends Component
                           ->where('u.role', '<>', 'admin')
                           ->where($this->companyColFil, 'like', '%'.$this->companyFilVal.'%')
                           ->paginate(10);
+        
+        $products = Product::where('status', 'active')
+                            ->where($this->productColFil, 'like', '%'.$this->productFilVal.'%')
+                            ->paginate(10);
 
-        return view('livewire.order-product', ['companies'=> $companies]);
+        return view('livewire.order-product', ['companies'=> $companies, 'products'=> $products]);
     }
 }

@@ -37,7 +37,7 @@
                         <div class="card p-0 col-12 col-lg-11 company-list-wrapper">
                             <div class="card-header text-bold text-center">Daftar Perusahaan</div>
                             <div class="card-body">
-                                <div class="form-group col-12">
+                                <div class="form-group">
                                     <label for="keyword" class="mb-1 text-left">Search :</label>
                                     <div class="input-group">
                                         <div class="select-wrapper col-4">
@@ -85,90 +85,47 @@
                         </div>
                         <div class="card p-0 col-12 col-lg-11 product-wrapper mt-md-3">
                             <div class="card-header text-bold text-center">Daftar Produk</div>
-                            <div class="card-body row m-0 row-cols-2 row-cols-lg-4 gy-3">
-                                <div class="product p-2">
-                                    <div class="box d-flex flex-column">
-                                        <div class="product-img"><img loading="lazy"
-                                                src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}" class="img-fluid">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="keyword" class="mb-1 text-left">Search :</label>
+                                    <div class="input-group">
+                                        <div class="select-wrapper col-4">
+                                            <select wire:model.live="productColFil" class="form-select">
+                                                <option value="name">Nama Produk</option>
+                                                <option value="price">Harga Produk</option>
+                                                <option value="size_volume">Ukuran Volume</option>
+                                            </select>
                                         </div>
-                                        <div class="product-desc px-3 py-3">
-                                            <div class="title">Amoxan</div>
-                                            <div class="footer d-flex justify-content-between pt-2">
-                                                <div class="price">Rp {{number_format(20000,0, ".", ".")}}
-                                                </div>
-                                                <div class="trans d-flex align-items-end ">1258 Terjual
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="btn-cart-wrapper px-3 pt-1 pb-3">
-                                            <button class="btn-cart text-center">
-                                                <p class="btn-text m-0">Masukkan Keranjang</p>
-                                            </button>
-                                        </div>
+                                        <input class="form-control col-8" type="text" wire:model.live="productFilVal" />
                                     </div>
                                 </div>
-                                <div class="product p-2">
-                                    <div class="box d-flex flex-column">
-                                        <div class="product-img"><img loading="lazy"
-                                                src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}" class="img-fluid">
-                                        </div>
-                                        <div class="product-desc px-3 py-3">
-                                            <div class="title">Amoxan</div>
-                                            <div class="footer d-flex justify-content-between pt-2">
-                                                <div class="price">Rp {{number_format(20000,0, ".", ".")}}
-                                                </div>
-                                                <div class="trans d-flex align-items-end ">1258 Terjual
+                                <div class="product-wrapper row m-0 row-cols-2 row-cols-lg-4 gy-3">
+                                    @forelse ($products as $product)
+                                    <div class="product p-2">
+                                        <div class="box d-flex flex-column">
+                                            <div class="product-img"><img loading="lazy"
+                                                    src="{{ asset('storage/produk/'.($product->thumbnail? $product->thumbnail : 'defaultProduct.jpg'))}}"
+                                                    class="img-fluid">
+                                            </div>
+                                            <div class="product-desc px-3 py-3">
+                                                <div class="title">{{$product->name}}</div>
+                                                <div class="footer d-flex justify-content-between pt-2">
+                                                    <div class="price">Rp {{number_format($product->price,0, ".", ".")}}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="btn-cart-wrapper px-3 pt-1 pb-3">
-                                            <button class="btn-cart text-center">
-                                                <p class="btn-text m-0">Masukkan Keranjang</p>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product p-2">
-                                    <div class="box d-flex flex-column">
-                                        <div class="product-img"><img loading="lazy"
-                                                src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}" class="img-fluid">
-                                        </div>
-                                        <div class="product-desc px-3 py-3">
-                                            <div class="title">Amoxan</div>
-                                            <div class="footer d-flex justify-content-between pt-2">
-                                                <div class="price">Rp {{number_format(20000,0, ".", ".")}}
-                                                </div>
-                                                <div class="trans d-flex align-items-end ">1258 Terjual
-                                                </div>
+                                            <div class="btn-cart-wrapper px-3 pt-1 pb-3">
+                                                <button class="btn-cart text-center">
+                                                    <p class="btn-text m-0">Masukkan Keranjang</p>
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="btn-cart-wrapper px-3 pt-1 pb-3">
-                                            <button class="btn-cart text-center">
-                                                <p class="btn-text m-0">Masukkan Keranjang</p>
-                                            </button>
-                                        </div>
                                     </div>
-                                </div>
-                                <div class="product p-2">
-                                    <div class="box d-flex flex-column">
-                                        <div class="product-img"><img loading="lazy"
-                                                src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}" class="img-fluid">
-                                        </div>
-                                        <div class="product-desc px-3 py-3">
-                                            <div class="title">Amoxan</div>
-                                            <div class="footer d-flex justify-content-between pt-2">
-                                                <div class="price">Rp {{number_format(20000,0, ".", ".")}}
-                                                </div>
-                                                <div class="trans d-flex align-items-end ">1258 Terjual
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="btn-cart-wrapper px-3 pt-1 pb-3">
-                                            <button class="btn-cart text-center">
-                                                <p class="btn-text m-0">Masukkan Keranjang</p>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    @empty
+                                    <p>No matching records found</p>
+                                    @endforelse
+                                    {{$companies->links()}}
+
                                 </div>
                             </div>
                         </div>
