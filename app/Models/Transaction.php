@@ -29,14 +29,4 @@ class Transaction extends Model
         return $this->belongsTo(Company::class);
     }
 
-    protected $dates = [
-        'created_at',
-    ];
-
-    protected $casts = [
-        'created_at' => 'date',
-    ];
-
-    
-
 }

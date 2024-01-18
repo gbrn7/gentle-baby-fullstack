@@ -21,6 +21,12 @@ class OrderProduct extends Component
     public $companyFilVal = '';
     public $productColFil = 'name';
     public $productFilVal = '';
+    public $page = 1;
+    public $limit = 10;
+
+    public function productPagination($page){
+        $this->page = $page;
+    }
 
     public function render()
     {
@@ -30,12 +36,23 @@ class OrderProduct extends Component
                           ->where('u.role', '<>', 'super_admin')
                           ->where('u.role', '<>', 'admin')
                           ->where($this->companyColFil, 'like', '%'.$this->companyFilVal.'%')
+                          ->orderBy('c.id', 'desc')
                           ->paginate(10);
         
         $products = Product::where('status', 'active')
                             ->where($this->productColFil, 'like', '%'.$this->productFilVal.'%')
-                            ->paginate(10);
+                            ->orderBy('id', 'desc')
+                            ->limit($this->limit)
+                            ->skip($this->limit * ($this->page-1))
+                            ->get();
 
-        return view('livewire.order-product', ['companies'=> $companies, 'products'=> $products]);
+        $productCount = Product::where('status', 'active')
+                                ->where($this->productColFil, 'like', '%'.$this->productFilVal.'%')
+                                ->orderBy('id', 'desc')
+                                ->count();
+
+        $productPages = ceil($productCount/$this->limit);
+
+        return view('livewire.order-product', ['companies'=> $companies, 'products'=> $products, 'productPages' => $productPages]);
     }
 }

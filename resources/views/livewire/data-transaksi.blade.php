@@ -59,6 +59,7 @@
                     <label class="mb-1 text-left">Status Proses :</label>
                     <select wire:model.live.debounce.300ms="processStatus" class="form-select">
                         <option value="" class="text-secondary text-capitalize">Semua</option>
+                        <option value="cancel" class="text-secondary text-capitalize">Cancel</option>
                         <option value="unprocessed" class="text-secondary text-capitalize">Unprocessed</option>
                         <option value="processing" class="text-secondary text-capitalize">Processing</option>
                         <option value="processed" class="text-secondary text-capitalize">Processed</option>
@@ -222,6 +223,7 @@
                             <label for="Status" class="mb-1">Status Proses</label>
                             <select required id="process_status" name="process_status" class="form-select status"
                                 aria-label="Default select example">
+                                <option value="cancel" class="text-secondary text-capitalize">Cancel</option>
                                 <option value="unprocessed" class="text-secondary text-capitalize">Unprocessed</option>
                                 <option value="processing" class="text-secondary text-capitalize">Processing</option>
                                 <option value="processed" class="text-secondary text-capitalize">Processed</option>

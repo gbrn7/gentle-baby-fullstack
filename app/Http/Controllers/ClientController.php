@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\User;
 
 class ClientController extends Controller
 {
@@ -15,11 +20,76 @@ class ClientController extends Controller
         $currentUser = auth()->user();
         $currentUser['password'] = Crypt::decryptString($currentUser['password']);
         if($currentUser){
-            return view('modal.data-admin.data-admin-form', 
+            return view('modal.data-profile.data-profile-form', 
             ['form' => $currentUser]);
         }else{
             return response()->json('[Akses Ditolak atau Id Tidak Ditemukan!!]', 404);   
         }
+    }
+
+    public function update(Request $request){
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust' || auth()->user()->id == $request->id){
+        $adminId = $request->id;
+
+        $validation = [
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
+            'password' => 'required|string|min:5',
+            'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
+        ];
+
+        $messages = [
+            'required' => 'Kolom :attribute harus diisi',
+            'string' => 'Kolom :attribute harus bertipe teks atau string',
+            'email' => 'Kolom :attribute harus bertipe email',
+            'unique' => ':attribute yang anda berikan sudah dipakai',
+            'min' => ':attribute minimal :min digit',
+            'image_profile.max' => 'Foto profil maksimal berukuran +-2MB',
+            'image' => 'foto profil harus berjenis gambar',
+            'mimes' => 'foto profil harus bertipe :values',
+        ];
+
+        $validator = Validator::make($request->all(), $validation, $messages);
+
+        if($validator->fails()){
+            return back()
+            ->with('toast_error', join(', ', $validator->messages()->all()))
+            ->withInput()
+            ->withErrors($validator->messages()->all());
+        }
+
+        $oldDataAdmin = User::where('id', $adminId)->first();
+
+        $newAdmin = $request->except('role');
+        $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
+
+        if(!empty( $request->image_profile)){
+            $imageProfile = $request->image_profile;
+            $imageName = Str::random(10).'.'.$imageProfile->getClientOriginalExtension();
+    
+            $imageProfile->storeAs('public/avatar/', $imageName);
+            $newAdmin['image_profile'] = $imageName;
+
+            //delete old image
+            Storage::delete('public/avatar/'.$oldDataAdmin->image_profile);
+        }
+
+        DB::beginTransaction();
+        try {
+            $oldDataAdmin->update($newAdmin);
+            DB::commit();        
+            return back()
+            ->with('toast_success', 'Data Profile Diperbarui');  
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()
+            ->with('toast_error', $th->getMessage())
+            ->withInput()
+            ->withErrors($th->getMessage());
+        }
+        }else{
+            return back()->with('toast_error', 'Akses Ditolak!!');
+            }
     }
 
 }

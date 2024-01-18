@@ -125,12 +125,21 @@
                                     <p>No matching records found</p>
                                     @endforelse
                                 </div>
-                                {{$products->links()}}
+                                <ul class="pagination d-flex flex-wrap justify-content-start pagination-xsm m-0">
+                                    @for ($i = 0; $i < $productPages; $i++) <li
+                                        class="page-item {{$i + 1 == $page && 'disabled'}}">
+                                        <div class="page-link" class="cursor-pointer"
+                                            wire:click="productPagination({{$i+1}})" aria-label="Page {{$i + 1}}">
+                                            <span>{{$i + 1}}</span>
+                                        </div>
+                                        </li>
+                                        @endfor
+                                </ul>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card p-0 col-12 mt-3 mt-md-0 col-md-5 cart-wrapper">
+                    <div class=" card p-0 col-12 mt-3 mt-md-0 col-md-5 cart-wrapper">
                         <div class="card-header text-bold text-center">Keranjang</div>
                         <div class="card-body">
                             <div class="company-cart-section overflow-auto">
@@ -263,11 +272,12 @@
                                 </div>
                             </div>
                             <div
-                                class="total-amount-section d-flex justify-content-between align-item-center mt-2 bg-primary p-4 rounded-3">
+                                class="total-amount-section d-flex justify-content-between align-item-center mt-4 bg-primary p-4 rounded-3">
                                 <p class="mb-0 text-white total-label">Total</p>
                                 <p class="mb-0 text-white">Rp. 4.000.00</p>
                             </div>
-                            <div class="checkout-btn bg-success rounded-3 text-center text-white mt-2 p-3">Checkout
+                            <div class="checkout-btn bg-success rounded-3 text-center text-white mt-2 p-3">
+                                Checkout
                             </div>
                         </div>
                     </div>

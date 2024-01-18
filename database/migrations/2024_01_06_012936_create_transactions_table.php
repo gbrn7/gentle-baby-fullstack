@@ -18,7 +18,7 @@ return new class extends Migration
             $table->float('amount', 10, 2);
             $table->date('jatuh_tempo_dp')->nullable();
             $table->date('jatuh_tempo');
-            $table->enum('process_status', ['unprocessed ', 'processing', 'processed', 'taken']);
+            $table->enum('process_status', ['unprocessed ', 'processing', 'processed', 'taken', 'cancel']);
             $table->boolean('payment_status')->default(0);
             $table->float('dp_value', 10, 2)->default(0);
             $table->boolean('dp_status')->default(0);

@@ -50,7 +50,7 @@ class DataTransaksi extends Component
         
             $validation = [
                 'payment_status' => 'required|in:0,1',
-                'process_status' => 'required|in:unprocessed,processing,processed,taken',
+                'process_status' => 'required|in:unprocessed,processing,processed,taken,cancel',
                 'dp_status' => 'required|in:0,1',
             ];
     
