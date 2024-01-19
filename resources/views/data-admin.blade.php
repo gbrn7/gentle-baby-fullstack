@@ -36,12 +36,12 @@
       <table id="example" class="table mt-3 table-hover table-borderless">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nama</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Nomor Telepon</th>
-            <th>Aksi</th>
+            <th class="text-secondary">ID</th>
+            <th class="text-secondary">Nama</th>
+            <th class="text-secondary">Email</th>
+            <th class="text-secondary">Role</th>
+            <th class="text-secondary">Nomor Telepon</th>
+            <th class="text-secondary">Aksi</th>
           </tr>
         </thead>
         <tbody id="tableBody">

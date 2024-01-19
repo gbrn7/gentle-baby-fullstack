@@ -117,7 +117,7 @@
                             @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <td>{{$transaction->name }}</td>
                             @endif
-                            <td>Rp {{number_format($transaction->amount,0, ".", ".")}}</td>
+                            <td>Rp{{number_format($transaction->amount,0, ".", ".")}}</td>
                             <td>{{$transaction->jatuh_tempo }}</td>
                             <td>{{$transaction->payment_status == 1 ? 'Sudah Bayar' : 'Belum Dibayar'}}</td>
                             <td class="text-capitalize">{{$transaction->process_status }}</td>

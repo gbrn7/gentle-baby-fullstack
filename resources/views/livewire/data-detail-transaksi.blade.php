@@ -54,7 +54,7 @@
                             <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nilai Pelunasan</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0,
+                                    <p class="card-title fw-bold">Rp{{number_format($transaction->revenue,0,
                                         ".",
                                         ".")}}
                                     </p>
@@ -63,7 +63,7 @@
                             <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nilai DP</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0,
+                                    <p class="card-title fw-bold">Rp{{number_format($transaction->dp_value,0,
                                         ".",
                                         ".")}}</p>
                                 </div>
@@ -107,7 +107,7 @@
                             <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Profit</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp {{number_format($transaction->profit,0,
+                                    <p class="card-title fw-bold">Rp{{number_format($transaction->profit,0,
                                         ".",
                                         ".")}}</p>
                                 </div>
@@ -157,7 +157,7 @@
                             <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Nilai Cashback</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">Rp.{{$transaction->cashback}}</p>
+                                    <p class="card-title fw-bold">Rp{{$transaction->cashback}}</p>
                                 </div>
                             </div>
                             <div class="card bg-glass mb-3">
@@ -198,7 +198,7 @@
                         <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Nilai Pelunasan</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp {{number_format($transaction->revenue,0,
+                                <p class="card-title fw-bold">Rp{{number_format($transaction->revenue,0,
                                     ".", ".")}}
                                 </p>
                             </div>
@@ -223,7 +223,7 @@
                         <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Nilai DP</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">Rp {{number_format($transaction->dp_value,0,
+                                <p class="card-title fw-bold">Rp{{number_format($transaction->dp_value,0,
                                     ".",
                                     ".")}}</p>
                             </div>
@@ -429,7 +429,7 @@
                                 <tr>
                                     <td>{{$detailsTransaction->product->id }}</td>
                                     <td>{{$detailsTransaction->product->name }}</td>
-                                    <td>Rp {{number_format($detailsTransaction->price,0, ".",".")}}</td>
+                                    <td>Rp{{number_format($detailsTransaction->price,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->qty }}</td>
                                     @if (auth()->user()->role == 'super_admin' || auth()->user()->role ===
                                     'admin')
@@ -438,7 +438,7 @@
                                     <td>{{$detailsTransaction->cashback_value}}</td>
                                     <td>{{$detailsTransaction->qty_cashback_item}}</td>
                                     @endif
-                                    <td>Rp {{number_format(($detailsTransaction->price *
+                                    <td>Rp{{number_format(($detailsTransaction->price *
                                         $detailsTransaction->qty),0,
                                         ".",".")}}</td>
                                 </tr>

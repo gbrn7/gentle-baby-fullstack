@@ -190,25 +190,25 @@
       <tr>
         <td width="10%">{{$detailsTransaction->product->id }}</td>
         <td>{{$detailsTransaction->product->name }}</td>
-        <td width="20%">Rp {{number_format($detailsTransaction->price,0, ".",".")}}</td>
+        <td width="20%">Rp{{number_format($detailsTransaction->price,0, ".",".")}}</td>
         <td width="15%">{{$detailsTransaction->qty }}</td>
-        <td width="30%" class="fw-bold">Rp {{number_format(($detailsTransaction->price * $detailsTransaction->qty),0,
+        <td width="30%" class="fw-bold">Rp{{number_format(($detailsTransaction->price * $detailsTransaction->qty),0,
           ".",".")}}</td>
       </tr>
       @endforeach
 
       <tr>
         <td colspan="4" class="sub-heading">Total DP (35%) :</td>
-        <td colspan="1" class="sub-heading">Rp {{number_format($transaction->dp_value ,0,".",".")}}</td>
+        <td colspan="1" class="sub-heading">Rp{{number_format($transaction->dp_value ,0,".",".")}}</td>
       </tr>
       <tr>
         <td colspan="4" class="sub-heading">Total Pelunasan :</td>
-        <td colspan="1" class="sub-heading">Rp {{number_format(($transaction->revenue - $transaction->dp_value)
+        <td colspan="1" class="sub-heading">Rp{{number_format(($transaction->revenue - $transaction->dp_value)
           ,0,".",".")}}</td>
       </tr>
       <tr>
         <td colspan="4" class="total-heading">Total Tagihan :</td>
-        <td colspan="1" class="total-heading">Rp {{number_format($transaction->revenue,0,".",".")}}</td>
+        <td colspan="1" class="total-heading">Rp{{number_format($transaction->revenue,0,".",".")}}</td>
       </tr>
     </tbody>
   </table>

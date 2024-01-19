@@ -67,7 +67,9 @@
                                                 <td>{{$company->ownerName}}</td>
                                                 <td>{{$company->companyAddress}}</td>
                                                 <td class="">
-                                                    <button type="button" class="btn btn-light">
+                                                    <button type="button"
+                                                        wire:click="addCompanyCart({{json_encode($company)}})"
+                                                        class="btn btn-light">
                                                         Pilih
                                                     </button>
                                                 </td>
@@ -80,7 +82,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                @if(empty($companyFilVal))
                                 {{$companies->links()}}
+                                @endif
                             </div>
                         </div>
                         <div class="card p-0 col-12 col-lg-11 product-wrapper mt-md-3">
@@ -107,14 +111,15 @@
                                                     src="{{ asset('storage/produk/'.($product->thumbnail? $product->thumbnail : 'defaultProduct.jpg'))}}"
                                                     class="img-fluid">
                                             </div>
-                                            <div class="product-desc px-3 py-3">
+                                            <div class="product-desc p-2">
                                                 <div class="title">{{$product->name}}</div>
                                                 <div class="footer d-flex justify-content-between pt-2">
-                                                    <div class="price">Rp {{number_format($product->price,0, ".", ".")}}
+                                                    <div class="price">Rp{{number_format($product->price,0, ".", ".")}}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="btn-cart-wrapper px-3 pt-1 pb-3">
+                                            <div class="btn-cart-wrapper px-2 pt-1 pb-3"
+                                                wire:click='addProductCart({{$product}})'>
                                                 <button class="btn-cart text-center">
                                                     <p class="btn-text m-0">Masukkan Keranjang</p>
                                                 </button>
@@ -125,7 +130,7 @@
                                     <p>No matching records found</p>
                                     @endforelse
                                 </div>
-                                <ul class="pagination d-flex flex-wrap justify-content-start pagination-xsm m-0">
+                                <ul class="pagination d-flex flex-wrap justify-content-start pagination-xsm m-0 mt-2">
                                     @for ($i = 0; $i < $productPages; $i++) <li
                                         class="page-item {{$i + 1 == $page && 'disabled'}}">
                                         <div class="page-link" class="cursor-pointer"
@@ -153,13 +158,15 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>CV Berkah Jaya</td>
-                                            <td>Muhammad Rayhan Gibran</td>
-                                            <td>Malang</td>
+                                            @if(!empty($companyCart))
+                                            <td>{{$companyCart['companyName']}}</td>
+                                            <td>{{$companyCart['ownerName']}}</td>
+                                            <td>{{$companyCart['companyAddress']}}</td>
                                             <td class="">
                                                 <button type="button" class="btn btn-light">
-                                                    <i class='bx bx-trash'></i> </button>
+                                                    <i class='bx bx-trash' wire:click='removeCompanyCart'></i> </button>
                                             </td>
+                                            @endif
                                         </tr>
                                     </tbody>
                                 </table>
@@ -167,118 +174,46 @@
                             <div class="product-cart-section mt-2">
                                 <label class="mb-1">Produk</label>
                                 <div class="product-cart-wrapper">
+                                    @php($total = 0)
+                                    @foreach ($productsCart as $product)
+                                    @php($total += ($product['price'] * $product['qty']))
                                     <div class="cart-item-wrapper p-2 m-0 row align-items-center">
                                         <div class="img-wrapper p-0 col-2">
-                                            <img loading="lazy" src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}"
+                                            <img loading="lazy"
+                                                src="{{ asset('storage/produk/'.($product['thumbnail'] !== '' ? $product['thumbnail'] : 'defaultProduct.jpg'))}}"
                                                 class="img-fluid">
                                         </div>
-                                        <div class="col-3 title">Amoxan 400gr</div>
+                                        <div class="col-3 title">{{$product['name']}}</div>
                                         <div
                                             class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
-                                            <div class="minus" class="col-4">-</div>
-                                            <input type="text" name="qty-${id}" value="1" class="col-4  qty-input">
-                                            <div class="plus" class="col-4">+</div>
+                                            <div class="minus" class="col-4"
+                                                wire:click='decrementProductCart({{$loop->index}})'>-</div>
+                                            <input name="qty" type="number"
+                                                wire:model.live.number="productsCart.{{$loop->index}}.qty"
+                                                class="col-4  qty-input">
+                                            <div class="plus" class="col-4"
+                                                wire:click='incrementProductCart({{$loop->index}})'>+</div>
                                         </div>
                                         <div class="col-3 p-0 price-wrapper">
-                                            <p class="m-0">Rp.60.000</p>
+                                            <p class="m-0">Rp{{number_format(($product['price'] * $product['qty']) ,0,
+                                                ".", ".")}}</p>
                                         </div>
-                                        <div class="col-1 p-0 delete-wrap text-center"><i class='bx bx-trash'></i></div>
+                                        <div class="col-1 p-0 delete-wrap text-center"
+                                            wire:click="removeProductCart({{$loop->index}})"><i class='bx bx-trash'></i>
+                                        </div>
                                     </div>
-                                    <div class="cart-item-wrapper p-2 m-0 row align-items-center">
-                                        <div class="img-wrapper p-0 col-2">
-                                            <img loading="lazy" src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}"
-                                                class="img-fluid">
-                                        </div>
-                                        <div class="col-3 title">Amoxan 400gr</div>
-                                        <div
-                                            class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
-                                            <div class="minus" class="col-4">-</div>
-                                            <input type="text" name="qty-${id}" value="1" class="col-4  qty-input">
-                                            <div class="plus" class="col-4">+</div>
-                                        </div>
-                                        <div class="col-3 p-0 price-wrapper">
-                                            <p class="m-0">Rp.60.000</p>
-                                        </div>
-                                        <div class="col-1 p-0 delete-wrap text-center"><i class='bx bx-trash'></i></div>
-                                    </div>
-                                    <div class="cart-item-wrapper p-2 m-0 row align-items-center">
-                                        <div class="img-wrapper p-0 col-2">
-                                            <img loading="lazy" src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}"
-                                                class="img-fluid">
-                                        </div>
-                                        <div class="col-3 title">Amoxan 400gr</div>
-                                        <div
-                                            class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
-                                            <div class="minus" class="col-4">-</div>
-                                            <input type="text" name="qty-${id}" value="1" class="col-4  qty-input">
-                                            <div class="plus" class="col-4">+</div>
-                                        </div>
-                                        <div class="col-3 p-0 price-wrapper">
-                                            <p class="m-0">Rp.60.000</p>
-                                        </div>
-                                        <div class="col-1 p-0 delete-wrap text-center"><i class='bx bx-trash'></i></div>
-                                    </div>
-                                    <div class="cart-item-wrapper p-2 m-0 row align-items-center">
-                                        <div class="img-wrapper p-0 col-2">
-                                            <img loading="lazy" src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}"
-                                                class="img-fluid">
-                                        </div>
-                                        <div class="col-3 title">Amoxan 400gr</div>
-                                        <div
-                                            class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
-                                            <div class="minus" class="col-4">-</div>
-                                            <input type="text" name="qty-${id}" value="1" class="col-4  qty-input">
-                                            <div class="plus" class="col-4">+</div>
-                                        </div>
-                                        <div class="col-3 p-0 price-wrapper">
-                                            <p class="m-0">Rp.60.000</p>
-                                        </div>
-                                        <div class="col-1 p-0 delete-wrap text-center"><i class='bx bx-trash'></i></div>
-                                    </div>
-                                    <div class="cart-item-wrapper p-2 m-0 row align-items-center">
-                                        <div class="img-wrapper p-0 col-2">
-                                            <img loading="lazy" src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}"
-                                                class="img-fluid">
-                                        </div>
-                                        <div class="col-3 title">Amoxan 400gr</div>
-                                        <div
-                                            class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
-                                            <div class="minus" class="col-4">-</div>
-                                            <input type="text" name="qty-${id}" value="1" class="col-4  qty-input">
-                                            <div class="plus" class="col-4">+</div>
-                                        </div>
-                                        <div class="col-3 p-0 price-wrapper">
-                                            <p class="m-0">Rp.60.000</p>
-                                        </div>
-                                        <div class="col-1 p-0 delete-wrap text-center"><i class='bx bx-trash'></i></div>
-                                    </div>
-                                    <div class="cart-item-wrapper p-2 m-0 row align-items-center">
-                                        <div class="img-wrapper p-0 col-2">
-                                            <img loading="lazy" src="{{ asset('storage/produk/2EaJWJWSg6.jpg')}}"
-                                                class="img-fluid">
-                                        </div>
-                                        <div class="col-3 title">Amoxan 400gr</div>
-                                        <div
-                                            class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
-                                            <div class="minus" class="col-4">-</div>
-                                            <input type="text" name="qty-${id}" value="1" class="col-4  qty-input">
-                                            <div class="plus" class="col-4">+</div>
-                                        </div>
-                                        <div class="col-3 p-0 price-wrapper">
-                                            <p class="m-0">Rp.60.000</p>
-                                        </div>
-                                        <div class="col-1 p-0 delete-wrap text-center"><i class='bx bx-trash'></i></div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div
                                 class="total-amount-section d-flex justify-content-between align-item-center mt-4 bg-primary p-4 rounded-3">
                                 <p class="mb-0 text-white total-label">Total</p>
-                                <p class="mb-0 text-white">Rp. 4.000.00</p>
+                                <p class="mb-0 text-white">Rp{{number_format($total,0,".",".")}}</p>
                             </div>
                             <div class="checkout-btn bg-success rounded-3 text-center text-white mt-2 p-3">
                                 Checkout
                             </div>
+
                         </div>
                     </div>
                 </div>
