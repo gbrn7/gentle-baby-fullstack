@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Mail\MailNotify;
+use App\Mail\TransactionMail;
 use Illuminate\Support\Facades\Storage;
 
 class OrderProduct extends Component
@@ -110,7 +110,6 @@ class OrderProduct extends Component
 
         $payment = collect($this->checkPaymentDeadline($amount));
 
-
         //ensure the data is corrent
         $products = Product::WhereIn('id', $this->productsCart->pluck('id'))
                     ->orderBy('id', 'asc')
@@ -126,12 +125,13 @@ class OrderProduct extends Component
                 'company_id' =>  $this->companyCart['companyId'],
                 'amount' => $amount,
                 'jatuh_tempo' => $payment['jatuh_tempo'],
-                'jatuh_tempo_dp' => $payment->contains('jatuh_tempo_dp') ? $payment['jatuh_tempo_dp'] : null,
-                'dp_value' => $payment->contains('dp_value') ? $payment['dp_value'] : 0,
+                'jatuh_tempo_dp' => $payment->has('jatuh_tempo_dp') ? $payment['jatuh_tempo_dp'] : null,
+                'dp_value' => $payment->has('dp_value') ? $payment['dp_value'] : 0,
                 'process_status' => 'unprocessed',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
 
             //Make transaction detail
             $transactionDetail = [];
@@ -151,7 +151,6 @@ class OrderProduct extends Component
 
                 array_push($transactionDetail, $arr);
             }
-            // dd($transactionDetail);
 
             //create transaction detail
             $newTransactionDetail = TransactionDetail::insert($transactionDetail);
@@ -167,31 +166,28 @@ class OrderProduct extends Component
         } catch (\Throwable $th) {
             DB::rollback();
 
-            dd($th->getMessage());
-
             return $this->dispatch('warning', message: $th->getMessage());
         }
     }
 
     public function checkPaymentDeadline($amount){
-        $date = Carbon::now();
         if($amount > 100000000){
             return [
-                'jatuh_tempo' => $date->addWeeks(6),
-                'jatuh_tempo_dp' => $date->addDay(),
+                'jatuh_tempo' => (Carbon::now())->addWeeks(6),
+                'jatuh_tempo_dp' => (Carbon::now())->addDay(),
                 'dp_value' => ((35/100) * $amount),
             ];
         }else if($amount > 70000000 && $amount <= 100000000){
             return [
-                'jatuh_tempo' => $date->addWeeks(4),
+                'jatuh_tempo' => (Carbon::now())->addWeeks(4),
             ];
         }else if ($amount > 5000000 && $amount <= 70000000){
             return [
-                'jatuh_tempo' => $date->addWeeks(2),
+                'jatuh_tempo' => (Carbon::now())->addWeeks(2),
             ];
         }
         return [
-            'jatuh_tempo' => $date->addDays(2),
+            'jatuh_tempo' => (Carbon::now())->addDays(2),
         ]; 
     }
 
@@ -330,8 +326,8 @@ class OrderProduct extends Component
         ];
 
 
-        Mail::to('babygentleid@gmail.com')->send(new MailNotify($data));
-        // Mail::to($company->owner->email)->send(new MailNotify($data));
+        // Mail::to('babygentleid@gmail.com')->send(new TransactionMail($data));
+        Mail::to($company->owner->email)->send(new TransactionMail($data));
 
         Storage::delete('public/invoices/Invoice-'.$transaction->transaction_code.'.pdf');
     }

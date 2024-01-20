@@ -10,16 +10,17 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
 
-class MailNotify extends Mailable
+class TransactionMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data = [];
+
     /**
      * Create a new message instance.
      */
     public function __construct($data)
     {
-        $this->data =  $data;
+        $this->data = $data;
     }
 
     /**
@@ -38,7 +39,7 @@ class MailNotify extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.email-notification',
+            view: 'mail.transaction-notification',
         );
     }
 

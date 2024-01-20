@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('transaction_code');
             $table->foreignId('company_id')->constrained('company');
-            $table->float('amount', 10, 2);
+            $table->float('amount', 30, 2);
             $table->date('jatuh_tempo_dp')->nullable();
             $table->date('jatuh_tempo');
             $table->enum('process_status', ['unprocessed ', 'processing', 'processed', 'taken', 'cancel']);
             $table->boolean('payment_status')->default(0);
-            $table->float('dp_value', 10, 2)->default(0);
+            $table->float('dp_value', 30, 2)->default(0);
             $table->boolean('dp_status')->default(0);
             $table->date('transaction_complete_date')->nullable();
             $table->string('dp_payment_receipt')->nullable();

@@ -21,6 +21,14 @@
             })  
        });
 
+       Livewire.on('error', (event) => {
+        Toast.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: event.message,
+            })  
+       });
+
        Livewire.on('endLoad', (event) => {
         endLoading();
        });

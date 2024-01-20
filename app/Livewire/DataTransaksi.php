@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\MailNotify;
+use App\Mail\StatusProcessNotify;
 
 class DataTransaksi extends Component
 {
@@ -32,12 +32,14 @@ class DataTransaksi extends Component
     public $columnFilter = 't.transaction_code';
     public $dpStatus = '';
 
-    public function sort($columnName){
+    public function sort($columnName)
+    {
         $this->sortColumn = $columnName;
         $this->sortDirection = $this->sortDirection == 'asc' ? 'desc' : 'asc';
     }
 
-    public function mount(){
+    public function mount()
+    {
         if(auth()->user()->role === 'admin_cust'){
             $this->companyMember = CompanyMember::with('company')
             ->where('user_id', auth()->user()->id)
@@ -45,7 +47,8 @@ class DataTransaksi extends Component
         }
     }
 
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
         if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin'){
         
             $validation = [
@@ -140,8 +143,8 @@ class DataTransaksi extends Component
                         ];
 
 
-                        Mail::to('babygentleid@gmail.com')->send(new MailNotify($data));
-                        // Mail::to($company->owner->email)->send(new MailNotify($data));
+                        // Mail::to('babygentleid@gmail.com')->send(new StatusProcessNotify($data));
+                        Mail::to($company->owner->email)->send(new StatusProcessNotify($data));
 
                     } catch (\Throwable $th) {
                         session()->flash('error', $th->getMessage());
@@ -226,7 +229,8 @@ class DataTransaksi extends Component
         return $pdf->stream('Invoice-'.$transaction->transaction_code.'.pdf', array("Attachment" => false));
     }
 
-    public function downloadPDF($transactionId){
+    public function downloadPDF($transactionId)
+    {
             $transaction = DB::table('transactions as t')
             ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
             ->join('company as c', 't.company_id', '=', 'c.id')
@@ -315,4 +319,4 @@ class DataTransaksi extends Component
 
             return view('livewire.data-transaksi', compact('transactions'));
         }
-}
+    }

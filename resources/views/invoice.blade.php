@@ -163,7 +163,7 @@
       </tr>
       <tr>
         <td>Status DP :</td>
-        <td>{{$transaction->dp_status == 1 ? 'Sudah Dibayar' : '-'}}</td>
+        <td>{{$transaction->dp_status == 1 ? 'Sudah Dibayar' : 'Belum Dibayar'}}</td>
       </tr>
       <tr>
         <td>Status Pelunasan :</td>

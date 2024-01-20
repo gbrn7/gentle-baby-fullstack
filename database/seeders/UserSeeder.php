@@ -34,8 +34,8 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
             ],
             [
-            'name' => 'Dani Aditya',
-            'email' => 'daniadit@gmail.com',
+            'name' => 'Muhammad Rayhan Gibran',
+            'email' => 'rayhan.gibran19@gmail.com',
             'password' => Crypt::encryptString('superadmincust'),
             'role' => 'super_admin_cust',
             'phone_number' => '085469875236',
