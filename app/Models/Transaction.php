@@ -10,9 +10,10 @@ class Transaction extends Model
     use HasFactory;
     protected $table = 'transactions';
 
-    //this mean that the what column permitted to fill
+    //this means that what column is permitted to fill
     protected $fillable = [
         'company_id',
+        'transaction_code',
         'amount',
         'jatuh_tempo_dp',
         'jatuh_tempo',

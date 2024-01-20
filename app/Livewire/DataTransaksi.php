@@ -155,7 +155,7 @@ class DataTransaksi extends Component
 
                 DB::commit();
 
-                // Storage::delete('public/invoices/Invoice-'.$transaction->transaction_code.'.pdf');
+                Storage::delete('public/invoices/Invoice-'.$transaction->transaction_code.'.pdf');
 
                 session()->flash('success', 'Data Transaksi di Perbarui!!');
 
@@ -283,6 +283,7 @@ class DataTransaksi extends Component
                     ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
                     ->orderBy($this->sortColumn, $this->sortDirection)    
                     ->paginate($this->pagination);
+
                 }   else if(auth()->user()->role == 'super_admin_cust') {
                     $transactions = DB::table('transactions as t')
                     ->join('company as c', 't.company_id', '=', 'c.id')
@@ -296,6 +297,7 @@ class DataTransaksi extends Component
                     ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
                     ->orderBy($this->sortColumn, $this->sortDirection)    
                     ->paginate($this->pagination);
+
                 }else{
                     $transactions = DB::table('transactions as t')
                     ->join('company as c', 't.company_id', '=', 'c.id')

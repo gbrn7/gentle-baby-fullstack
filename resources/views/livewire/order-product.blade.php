@@ -173,11 +173,11 @@
                             </div>
                             <div class="product-cart-section mt-2">
                                 <label class="mb-1">Produk</label>
-                                <div class="product-cart-wrapper">
+                                <div class="product-cart-wrapper d-flex flex-column gap-2">
                                     @php($total = 0)
                                     @foreach ($productsCart as $product)
                                     @php($total += ($product['price'] * $product['qty']))
-                                    <div class="cart-item-wrapper p-2 m-0 row align-items-center">
+                                    <div class="cart-item-wrapper p-0 m-0 row align-items-center">
                                         <div class="img-wrapper p-0 col-2">
                                             <img loading="lazy"
                                                 src="{{ asset('storage/produk/'.($product['thumbnail'] !== '' ? $product['thumbnail'] : 'defaultProduct.jpg'))}}"
@@ -188,9 +188,9 @@
                                             class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
                                             <div class="minus" class="col-4"
                                                 wire:click='decrementProductCart({{$loop->index}})'>-</div>
-                                            <input name="qty" type="number"
+                                            <input name="qty" type="number" min="0" step="1"
                                                 wire:model.live.number="productsCart.{{$loop->index}}.qty"
-                                                class="col-4  qty-input">
+                                                class="col-4 qty-input">
                                             <div class="plus" class="col-4"
                                                 wire:click='incrementProductCart({{$loop->index}})'>+</div>
                                         </div>
@@ -210,14 +210,22 @@
                                 <p class="mb-0 text-white total-label">Total</p>
                                 <p class="mb-0 text-white">Rp{{number_format($total,0,".",".")}}</p>
                             </div>
-                            <div class="checkout-btn bg-success rounded-3 text-center text-white mt-2 p-3">
+                            <div class="checkout-btn btn btn-success w-100 rounded-3 text-center text-white mt-2 p-3"
+                                wire:click='createTransaction()'>
                                 Checkout
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @script
+    <script>
+        const checkouBtn = document.querySelector(".checkout-btn");
+        checkouBtn.addEventListener('click', function (){
+            document.querySelector(".loading-wrapper").classList.remove('d-none');
+        })
+    </script>
+    @endscript
 </div>

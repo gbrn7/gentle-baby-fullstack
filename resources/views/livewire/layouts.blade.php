@@ -2,22 +2,32 @@
 @section('content')
 {{ $slot }}
 @endsection
-@push('js')
+@livewireScripts
 <script>
-  const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-right',
-            iconColor: 'white',
-            customClass: {
-                popup: 'colored-toast',
-            },
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            })
+     document.addEventListener('livewire:init', () => {
+       Livewire.on('success', (event) => {
+        Toast.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: event.message,
+            })  
+       });
+       
+       Livewire.on('warning', (event) => {
+        Toast.fire({
+            icon: 'warning',
+            title: 'Warning!',
+            text: event.message,
+            })  
+       });
 
+       Livewire.on('endLoad', (event) => {
+        endLoading();
+       });
 
-            @if (session()->has('success'))
+});
+
+  @if (session()->has('success'))
             Toast.fire({
             icon: 'success',
             title: "{{session('success')}}",
@@ -31,7 +41,4 @@
             })  
             @endif
 
-
-
 </script>
-@endpush
