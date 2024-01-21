@@ -195,7 +195,6 @@ class CompanyController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
                 'password' => 'required|string|min:5',
-                'role' => 'required|in:super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
             ];
 
@@ -205,7 +204,6 @@ class CompanyController extends Controller
                 'email' => 'Kolom :attribute harus bertipe email',
                 'unique' => 'email yang anda berikan sudah dipakai',
                 'min' => ':attribute minimal :min digit',
-                'role' => ':attribute tidak valid',
                 'image' => 'foto profil harus berjenis gambar',
                 'mimes' => 'foto profil harus bertipe :values',
             ];
@@ -223,6 +221,7 @@ class CompanyController extends Controller
     
             $newAdmin = $request->except('_token');
             $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
+            $newAdmin['admin'] = 'admin_cust';
     
             if(!empty( $request->image_profile)){
                 $imageProfile = $request->image_profile;
@@ -286,7 +285,6 @@ class CompanyController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users,email,'.$adminId.',id',
                 'password' => 'required|string|min:5',
-                'role' => 'required|in:super_admin,admin,super_admin_cust,admin_cust',
                 'image_profile' => 'nullable|image|mimes:png,jpg,jpeg|max:10024',
             ];
 
@@ -296,7 +294,6 @@ class CompanyController extends Controller
                 'email' => 'Kolom :attribute harus bertipe email',
                 'unique' => 'email yang anda berikan sudah dipakai',
                 'min' => ':attribute minimal :min digit',
-                'role' => ':attribute tidak valid',
                 'image' => 'foto profil harus berjenis gambar',
                 'mimes' => 'foto profil harus bertipe :values',
             ];

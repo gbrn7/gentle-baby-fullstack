@@ -29,20 +29,6 @@
               placeholder="Masukkan password admin" />
           </div>
           <div class="form-group mb-3">
-            <label for="Status" class="mb-1">Role</label>
-            <select required id="role" name="role" class="form-select status" aria-label="Default select example">
-              <option class="text-secondary" value="">
-                Klik untuk memilih Role
-              </option>
-              <option {{old('role')==='admin_cust' ? 'selected' : '' }} value="admin_cust" class="text-secondary">Admin
-              </option>
-              <option value="super_admin_cust" {{old('role')==='super_admin_cust' ? 'selected' : '' }}
-                class="text-secondary">
-                Super
-                Admin</option>
-            </select>
-          </div>
-          <div class="form-group mb-3">
             <label for="phone_number" class="mb-1">Nomor Telepon</label>
             <input value="{{old('phone_number')}}" class="form-control" type="phone_number" name="phone_number"
               id="phone_number" placeholder="Masukkan nomor telepon" />

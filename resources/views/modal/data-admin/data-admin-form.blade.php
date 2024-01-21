@@ -36,27 +36,6 @@
           </div>
         </div>
         <div class="form-group mb-3">
-          <label for="Status" class="mb-1">Role</label>
-          <select required id="role" name="role" class="form-select status" aria-label="Default select example">
-            <option class="text-secondary" value="">
-              Klik untuk memilih Role
-            </option>
-            @if(auth()->user()->role === 'super_admin')
-            <option {{$form->role ==='admin' ? 'selected' : '' }} value="admin" class="text-secondary">Admin</option>
-            <option value="super_admin" {{$form->role ==='super_admin' ? 'selected' : '' }} class="text-secondary">
-              Super
-              Admin</option>
-            @elseif (auth()->user()->role === 'super_admin_cust')
-            <option {{$form->role ==='admin_cust' ? 'selected' : '' }} value="admin_cust" class="text-secondary">Admin
-            </option>
-            <option value="super_admin_cust" {{$form->role ==='super_admin_cust' ? 'selected' : '' }}
-              class="text-secondary">
-              Super
-              Admin</option>
-            @endif
-          </select>
-        </div>
-        <div class="form-group mb-3">
           <label for="phone_number" class="mb-1">Nomor Telepon</label>
           <input value="{{$form->phone_number}}" class="form-control" type="phone_number" name="phone_number"
             id="phone_number" placeholder="Masukkan nomor telepon" />

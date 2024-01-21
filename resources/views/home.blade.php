@@ -19,7 +19,7 @@
     <div class="row row-gap-3">
       @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
       <a href={{route('data.product')}} class="col-sm-6 card-dashboard text-decoration-none">
-        <div class="card ">
+        <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
               <h3 class="card-title">Data Produk</h3>
@@ -34,7 +34,7 @@
       </a>
       @endif
       <a href={{route('data.transaksi')}} class="col-sm-6 card-dashboard text-decoration-none">
-        <div class="card ">
+        <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
               <h3 class="card-title">Data Transaksi</h3>
@@ -48,7 +48,7 @@
         </div>
       </a>
       <a href={{route('order.product')}} class="col-sm-6 card-dashboard text-decoration-none">
-        <div class="card ">
+        <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
               <h3 class="card-title">Pemesanan Produk</h3>
@@ -62,7 +62,7 @@
       </a>
       @if(auth()->user()->role === 'super_admin')
       <a href={{route('data.pelanggan')}} class="col-sm-6 card-dashboard text-decoration-none">
-        <div class="card ">
+        <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
               <h3 class="card-title">Data Pelanggan</h3>
@@ -77,7 +77,7 @@
       @endif
       @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')
       <a href="{{route('data.admin')}}" class="col-sm-6 card-dashboard text-decoration-none">
-        <div class="card ">
+        <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
               <h3 class="card-title">Data Admin</h3>
