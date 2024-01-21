@@ -50,7 +50,7 @@ class DataTransaksi extends Component
             ->first();
         }
 
-        $this->startDate = date("Y-m-d 00-00-00", strtotime('2015-01-01'));
+        $this->startDate = date("Y-m-d 00-00-00", strtotime('0000-00-00'));
         $this->endDate = date("Y-m-d 23:59:59");
     }
 
