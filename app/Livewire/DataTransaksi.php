@@ -239,7 +239,6 @@ class DataTransaksi extends Component
     #[On('dateRange')]
     public function dateOnChange($data)
     {
-        // dd($data);
         $this->startDate = date("Y-m-d 00-00-00", strtotime($data['startDate']));
         $this->endDate = date("Y-m-d 23:59:59", strtotime($data['endDate']));
     }

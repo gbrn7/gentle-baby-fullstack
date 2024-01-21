@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Livewire\Attributes\On;
 
 class DataDetailTransaksi extends Component
 {
@@ -20,17 +21,33 @@ class DataDetailTransaksi extends Component
     public $sortColumn = 'id';
     public $sortDirection = 'desc';
     public $transaction;
-    public $cursorWait =  false;
 
-    public function sort($columnName){
+    public function sort($columnName)
+    {
         $this->sortColumn = $columnName;
         $this->sortDirection = $this->sortDirection == 'asc' ? 'desc' : 'asc';
     }
 
-    public function updateTransaction(Request $request, $id){
-        if(auth()->user()->role != 'admin'){
+    #[On('deleteReceipt')]
+    public function deleteDPReceiptt($data){
+        if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin'){
+            $transactionId = $this->id;
+            DB::beginTransaction();
+            try {
+                $transaction = Transaction::find($transactionId);
+                $transaction->update([
+                    $data['type'] => null
+                ]);
+                DB::commit();     
+            } catch (\Throwable $th) {
+                DB::rollback();
+            }
+        }}
 
-            $cursorWait = true;
+
+    public function updateTransaction(Request $request, $id)
+    {
+        if(auth()->user()->role != 'admin'){
 
             $validation = [
                 'dp_payment_receipt' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
@@ -106,9 +123,8 @@ class DataDetailTransaksi extends Component
         }
     }
 
-
-
-    public function mount(Request $request,$id){
+    public function mount(Request $request,$id)
+    {
         $this->id = $id;
 
         $this->transaction = DB::table('transactions as t')
@@ -149,4 +165,5 @@ class DataDetailTransaksi extends Component
 
         return view('livewire.data-detail-transaksi', ['detailsTransactions' => $detailsTransactions, 'transaction' => $this->transaction]);
     }
+
 }

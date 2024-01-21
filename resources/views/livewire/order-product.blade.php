@@ -188,7 +188,7 @@
                                     <div class="cart-item-wrapper p-0 m-0 row align-items-center">
                                         <div class="img-wrapper p-0 col-2">
                                             <img loading="lazy"
-                                                src="{{ asset('storage/produk/'.($product['thumbnail'] !== '' ? $product['thumbnail'] : 'defaultProduct.jpg'))}}"
+                                                src="{{ asset('storage/produk/'.(empty($product['thumbnail'])  ? 'defaultProduct.jpg' : $product['thumbnail']))}}"
                                                 class="img-fluid">
                                         </div>
                                         <div class="col-3 title">{{$product['name']}}</div>

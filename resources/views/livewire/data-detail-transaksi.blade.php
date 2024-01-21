@@ -78,11 +78,11 @@
                                 <div class="card-header text-secondary">Bukti Transfer DP</div>
                                 <form>
                                     <div class="card-body receipt-wrapper ratio ratio-1x1">
-                                        <label class=" drop-area" id="drop-area">
-                                            <input type="file" name="dp_payment_receipt" hidden accept="image/*"
-                                                id="input-file">
+                                        <label class=" drop-area drop-area-dp" id="drop-area">
+                                            <input type="file" class="input-file-dp" name="dp_payment_receipt" hidden
+                                                accept="image/*" id="input-file">
                                             <div
-                                                class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
+                                                class="img-view img-view-dp h-100 w-100 d-flex justify-content-center align-items-center">
                                                 <div class="default-view">
                                                     <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
                                                     <p class="file-desc file-desc-custom">Drag and drop or click
@@ -131,11 +131,11 @@
                             <div class="card bg-glass mb-3 full-receipt-card">
                                 <div class="card-header text-secondary">Bukti Transfer Pelunasan</div>
                                 <div class="card-body receipt-wrapper ratio ratio-1x1">
-                                    <label class=" drop-area" id="drop-area">
-                                        <input type="file" name="full_payment_receipt" hidden accept="image/*"
-                                            id="input-file">
+                                    <label class=" drop-area drop-area-fp" id="drop-area">
+                                        <input type="file" class="input-file-fp" name="full_payment_receipt" hidden
+                                            accept="image/*" id="input-file">
                                         <div
-                                            class="img-view h-100 w-100 d-flex justify-content-center align-items-center">
+                                            class="img-view img-view-fp h-100 w-100 d-flex justify-content-center align-items-center">
                                             <div class="default-view">
                                                 <i class='bx bxs-cloud-upload  custom-upload-icon'></i>
                                                 <p class="file-desc file-desc-custom">Drag and drop or click
@@ -483,6 +483,22 @@
         imageView.classList.add("border-0");
       }
 
+     function clearImage(type) {
+        if(type === 'dp_payment_receipt'){
+            let imageView = document.querySelector('.img-view-dp');
+            document.querySelector('.drop-area-dp').classList.remove("active");
+            imageView.style.backgroundImage = `none`;
+            document.querySelector('.input-file-dp').files = null;
+            imageView.remove("border-0");
+        }else if(type === 'full_payment_receipt'){
+            let imageView = document.querySelector('.img-view-fp');
+            document.querySelector('.drop-area-fp').classList.remove("active");
+            imageView.style.backgroundImage = `none`;
+            document.querySelector('.input-file-fp').files = null;
+            imageView.remove("border-0");
+        }
+     }
+
         function setFullPaymentImage(){
         const fullReceipCart = document.querySelector(".full-receipt-card");
         const imageView = fullReceipCart.querySelector(".img-view")
@@ -492,9 +508,7 @@
         imageView.style.backgroundImage = "url({{asset('Storage/paymentReceipt/'.$transaction->full_payment_receipt)}})";
         defaultView.classList.add("d-none");
         imageView.classList.add("border-0");
-      }
-
-            
+      }     
             dropAreas.forEach((dropArea) => {
                 const imageView =  dropArea.querySelector(".img-view");
                 const fileDesc =  dropArea.querySelector(".file-desc");
@@ -538,9 +552,6 @@
 
 
             })
-
-      
-      
     </script>
     @endscript
 </div>

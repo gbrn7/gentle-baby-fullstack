@@ -160,7 +160,7 @@
 
     function deleteImage(productId){
       let load = document.querySelector(".loading-wrapper");
-      load.classList.remove('d-none')
+      load.classList.remove('d-none');
         $.ajax({
       type: 'DELETE',
       url: '{{route('data.product.delete.thumbnail')}}',
