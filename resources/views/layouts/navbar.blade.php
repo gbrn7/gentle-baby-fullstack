@@ -100,6 +100,15 @@
     img.src =url;
   };
 
+  function updateImageHandler(input) {
+    const img = document.querySelector('.img-avatar-update')
+    const file =input.files[0]; 
+    let url = window.URL.createObjectURL(file);
+
+    img.src =url;
+  };      
+
+
       $(document).on('click', '.my-company-profile', function (event){
           event.preventDefault();
           $('#myCompanyModal').modal('show');

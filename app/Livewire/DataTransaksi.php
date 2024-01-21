@@ -316,7 +316,8 @@ class DataTransaksi extends Component
                 ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
                 ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
                 ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
-                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
+                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%')
+                ->whereBetween($this->dateColumn, [$this->startDate, $this->endDate]) 
                 ->orderBy($this->sortColumn, $this->sortDirection)    
                 ->paginate($this->pagination);
 
@@ -330,7 +331,8 @@ class DataTransaksi extends Component
                 ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
                 ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
                 ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
-                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
+                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%')
+                ->whereBetween($this->dateColumn, [$this->startDate, $this->endDate]) 
                 ->orderBy($this->sortColumn, $this->sortDirection)    
                 ->paginate($this->pagination);
             }
