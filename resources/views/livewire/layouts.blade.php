@@ -33,20 +33,22 @@
         endLoading();
        });
 
-});
+       @if (session()->has('success'))
+       Toast.fire({
+       icon: 'success',
+       title: "{{session('success')}}",
+       })  
+      @endif
 
-  @if (session()->has('success'))
-            Toast.fire({
-            icon: 'success',
-            title: "{{session('success')}}",
-            })  
-            @endif
-
-            @if (session()->has('error'))
+      @if (session()->has('error'))
             Toast.fire({
             icon: 'error',
             title: "{{session('error')}}",
             })  
-            @endif
+      @endif
+});
+
+
+
 
 </script>

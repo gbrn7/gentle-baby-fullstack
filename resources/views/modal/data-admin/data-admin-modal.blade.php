@@ -155,7 +155,5 @@
         $('#editmodal').empty().html(data);
     })
   }
-
-    
 </script>
 @endpush

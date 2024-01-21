@@ -34,6 +34,7 @@
 
                 <div class="row justify-content-between gap-x-1">
                     <div class="col-12 col-md-7 p-0 left-section">
+                        @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                         <div class="card p-0 col-12 col-lg-11 company-list-wrapper">
                             <div class="card-header text-bold text-center">Daftar Perusahaan</div>
                             <div class="card-body">
@@ -87,6 +88,7 @@
                                 @endif
                             </div>
                         </div>
+                        @endif
                         <div class="card p-0 col-12 col-lg-11 product-wrapper mt-md-3">
                             <div class="card-header text-bold text-center">Daftar Produk</div>
                             <div class="card-body">
@@ -147,6 +149,8 @@
                     <div class=" card p-0 col-12 mt-3 mt-md-0 col-md-5 cart-wrapper">
                         <div class="card-header text-bold text-center">Keranjang</div>
                         <div class="card-body">
+
+                            @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <div class="company-cart-section overflow-auto">
                                 <label class="mb-1">Perusahaan</label>
                                 <table class="table table-hover table-borderless">
@@ -171,6 +175,8 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @endif
+
                             <div class="product-cart-section mt-2">
                                 <label class="mb-1">Produk</label>
                                 <div class="product-cart-wrapper d-flex flex-column gap-2">
@@ -185,13 +191,13 @@
                                         </div>
                                         <div class="col-3 title">{{$product['name']}}</div>
                                         <div
-                                            class="col-3 qty-btn d-flex gap-2 p-0 justify-content-center align-items-center">
-                                            <div class="minus" class="col-4"
+                                            class="col-3 qty-btn d-flex p-0 justify-content-center gap-2 align-items-center">
+                                            <div class="minus" class="col-3"
                                                 wire:click='decrementProductCart({{$loop->index}})'>-</div>
                                             <input name="qty" type="number" min="0" step="1"
                                                 wire:model.live.number="productsCart.{{$loop->index}}.qty"
-                                                class="col-4 qty-input">
-                                            <div class="plus" class="col-4"
+                                                class="col-6 qty-input">
+                                            <div class="plus" class="col-3"
                                                 wire:click='incrementProductCart({{$loop->index}})'>+</div>
                                         </div>
                                         <div class="col-3 p-0 price-wrapper">

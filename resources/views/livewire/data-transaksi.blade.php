@@ -273,7 +273,6 @@
             this.submit();        
         });
 
-
     </script>
     @endscript
 </div>

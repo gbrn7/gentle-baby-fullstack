@@ -37,7 +37,7 @@
 </nav>
 
 <!-- Profile Modal -->
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" class="p-0">
   <form action="#" id="profileForm" method="POST">
     @method('put')
     <div class="modal-dialog ">
@@ -91,6 +91,14 @@
               console.log("Error: " + error);
           });
       });
+
+      function imageHandler(input) {
+    const img = document.querySelector('.img-avatar-create')
+    const file =input.files[0]; 
+    let url = window.URL.createObjectURL(file);
+
+    img.src =url;
+  };
 
       $(document).on('click', '.my-company-profile', function (event){
           event.preventDefault();

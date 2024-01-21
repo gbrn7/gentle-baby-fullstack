@@ -9,6 +9,7 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use App\Models\CompanyMember;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
@@ -65,7 +66,7 @@ class OrderProduct extends Component
 
     public function createTransaction()
     {
-        if(auth()->user()->role === 'super_admin' || auth()->user->role === 'admin' ){
+        if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin' ){
             $this->adminTransaction();
             
         }else{
@@ -73,11 +74,11 @@ class OrderProduct extends Component
         }
     }
 
-    public function resetCart(){
+    public function resetCart()
+    {
         $this->productsCart = collect([]); 
         $this->companyCart = []; 
     }
-
 
     public function adminTransaction()
     {
@@ -170,7 +171,105 @@ class OrderProduct extends Component
         }
     }
 
-    public function checkPaymentDeadline($amount){
+    public function custTransaction()
+    {
+        $validation = 
+        [
+            'productsCart' => 'required',
+        ];
+
+        $messages = 
+        [
+            'productsCart.required' => 'Minimal pilih satu produk untuk checkout'        
+        ];
+
+        $variable = 
+        [
+            "productsCart" => $this->productsCart,
+        ];
+
+        $validator = Validator::make($variable, $validation, $messages);
+
+        if($validator->fails())
+        {
+            $this->dispatch('endLoad');
+            return $this->dispatch('warning', message: join(', ', $validator->messages()->all()));            
+        }
+
+        $amount = 0;
+        foreach ($this->productsCart as $product)  {
+            $amount += ($product['qty'] * $product['price']);
+        };
+
+        $payment = collect($this->checkPaymentDeadline($amount));
+
+        //ensure the data is corrent
+        $products = Product::WhereIn('id', $this->productsCart->pluck('id'))
+                    ->orderBy('id', 'asc')
+                    ->get();
+
+        //sync the index products with products cart
+        $productsCart = $this->productsCart->sortBy('id')->values();
+
+        //get company Id
+        $companyId = CompanyMember::where('user_id', auth()->user()->id)->first();
+
+        DB::beginTransaction();
+        try {            
+            $newTransaction = Transaction::create([
+                'transaction_code' => Str::random(10),
+                'company_id' =>  $companyId->company_id,
+                'amount' => $amount,
+                'jatuh_tempo' => $payment['jatuh_tempo'],
+                'jatuh_tempo_dp' => $payment->has('jatuh_tempo_dp') ? $payment['jatuh_tempo_dp'] : null,
+                'dp_value' => $payment->has('dp_value') ? $payment['dp_value'] : 0,
+                'process_status' => 'unprocessed',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+
+            //Make transaction detail
+            $transactionDetail = [];
+            foreach ($products as $key => $product) {
+                $arr = [
+                    "transaction_id" => $newTransaction->id,
+                    "product_id" => $product->id,
+                    "hpp" => $product->hpp,
+                    "price" => $product->price,
+                    "qty" => $productsCart[$key]['qty'],
+                    "is_cashback" => $product->is_cashback,
+                    "cashback_value" => $product->cashback_value,
+                    "qty_cashback_item" =>  ($productsCart[$key]['qty'] > 300 ?  $this->productsCart[$key]['qty'] - 300 : 0),
+                    'created_at' => now(),
+                    'updated_at' => now(),   
+                ];
+
+                array_push($transactionDetail, $arr);
+            }
+
+            //create transaction detail
+            $newTransactionDetail = TransactionDetail::insert($transactionDetail);
+
+            $this->sendMailNotif($newTransaction);
+
+            DB::commit();
+
+            $this->dispatch('endLoad');
+
+            $this->resetCart();
+
+            return $this->dispatch('success', message: 'Transaksi berhasil dibuat');
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+
+            return $this->dispatch('warning', message: $th->getMessage());
+        }
+    }
+
+    public function checkPaymentDeadline($amount)
+    {
         if($amount > 100000000){
             return [
                 'jatuh_tempo' => (Carbon::now())->addWeeks(6),
