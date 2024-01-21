@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StatusProcessNotify;
+use Livewire\Attributes\On;
 
 class DataTransaksi extends Component
 {
@@ -31,6 +32,9 @@ class DataTransaksi extends Component
     public $paymentStatus = '';
     public $columnFilter = 't.transaction_code';
     public $dpStatus = '';
+    public $dateColumn = 't.created_at';
+    public $startDate = '';
+    public $endDate = '';
 
     public function sort($columnName)
     {
@@ -45,6 +49,9 @@ class DataTransaksi extends Component
             ->where('user_id', auth()->user()->id)
             ->first();
         }
+
+        $this->startDate = date("Y-m-d 00-00-00", strtotime('2015-01-01'));
+        $this->endDate = date("Y-m-d 23:59:59");
     }
 
     public function updateStatus(Request $request)
@@ -186,9 +193,8 @@ class DataTransaksi extends Component
 
     }
 
-    public function viewPDF($transactionId){
-
-
+    public function viewPDF($transactionId)
+    {
         $transaction = DB::table('transactions as t')
         ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
         ->join('company as c', 't.company_id', '=', 'c.id')
@@ -228,6 +234,14 @@ class DataTransaksi extends Component
 
 
         return $pdf->stream('Invoice-'.$transaction->transaction_code.'.pdf', array("Attachment" => false));
+    }
+
+    #[On('dateRange')]
+    public function dateOnChange($data)
+    {
+        // dd($data);
+        $this->startDate = date("Y-m-d 00-00-00", strtotime($data['startDate']));
+        $this->endDate = date("Y-m-d 23:59:59", strtotime($data['endDate']));
     }
 
     public function downloadPDF($transactionId)
@@ -275,49 +289,55 @@ class DataTransaksi extends Component
         }
 
     
-        public function render(){
-                if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin'){
-                    $transactions = DB::table('transactions as t')
-                    ->join('company as c', 't.company_id', '=', 'c.id')
-                    ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
-                    t.process_status, t.amount, t.transaction_complete_date, 
-                    t.payment_status, t.jatuh_tempo, t.dp_status")
-                    ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
-                    ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
-                    ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
-                    ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
-                    ->orderBy($this->sortColumn, $this->sortDirection)    
-                    ->paginate($this->pagination);
+    
+    public function render()
+    {
+            if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin'){
+                $transactions = DB::table('transactions as t')
+                ->join('company as c', 't.company_id', '=', 'c.id')
+                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
+                t.process_status, t.amount, t.transaction_complete_date, 
+                t.payment_status, t.jatuh_tempo, t.dp_status")
+                ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
+                ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
+                ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
+                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
+                ->whereBetween($this->dateColumn, [$this->startDate, $this->endDate]) 
+                ->orderBy($this->sortColumn, $this->sortDirection)    
+                ->paginate($this->pagination);
 
-                }   else if(auth()->user()->role == 'super_admin_cust') {
-                    $transactions = DB::table('transactions as t')
-                    ->join('company as c', 't.company_id', '=', 'c.id')
-                    ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
-                    t.process_status, t.amount, t.transaction_complete_date, 
-                    t.payment_status, t.jatuh_tempo, t.dp_status")
-                    ->where('c.owner_id', auth()->user()->id)
-                    ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
-                    ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
-                    ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
-                    ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
-                    ->orderBy($this->sortColumn, $this->sortDirection)    
-                    ->paginate($this->pagination);
+            }   else if(auth()->user()->role == 'super_admin_cust') {
+                $transactions = DB::table('transactions as t')
+                ->join('company as c', 't.company_id', '=', 'c.id')
+                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
+                t.process_status, t.amount, t.transaction_complete_date, 
+                t.payment_status, t.jatuh_tempo, t.dp_status")
+                ->where('c.owner_id', auth()->user()->id)
+                ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
+                ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
+                ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
+                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
+                ->orderBy($this->sortColumn, $this->sortDirection)    
+                ->paginate($this->pagination);
 
-                }else{
-                    $transactions = DB::table('transactions as t')
-                    ->join('company as c', 't.company_id', '=', 'c.id')
-                    ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
-                    t.process_status, t.amount, t.transaction_complete_date, 
-                    t.payment_status, t.jatuh_tempo, t.dp_status")
-                    ->where('c.id', $this->companyMember->company_id)
-                    ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
-                    ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
-                    ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
-                    ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
-                    ->orderBy($this->sortColumn, $this->sortDirection)    
-                    ->paginate($this->pagination);
-                }
+            }else{
+                $transactions = DB::table('transactions as t')
+                ->join('company as c', 't.company_id', '=', 'c.id')
+                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
+                t.process_status, t.amount, t.transaction_complete_date, 
+                t.payment_status, t.jatuh_tempo, t.dp_status")
+                ->where('c.id', $this->companyMember->company_id)
+                ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
+                ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
+                ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
+                ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
+                ->orderBy($this->sortColumn, $this->sortDirection)    
+                ->paginate($this->pagination);
+            }
 
-            return view('livewire.data-transaksi', compact('transactions'));
-        }
+        // dd($this->dateColumn ,$this->startDate, $this->endDate);
+
+        return view('livewire.data-transaksi', compact('transactions'));
     }
+
+}

@@ -30,7 +30,7 @@
             </div>
 
             <div class="filter-wrapper row">
-                <div class="form-group col-12 mt-2 mt-md-0 col-md-1">
+                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-1">
                     <label class="mb-1 text-left">Show :</label>
                     <select wire:model.live.debounce.300ms="pagination" class="form-select">
                         <option value="10">10</option>
@@ -39,7 +39,7 @@
                         <option value="100">100</option>
                     </select>
                 </div>
-                <div class="form-group col-12 mt-2 mt-md-0 col-md-3">
+                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-3">
                     <label for="keyword" class="mb-1 text-left">Search :</label>
                     <div class="input-group">
                         <select wire:model.live.debounce.300ms="columnFilter" class="form-select">
@@ -53,7 +53,7 @@
                         <input class="form-control" type="text" wire:model.live.debounce.500ms="keywords" />
                     </div>
                 </div>
-                <div class="form-group col-12 mt-2 mt-md-0 col-md-2">
+                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-2">
                     <label class="mb-1 text-left">Status Proses :</label>
                     <select wire:model.live.debounce.300ms="processStatus" class="form-select">
                         <option value="" class="text-secondary text-capitalize">Semua</option>
@@ -64,7 +64,7 @@
                         <option value="taken" class="text-secondary text-capitalize">Taken</option>
                     </select>
                 </div>
-                <div class="form-group col-12 mt-2 mt-md-0 col-md-2">
+                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-2">
                     <label class="mb-1 text-left">Status Pelunasan :</label>
                     <select wire:model.live.debounce.300ms="paymentStatus" class="form-select">
                         <option value="" class="text-secondary text-capitalize">Semua</option>
@@ -72,13 +72,24 @@
                         <option value="1" class="text-secondary text-capitalize">Sudah Bayar</option>
                     </select>
                 </div>
-                <div class="form-group col-12 mt-2 mt-md-0 col-md-2">
+                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-1">
                     <label class="mb-1 text-left">Status DP :</label>
                     <select wire:model.live.debounce.300ms="dpStatus" class="form-select">
                         <option value="" class="text-secondary text-capitalize">Semua</option>
                         <option value="0" class="text-secondary text-capitalize">Belum Bayar</option>
                         <option value="1" class="text-secondary text-capitalize">Sudah Bayar</option>
                     </select>
+                </div>
+                <div class="form-group col-12 mt-2 mt-xl-0 col-xl-3">
+                    <label class="mb-1 text-left">Tanggal :</label>
+                    <div class="input-group">
+                        <select class="form-select" wire:model.live.debounce.300ms='dateColumn'>
+                            <option value="t.created_at">Transaksi Dibuat</option>
+                            <option value="t.transaction_complete_date">Transaksi Selesai</option>
+                        </select>
+                        <input type="text" class="form-control" id="daterange" name="dates"
+                            value="01/01/2018 - 01/15/2018" wire:change='dateOnChange' />
+                    </div>
                 </div>
             </div>
 
@@ -271,8 +282,23 @@
             event.preventDefault();
             startLoading();            
             this.submit();        
-        });
+        });        
 
+        $(function() {
+          $('#daterange').daterangepicker({
+            timePicker: true,
+            startDate: moment().format('YY-MM-DD'),
+            endDate:  moment().format('YY-MM-DD'),
+            locale: {
+              format: 'YY-MM-DD'
+            }
+          }, function(start, end, label) {
+            $wire.dispatchSelf('dateRange', {data: {
+                startDate : start.format('YYYY-MM-DD'),
+                endDate : end.format('YYYY-MM-DD'),
+            }});
+         });
+        });
     </script>
     @endscript
 </div>
