@@ -89,6 +89,7 @@ class DataTransaksi extends Component
                     'process_status' => $request->process_status,
                     'payment_status' => $request->payment_status,
                     'dp_status' => $request->dp_status,
+                    'transaction_complete_date' => $request->process_status === 'taken' ? now() : null,
                 ]);
 
 

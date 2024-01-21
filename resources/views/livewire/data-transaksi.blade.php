@@ -140,7 +140,7 @@
                                         </li>
                                         @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                                         <li class="cursor-pointer">
-                                            <div class="cursor-pointer">
+                                            <a class="text-decoration-none" href="#">
                                                 <div class="dropdown-item rounded-2 edit cursor-pointer"
                                                     data-edit-id="{{$transaction->id}}"
                                                     data-transaction-code="{{$transaction->transaction_code}}"
@@ -150,7 +150,7 @@
                                                     data-dp-status="{{$transaction->dp_status}}">
                                                     Edit status
                                                 </div>
-                                            </div>
+                                            </a>
                                         </li>
                                         @endif
                                         <li>

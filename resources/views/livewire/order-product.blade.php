@@ -34,6 +34,7 @@
 
                 <div class="row justify-content-between gap-x-1">
                     <div class="col-12 col-md-7 p-0 left-section">
+
                         @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                         <div class="card p-0 col-12 col-lg-11 company-list-wrapper">
                             <div class="card-header text-bold text-center">Daftar Perusahaan</div>
@@ -89,6 +90,7 @@
                             </div>
                         </div>
                         @endif
+
                         <div class="card p-0 col-12 col-lg-11 product-wrapper mt-md-3">
                             <div class="card-header text-bold text-center">Daftar Produk</div>
                             <div class="card-body">
@@ -211,15 +213,18 @@
                                     @endforeach
                                 </div>
                             </div>
+
                             <div
                                 class="total-amount-section d-flex justify-content-between align-item-center mt-4 bg-primary p-4 rounded-3">
                                 <p class="mb-0 text-white total-label">Total</p>
                                 <p class="mb-0 text-white">Rp{{number_format($total,0,".",".")}}</p>
                             </div>
+
                             <div class="checkout-btn btn btn-success w-100 rounded-3 text-center text-white mt-2 p-3"
                                 wire:click='createTransaction()'>
                                 Checkout
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -232,6 +237,14 @@
         checkouBtn.addEventListener('click', function (){
             document.querySelector(".loading-wrapper").classList.remove('d-none');
         })
+
+        $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+        });
     </script>
     @endscript
 </div>
