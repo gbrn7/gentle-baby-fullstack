@@ -63,6 +63,7 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
     Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('data.product.edit');
     Route::put('/update/{id}', [ProductController::class, 'update'])->name('data.product.update');
     Route::delete('/destroy', [ProductController::class, 'delete'])->name('data.product.delete');
+    Route::delete('/destroyImage', [ProductController::class, 'deleteThumbnail'])->name('data.product.delete.thumbnail');
   });
 
   Route::prefix('/data-transaksi')->group(function () {

@@ -91,6 +91,13 @@
             timer: 3000,
             timerProgressBar: true,
             })
+
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 </script>
 
 <!-- jquery Table -->

@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $products = Product::orderBy('id', 'desc')->get();
 
         return view('data-produk.data-produk', compact('products'));
     }
 
-    public function createProduct(){
+    public function createProduct()
+    {
         return view('data-produk.create-data-produk');
     }
     
@@ -182,6 +184,27 @@ class ProductController extends Controller
             ->with('toast_error', 'Produk ID not found');
         }else{
             return back()->with('toast_error', 'Akses Ditolak!!');
+        }
+    }
+
+    public function deleteThumbnail(Request $request){
+    if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin'){
+            $productId = $request->productId;
+            DB::beginTransaction();
+            try {
+                $product = Product::find($productId);
+                
+                $product->update([
+                    'thumbnail' => null
+                ]);
+
+                DB::commit();     
+
+                return response()->json(['message' => 'Product '.$product->name.' updated']);
+            } catch (\Throwable $th) {
+                DB::rollback();
+                return response()->json(['message' => $th->getMessage()], 500);
+            }
         }
     }
 }

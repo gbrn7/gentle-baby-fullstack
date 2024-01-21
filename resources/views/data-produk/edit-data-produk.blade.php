@@ -47,7 +47,11 @@
                 </div>
               </div>
             </label>
-            <div class="btn btn-secondary d-none btn-clear">Hapus Gambar</div>
+            <div data-product-id="{{$product->id}}" @class([ 'image-exist'=> ($product->thumbnail ? true : false), 'btn'
+              ,
+              'btn-secondary' , 'd-none' ,
+              'btn-clear' ])>Hapus Gambar
+            </div>
           </div>
           <div class="col-12 col-md-5 mt-3 mt-md-0">
             <div class="form-group mb-3">
@@ -144,12 +148,32 @@
 
       btnClear.addEventListener('click', function(){
         document.querySelector(".default-view").classList.remove("d-none");
-        document.querySelector(".btn-clear").classList.add("d-none");
+        this.classList.add("d-none");
+        if(this.classList.contains('image-exist')){
+          deleteImage(this.getAttribute('data-product-id'));
+        }
         dropArea.classList.remove("active")
         imageView.style.backgroundImage = `none`;
         inputFile.files = null;
         imageView.classList.remove("border-0");
       });
+
+    function deleteImage(productId){
+      let load = document.querySelector(".loading-wrapper");
+      load.classList.remove('d-none')
+        $.ajax({
+      type: 'DELETE',
+      url: '{{route('data.product.delete.thumbnail')}}',
+      data: {
+        productId: productId
+      }, // access in body
+      }).done(function (res) {
+      }).fail(function (res) {
+          console.log(`[Product Thumbnail] ${res.message}`);
+      }).always(function (msg) {
+        load.classList.add('d-none')
+      });
+    }
 
       function uploadImage() {
         let imgLink = URL.createObjectURL(inputFile.files[0]);
