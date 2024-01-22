@@ -43,6 +43,10 @@
 
   {{-- Date Picker js --}}
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+  <!-- Pure Counter JS -->
+  <script src="{{ asset('Assets/Js/purecounterjs-main/dist/purecounter_vanilla.js') }}"></script>
+
 </head>
 
 <body class="">

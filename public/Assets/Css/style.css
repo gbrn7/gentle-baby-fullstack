@@ -15,6 +15,118 @@ body{
   transition: all 0.3s;
 }
 
+.content .row-1 .card-1 {
+  background: url(../Img/layer-1.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.content .row-1 .card-1 .head i {
+  background-color: rgb(255, 240, 240) !important;
+}
+.content .row-1 .card-1 .head span {
+  letter-spacing: -0.04em;
+  font-size: 15px;
+}
+@media (max-width: 991.98px) {
+  .content .row-1 .card-1 .head {
+    font-size: 12px;
+  }
+}
+@media (max-width: 767.98px) {
+  .content .row-1 .card-1 .head {
+    font-size: 10px;
+  }
+}
+.content .row-1 .card-1 .content-text p {
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+}
+@media (max-width: 991.98px) {
+  .content .row-1 .card-1 .content-text p {
+    font-size: 20px;
+  }
+}
+@media (max-width: 767.98px) {
+  .content .row-1 .card-1 .content-text p {
+    font-size: 17px;
+  }
+}
+.content .row-1 .card-2 {
+  background: url(../Img/layer-2.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.content .row-1 .card-2 .head i {
+  background-color: #EDF1D6 !important;
+}
+.content .row-1 .card-2 .head span {
+  letter-spacing: -0.04em;
+  font-size: 15px;
+}
+@media (max-width: 991.98px) {
+  .content .row-1 .card-2 .head span {
+    font-size: 12px;
+  }
+}
+@media (max-width: 767.98px) {
+  .content .row-1 .card-2 .head span {
+    font-size: 10px;
+  }
+}
+.content .row-1 .card-2 .content-text p {
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+}
+@media (max-width: 991.98px) {
+  .content .row-1 .card-2 .content-text p {
+    font-size: 20px;
+  }
+}
+@media (max-width: 767.98px) {
+  .content .row-1 .card-2 .content-text p {
+    font-size: 17px;
+  }
+}
+.content .row-1 .card-3 {
+  background: url(../Img/layer-3.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.content .row-1 .card-3 .head i {
+  background-color: rgb(182, 231, 253);
+}
+.content .row-1 .card-3 .head span {
+  letter-spacing: -0.04em;
+  font-size: 15px;
+}
+@media (max-width: 991.98px) {
+  .content .row-1 .card-3 .head span {
+    font-size: 12px;
+  }
+}
+@media (max-width: 767.98px) {
+  .content .row-1 .card-3 .head span {
+    font-size: 10px;
+  }
+}
+.content .row-1 .card-3 .content-text p {
+  font-size: 28px;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+}
+@media (max-width: 991.98px) {
+  .content .row-1 .card-3 .content-text p {
+    font-size: 20px;
+  }
+}
+@media (max-width: 767.98px) {
+  .content .row-1 .card-3 .content-text p {
+    font-size: 17px;
+  }
+}
+
 table td{
   font-size: 16px;
 }

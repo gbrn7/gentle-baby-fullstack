@@ -32,6 +32,7 @@ class DataAdminController extends Controller
                          ->with('user')
                          ->where('id', '<>', auth()->user()->id)
                          ->whereRelation('company', 'owner_id', auth()->user()->id)
+                         ->whereRelation('user', 'role', 'admin_cust')
                          ->orderBy('id', 'desc')
                          ->get();
             }
@@ -76,7 +77,11 @@ class DataAdminController extends Controller
     
             $newAdmin = $request->except('_token');
             $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
-            $newAdmin['role'] = 'admin';
+            if(auth()->user()->role === 'super_admin'){
+                $newAdmin['role'] = 'admin';
+            }else{
+                $newAdmin['role'] = 'admin_cust';
+            }
     
             if(!empty( $request->image_profile)){
                 $imageProfile = $request->image_profile;

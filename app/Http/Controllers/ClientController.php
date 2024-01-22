@@ -9,10 +9,41 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class ClientController extends Controller
 {
     public function index(){
+
+        if(auth()->user()->role === 'super_admin'){
+            $transactionSummary = DB::table('transactions as t')
+            ->selectRaw('sum(t.amount) as revenue, count(t.id) as countTransaction')
+            ->where('t.payment_status', '1')
+            ->where('t.process_status', '!=', 'cancel')
+            ->first();
+
+            $orders = DB::table('transactions as t')
+                    ->selectRaw('count(t.id) as orderCount')
+                    ->where('t.process_status', 'unprocessed')
+                    ->orwhere('t.process_status', 'processing')
+                    ->first();
+
+            $productPerfomance = DB::table('transactions as t')
+                                ->join('transactions_detail as td', 'td.transaction_id', '=', 't.id')
+                                ->join('products as p', 'p.id', '=', 'td.product_id')
+                                ->selectRaw('p.id as productId, p.name as productName ,sum(td.qty) as totalQty, sum(td.qty * td.price) as totalValue')
+                                ->where('t.payment_status', '1')
+                                ->where('t.process_status', '!=', 'cancel')
+                                ->groupBy('p.id')
+                                ->groupBy('p.name')
+                                ->get();
+
+            $highPerfomanceProducts = (collect($productPerfomance))->sortByDesc('totalQty');
+            $lowPerfomanceProducts = (collect($productPerfomance))->sortBy('totalQty');
+
+            return view('home', ['transactionSummary' => $transactionSummary, 'orders' => $orders, 'highPerfomanceProducts' => $highPerfomanceProducts, 'lowPerfomanceProducts' => $lowPerfomanceProducts]);
+        }
+
         return view('home');
     }
 
@@ -93,3 +124,4 @@ class ClientController extends Controller
     }
 
 }
+// 

@@ -221,7 +221,7 @@ class CompanyController extends Controller
     
             $newAdmin = $request->except('_token');
             $newAdmin['password'] = Crypt::encryptString($newAdmin['password']);
-            $newAdmin['admin'] = 'admin_cust';
+            $newAdmin['role'] = 'admin_cust';
     
             if(!empty( $request->image_profile)){
                 $imageProfile = $request->image_profile;
