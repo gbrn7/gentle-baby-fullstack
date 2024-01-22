@@ -4,8 +4,7 @@
             <p class="fs-3 m-0">Pemesanan Produk</p>
         </div>
         <div class="breadcrumbs-box mt-2 rounded rounded-2 bg-white p-2">
-            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
-                aria-label="breadcrumb">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby
                         Gentle
@@ -16,7 +15,7 @@
                 </ol>
             </nav>
         </div>
-        <div class="content-box p-3 mt-3 rounded rounded-2 bg-white">
+        <div class="content-box mt-3 rounded rounded-2 bg-white">
             <div class="content rounded rounded-2 border border-1 p-3">
                 <div class="btn-wrapper mt-2">
 
@@ -42,13 +41,11 @@
                                 <div class="form-group">
                                     <label for="keyword" class="mb-1 text-left">Search :</label>
                                     <div class="input-group">
-                                        <div class="select-wrapper col-4">
-                                            <select wire:model.live="companyColFil" class="form-select">
-                                                <option value="c.name">Nama Perusahaan</option>
-                                                <option value="u.name">Nama Pemilik</option>
-                                                <option value="c.address">Alamat Perusahaan</option>
-                                            </select>
-                                        </div>
+                                        <select wire:model.live="companyColFil" class="form-select">
+                                            <option value="c.name">Nama Perusahaan</option>
+                                            <option value="u.name">Nama Pemilik</option>
+                                            <option value="c.address">Alamat Perusahaan</option>
+                                        </select>
                                         <input class="form-control col-8" type="text" wire:model.live="companyFilVal" />
                                     </div>
                                 </div>
@@ -94,16 +91,14 @@
                         <div class="card p-0 col-12 col-lg-11 product-wrapper mt-md-3">
                             <div class="card-header text-bold text-center">Daftar Produk</div>
                             <div class="card-body">
-                                <div class="form-group">
+                                <div class="form-group ">
                                     <label for="keyword" class="mb-1 text-left">Search :</label>
                                     <div class="input-group">
-                                        <div class="select-wrapper col-4">
-                                            <select wire:model.live="productColFil" class="form-select">
-                                                <option value="name">Nama Produk</option>
-                                                <option value="price">Harga Produk</option>
-                                                <option value="size_volume">Ukuran Volume</option>
-                                            </select>
-                                        </div>
+                                        <select wire:model.live="productColFil" class="form-select">
+                                            <option value="name">Nama Produk</option>
+                                            <option value="price">Harga Produk</option>
+                                            <option value="size_volume">Ukuran Volume</option>
+                                        </select>
                                         <input class="form-control col-8" type="text" wire:model.live="productFilVal" />
                                     </div>
                                 </div>

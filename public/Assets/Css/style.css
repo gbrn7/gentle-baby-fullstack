@@ -1,18 +1,188 @@
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@100;300;400;500;600;700;900&display=swap");
 
+
+:root {
+  --body-color: white;
+  --sidebar-color: hsl(240, 90%, 98%);
+  --text-color: black;
+  --hover-color: hsl(0, 0%, 95%);
+  --selected-color: hsl(0, 0%, 88%);
+  --card-header-color: hsl(0, 0%, 95%);
+  --dropdown-bg-color: white;
+}
+
 body{
-  background-color: #eee;
   font-family: 'Poppins', sans-serif;
   scroll-behavior: smooth;
+  background-color: var(--body-color);
+  color: var(--text-color);
+}
+
+body.dark{
+  --body-color: hsl(230,20.69%, 12%);
+  --sidebar-color: hsl(229.09,22.45%,9.61%);
+  --text-color: hsl(0, 0%, 75%);
+  --hover-color: hwb(0 93% 7% / 0.13);
+  --selected-color: hwb(0 93% 7% / 0.267);
+  --card-header-color: hsl(230,20.69%, 15%);
+  --dropdown-bg-color: hsl(230,20.69%, 20%);
+}
+body.dark .content .row .card-1 {
+  background: url("../Img/layer-1-dark.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+body.dark .content .row .card-2 {
+  background: url("../Img/layer-2-dark.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+body.dark .content .row .card-3 {
+  background: url("../Img/layer-3-dark.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.footer-wrapper {
+  background-color: var(--body-color);
+  color: var(--text-color);
+  padding: 15px 0;
+  padding-left: 30px;
+  font-size: 14px;
+  letter-spacing: -0.03em;
+  z-index: 0;
+}
+
+.btn-close{
+  background-color: white;
+}
+
+.dropdown-item:hover{
+  background-color: var(--hover-color) !important;
+  color: var(--text-color) !important;
+}
+
+.dropdown .dropdown-item a {
+  color: var(--text-color) !important;
+}
+
+.dropdown .dropdown-menu .dropdown-item {
+  color: var(--text-color) !important;
+}
+
+
+ .text-dropdown{
+  color: var(--text-color);
 }
 
 #side_nav{
-  background-color: #000;
+  background-color: var(--sidebar-color);
   max-width: 250px;
   min-width: 250px;
   font-weight: 400;
   font-size: 16px;
   transition: all 0.3s;
+}
+
+.loading-wrapper{
+  background-color: transparent!important;
+}
+
+.modal-content{
+  background-color: var(--sidebar-color) !important;
+}
+
+.dropdown-menu{
+  background-color: var(--dropdown-bg-color) !important;
+}
+
+
+body .content .row .card .content-text {
+  color: var(--text-color);
+}
+
+body .content .row .card .head {
+  color: var(--text-color);
+}
+
+body .content .row .card .head {
+  color: var(--text-color);
+}
+
+.card .card-header{
+  background-color: var(--card-header-color) !important;
+}
+
+.card{
+  background-color: var(--body-color) !important;
+  color: var(--text-color);
+}
+
+.table thead tr th{
+  background-color: var(--body-color) !important;
+}
+
+.table tbody tr td{
+  background-color: var(--body-color) !important;
+  color: var(--text-color);
+}
+
+.navbar{
+  background-color: var(--sidebar-color);
+}
+
+.navbar .container-fluid a{
+  color: var(--text-color);
+}
+
+.navbar .container-fluid i{
+  color: var(--text-color);
+}
+
+.card-dashboard:hover .card{
+  background-color: var(--hover-color) !important;
+}
+
+.content-right .content{
+  background-color: var(--sidebar-color);
+}
+
+.breadcrumbs-box{
+  background-color: var(--sidebar-color) !important;
+  color: var(--text-color) !important;
+}
+
+.content-right .content-box .content{
+  border-color: var(--sidebar-color) !important;
+}
+
+
+.breadcrumb-item {
+  color: var(--text-color) !important;
+}
+
+.breadcrumb-item::before{
+  color: var(--text-color) !important;
+}
+
+.breadcrumb-item a{
+  color: var(--text-color) !important;
+}
+
+
+
+.list-box ul li a{
+  color: var(--text-color);
+}
+
+.sidebar li.active{
+  background-color: var(--selected-color);
+  border-radius: 35;
+}
+
+.sidebar li:hover:not(.active){
+  background-color: var(--hover-color);
+  border-radius: 35;
 }
 
 .content .row-1 .card-1 {
@@ -155,14 +325,6 @@ table .badge{
   height: 220px;
 }
 
-.card.bg-glass {
-  background: rgba(255, 255, 255, 0.47);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(4.6px);
-border-radius: 12px;
--webkit-backdrop-filter: blur(4.6px);
-border: 1px solid rgba(255, 255, 255, 0.7);
-}
 
 .card.bg-glass .card-header{
   background-color: hsl(204, 29%, 97%);
@@ -219,7 +381,7 @@ border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 20px;
   border: 2px dashed grey;
   height: 580px;
-  background-color: whitesmoke;
+  background-color: var(--body-color);
 }
 
 .img-thumbnail{
@@ -239,7 +401,7 @@ border: 1px solid rgba(255, 255, 255, 0.7);
 #drop-area{
   max-height: 800px;
   padding: 15px;
-  background: white;
+  background: var(--body-color);
   text-align: center;
   border-radius: 20px;
 }
@@ -251,7 +413,7 @@ border: 1px solid rgba(255, 255, 255, 0.7);
 
 
 .drop-area .default-view .file-desc{
-  color: black;
+  color: var(--text-color);
 }
 
 .drop-area.active .default-view .file-desc{
@@ -295,20 +457,6 @@ hr.h-color{
 }
 
 
-.sidebar li.active{
-  background-color: hwb(0 93% 7% / 0.267);
-  border-radius: 35;
-}
-
-/* .sidebar li.active a, .sidebar li:hover a{
-  color: #000;
-} */
-
-.sidebar li:hover:not(.active){
-  background-color: hwb(0 93% 7% / 0.13);
-  border-radius: 35;
-}
-
 
 .nav-item-label{
   overflow: hidden;
@@ -316,14 +464,7 @@ hr.h-color{
   white-space: nowrap;
 }
 
-.dropdown-item:hover{
-  background-color: hwb(0 93% 7% / 0.925);
-}
 
-.btn-light:hover{
-  background-color: hwb(0 93% 7% / 0.925);
-
-}
 
 .sidebar li a{
   color: #eee;
@@ -678,12 +819,6 @@ color: black;
 }
 
 
-
-.card-dashboard:hover .card{
-  background-color: #000;
-  color: white;
-}
-
 .col-2.img-menu i{
   font-size: 60px !important;
 }
@@ -692,7 +827,6 @@ color: black;
   -webkit-clip-path: circle(70.7% at 50% 50%);
   clip-path: circle(70.7% at 50% 50%);
   z-index: 300;
-  background-color: rgba(238, 238, 238, 0.2); 
   backdrop-filter: blur(6.1px);
 }
 
@@ -716,19 +850,10 @@ color: black;
 }
 
 
-.footer-wrapper {
-  background-color: black;
-  padding: 15px 0;
-  padding-left: 30px;
-  font-size: 14px;
-  letter-spacing: -0.03em;
-  z-index: 0;
-}
 
 .dot-spinner {
   --uib-size: 2.8rem;
   --uib-speed: .7s;
-  --uib-color: #000000;
   position: relative;
   display: flex;
   align-items: center;
@@ -753,7 +878,7 @@ color: black;
   height: 20%;
   width: 20%;
   border-radius: 50%;
-  background-color: var(--uib-color);
+  background-color: var(--text-color);
   transform: scale(0);
   opacity: 0.5;
   animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out infinite;

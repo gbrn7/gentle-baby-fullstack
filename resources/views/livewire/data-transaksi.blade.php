@@ -2,9 +2,10 @@
     <div class="title-box  d-flex gap-2 align-items-baseline"><i class="ri-arrow-left-right-line fs-2"></i>
         <p class="fs-3 m-0">Data Transaksi</p>
     </div>
+
+
     <div class="breadcrumbs-box mt-2 rounded rounded-2 bg-white p-2">
-        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
-            aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb m-0">
                 <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby
                     Gentle
@@ -13,7 +14,8 @@
             </ol>
         </nav>
     </div>
-    <div class="content-box p-3 mt-3 rounded rounded-2 bg-white">
+
+    <div class="content-box mt-3 rounded rounded-2 bg-white">
         <div class="content rounded rounded-2 border border-1 p-3">
             <div class="btn-wrapper mt-2">
 
@@ -144,7 +146,7 @@
                                         <li>
                                             <a class="text-decoration-none" href={{route('data.transaksi.detail',
                                                 $transaction->id)}}>
-                                                <div class="dropdown-item rounded-2" type="button">
+                                                <div class="dropdown-item text-dropdown rounded-2" type="button">
                                                     Detail transaksi
                                                 </div>
                                             </a>
@@ -152,7 +154,7 @@
                                         @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                                         <li class="cursor-pointer">
                                             <a class="text-decoration-none" href="#">
-                                                <div class="dropdown-item rounded-2 edit cursor-pointer"
+                                                <div class="dropdown-item text-dropdown rounded-2 edit cursor-pointer"
                                                     data-edit-id="{{$transaction->id}}"
                                                     data-transaction-code="{{$transaction->transaction_code}}"
                                                     data-company-name="{{$transaction->name}}"
@@ -165,7 +167,7 @@
                                         </li>
                                         @endif
                                         <li>
-                                            <div class="dropdown-item rounded-2 button-pdf"
+                                            <div class="dropdown-item rounded-2 button-pdf text-dropdown"
                                                 wire:click="downloadPDF({{$transaction->id}})" type="button">
                                                 Download invoice
                                             </div>
@@ -173,7 +175,7 @@
                                         <li>
                                             <a class="text-decoration-none button-pdf" target="_blank"
                                                 href={{route('data.transaksi.viewPDF', $transaction->id)}}>
-                                                <div class="dropdown-item rounded-2" type="button">
+                                                <div class="dropdown-item rounded-2 text-dropdown" type="button">
                                                     View Invoice
                                                 </div>
                                             </a>

@@ -13,7 +13,8 @@ use Illuminate\Support\Collection;
 
 class ClientController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         if(auth()->user()->role === 'super_admin'){
             $transactionSummary = DB::table('transactions as t')
@@ -47,7 +48,8 @@ class ClientController extends Controller
         return view('home');
     }
 
-    public function getCurrentUser(){
+    public function getCurrentUser()
+    {
         $currentUser = auth()->user();
         $currentUser['password'] = Crypt::decryptString($currentUser['password']);
         if($currentUser){
@@ -58,7 +60,8 @@ class ClientController extends Controller
         }
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'super_admin_cust' || auth()->user()->id == $request->id){
         $adminId = $request->id;
 
@@ -121,6 +124,16 @@ class ClientController extends Controller
         }else{
             return back()->with('toast_error', 'Akses Ditolak!!');
             }
+    }
+
+    public function setModeSession (Request $request){
+        if($request->mode === 'lightMode'){
+            $request->session()->put('mode', 'lightMode');
+        }else{
+            $request->session()->put('mode', 'darkMode');
+        }
+
+        return response()->json(['message' => 'now is'.$request->session()->get('mode')], 200);
     }
 
 }

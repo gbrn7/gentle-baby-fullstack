@@ -1,6 +1,6 @@
 <div class="sidebar" id="side_nav">
   <div class="header-box px-2 pt-5 pb-2 d-flex justify-content-center">
-    <h1 class="header-text rounded rounded-3 p-2 border border-1">
+    <h1 class="header-text bg-dark rounded rounded-3 p-2 border border-1">
       <span class="me-2 text-white"><i class="ri-apps-line"></i>
         Baby Gentle
       </span>
@@ -46,6 +46,4 @@
       @endif
     </ul>
   </div>
-
-  <hr class="h-color mx-3" />
 </div>
