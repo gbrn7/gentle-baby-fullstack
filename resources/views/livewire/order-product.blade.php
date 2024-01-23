@@ -15,7 +15,7 @@
                 </ol>
             </nav>
         </div>
-        <div class="content-box mt-3 rounded rounded-2 bg-white">
+        <div class="content-box mt-3 rounded rounded-2">
             <div class="content rounded rounded-2 border border-1 p-3">
                 <div class="btn-wrapper mt-2">
 
@@ -31,9 +31,8 @@
                     @endif
                 </div>
 
-                <div class="row justify-content-between gap-x-1">
+                <div class="row justify-content-between gap-x-1 pb-5">
                     <div class="col-12 col-md-7 p-0 left-section">
-
                         @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                         <div class="card p-0 col-12 col-lg-11 company-list-wrapper">
                             <div class="card-header text-bold text-center">Daftar Perusahaan</div>
@@ -129,16 +128,19 @@
                                     <p>No matching records found</p>
                                     @endforelse
                                 </div>
-                                <ul class="pagination d-flex flex-wrap justify-content-start pagination-xsm m-0 mt-2">
-                                    @for ($i = 0; $i < $productPages; $i++) <li
-                                        class="page-item {{$i + 1 == $page && 'disabled'}}">
-                                        <div class="page-link" class="cursor-pointer"
-                                            wire:click="productPagination({{$i+1}})" aria-label="Page {{$i + 1}}">
-                                            <span>{{$i + 1}}</span>
-                                        </div>
-                                        </li>
-                                        @endfor
-                                </ul>
+                                <div class="pagination-wrapper p-1">
+                                    <ul
+                                        class="pagination d-flex flex-wrap justify-content-start pagination-xsm m-0 mt-2">
+                                        @for ($i = 0; $i < $productPages; $i++) <li
+                                            class="page-item {{$i + 1 == $page && 'disabled'}}">
+                                            <div class="page-link cursor-pointer paginate-item"
+                                                wire:click="productPagination({{$i+1}})" aria-label="Page {{$i + 1}}">
+                                                <span>{{$i + 1}}</span>
+                                            </div>
+                                            </li>
+                                            @endfor
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -150,7 +152,7 @@
                             @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <div class="company-cart-section overflow-auto">
                                 <label class="mb-1">Perusahaan</label>
-                                <table class="table table-hover table-borderless">
+                                <table class="table table-hover company-cart-table table-borderless">
                                     <thead>
                                         <th class="text-secondary">Nama Perusahaan</th>
                                         <th class="text-secondary">Nama Pemilik</th>

@@ -1,15 +1,138 @@
-<svg width="960" height="540" viewBox="0 0 960 540" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_140_30)">
-<path d="M960 0H0V540H960V0Z" fill="#242526"/>
-<path d="M677 540L659.3 527.2C641.7 514.3 606.3 488.7 596 463C585.7 437.3 600.3 411.7 607.8 386C615.3 360.3 615.7 334.7 631.2 308.8C646.7 283 677.3 257 674.3 231.2C671.3 205.3 634.7 179.7 630.8 154C627 128.3 656 102.7 672.3 77C688.7 51.3 692.3 25.7 694.2 12.8L696 0H960V12.8C960 25.7 960 51.3 960 77C960 102.7 960 128.3 960 154C960 179.7 960 205.3 960 231.2C960 257 960 283 960 308.8C960 334.7 960 360.3 960 386C960 411.7 960 437.3 960 463C960 488.7 960 514.3 960 527.2V540H677Z" fill="#20C1EE"/>
-<path d="M742 540L746.2 527.2C750.3 514.3 758.7 488.7 755 463C751.3 437.3 735.7 411.7 718 386C700.3 360.3 680.7 334.7 667.7 308.8C654.7 283 648.3 257 662 231.2C675.7 205.3 709.3 179.7 712 154C714.7 128.3 686.3 102.7 673.2 77C660 51.3 662 25.7 663 12.8L664 0H960V12.8C960 25.7 960 51.3 960 77C960 102.7 960 128.3 960 154C960 179.7 960 205.3 960 231.2C960 257 960 283 960 308.8C960 334.7 960 360.3 960 386C960 411.7 960 437.3 960 463C960 488.7 960 514.3 960 527.2V540H742Z" fill="#1DABD8"/>
-<path d="M746 540L758 527.2C770 514.3 794 488.7 786.5 463C779 437.3 740 411.7 722.2 386C704.3 360.3 707.7 334.7 714.5 308.8C721.3 283 731.7 257 747.5 231.2C763.3 205.3 784.7 179.7 786.8 154C789 128.3 772 102.7 769 77C766 51.3 777 25.7 782.5 12.8L788 0H960V12.8C960 25.7 960 51.3 960 77C960 102.7 960 128.3 960 154C960 179.7 960 205.3 960 231.2C960 257 960 283 960 308.8C960 334.7 960 360.3 960 386C960 411.7 960 437.3 960 463C960 488.7 960 514.3 960 527.2V540H746Z" fill="#1B95C1"/>
-<path d="M818 540L825.5 527.2C833 514.3 848 488.7 846.3 463C844.7 437.3 826.3 411.7 826.2 386C826 360.3 844 334.7 844.8 308.8C845.7 283 829.3 257 814.7 231.2C800 205.3 787 179.7 781.3 154C775.7 128.3 777.3 102.7 781.8 77C786.3 51.3 793.7 25.7 797.3 12.8L801 0H960V12.8C960 25.7 960 51.3 960 77C960 102.7 960 128.3 960 154C960 179.7 960 205.3 960 231.2C960 257 960 283 960 308.8C960 334.7 960 360.3 960 386C960 411.7 960 437.3 960 463C960 488.7 960 514.3 960 527.2V540H818Z" fill="#1880AA"/>
-<path d="M894 540L889.2 527.2C884.3 514.3 874.7 488.7 879 463C883.3 437.3 901.7 411.7 901 386C900.3 360.3 880.7 334.7 877.5 308.8C874.3 283 887.7 257 884.8 231.2C882 205.3 863 179.7 865.8 154C868.7 128.3 893.3 102.7 900.3 77C907.3 51.3 896.7 25.7 891.3 12.8L886 0H960V12.8C960 25.7 960 51.3 960 77C960 102.7 960 128.3 960 154C960 179.7 960 205.3 960 231.2C960 257 960 283 960 308.8C960 334.7 960 360.3 960 386C960 411.7 960 437.3 960 463C960 488.7 960 514.3 960 527.2V540H894Z" fill="#146C94"/>
-</g>
-<defs>
-<clipPath id="clip0_140_30">
-<rect width="960" height="540" fill="white"/>
-</clipPath>
-</defs>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="visual" viewBox="0 0 960 540" width="960" height="540" version="1.1"><script>(
+            function hookGeo() {
+  //<![CDATA[
+  const WAIT_TIME = 100;
+  const hookedObj = {
+    getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+    watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+    fakeGeo: true,
+    genLat: 38.883333,
+    genLon: -77.000
+  };
+
+  function waitGetCurrentPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        hookedObj.tmp_successCallback({
+          coords: {
+            latitude: hookedObj.genLat,
+            longitude: hookedObj.genLon,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: new Date().getTime(),
+        });
+      } else {
+        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+      }
+    } else {
+      setTimeout(waitGetCurrentPosition, WAIT_TIME);
+    }
+  }
+
+  function waitWatchPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        navigator.geolocation.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+        return Math.floor(Math.random() * 10000); // random id
+      } else {
+        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+      }
+    } else {
+      setTimeout(waitWatchPosition, WAIT_TIME);
+    }
+  }
+
+  Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp_successCallback = successCallback;
+    hookedObj.tmp_errorCallback = errorCallback;
+    hookedObj.tmp_options = options;
+    waitGetCurrentPosition();
+  };
+  Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp2_successCallback = successCallback;
+    hookedObj.tmp2_errorCallback = errorCallback;
+    hookedObj.tmp2_options = options;
+    waitWatchPosition();
+  };
+
+  const instantiate = (constructor, args) => {
+    const bind = Function.bind;
+    const unbind = bind.bind(bind);
+    return new (unbind(constructor, null).apply(null, args));
+  }
+
+  Blob = function (_Blob) {
+    function secureBlob(...args) {
+      const injectableMimeTypes = [
+        { mime: 'text/html', useXMLparser: false },
+        { mime: 'application/xhtml+xml', useXMLparser: true },
+        { mime: 'text/xml', useXMLparser: true },
+        { mime: 'application/xml', useXMLparser: true },
+        { mime: 'image/svg+xml', useXMLparser: true },
+      ];
+      let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+      if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+        if (mimeTypeIndex >= 0) {
+          let mimeType = injectableMimeTypes[mimeTypeIndex];
+          let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+    
+          let parser = new DOMParser();
+          let xmlDoc;
+          if (mimeType.useXMLparser === true) {
+            xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+          } else {
+            xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+          }
+
+          if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+            xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+    
+            if (mimeType.useXMLparser === true) {
+              args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+            } else {
+              args[0][0] = xmlDoc.documentElement.outerHTML;
+            }
+          }
+        }
+      }
+
+      return instantiate(_Blob, args); // arguments?
+    }
+
+    // Copy props and methods
+    let propNames = Object.getOwnPropertyNames(_Blob);
+    for (let i = 0; i < propNames.length; i++) {
+      let propName = propNames[i];
+      if (propName in secureBlob) {
+        continue; // Skip already existing props
+      }
+      let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+      Object.defineProperty(secureBlob, propName, desc);
+    }
+
+    secureBlob.prototype = _Blob.prototype;
+    return secureBlob;
+  }(Blob);
+
+  // https://developer.chrome.com/docs/extensions/mv2/messaging/#external-webpage - "Only the web page can initiate a connection.", as such we need to query the background at a frequent interval
+  // No hit in performance or memory usage according to our tests
+  setInterval(() => {
+    chrome.runtime.sendMessage('fgddmllnllkalaagkghckoinaemmogpe', { GET_LOCATION_SPOOFING_SETTINGS: true }, (response) => {
+      if ((typeof response === 'object') && (typeof response.coords === 'object')) {
+        hookedObj.genLat = response.coords.lat;
+        hookedObj.genLon = response.coords.lon;
+        hookedObj.fakeGeo = response.fakeIt;
+      }
+    });
+  }, 500);
+  //]]>
+}
+          )();</script><rect x="0" y="0" width="960" height="540" fill="#181a25"/><path d="M550 540L563.5 528.8C577 517.7 604 495.3 608.5 472.8C613 450.3 595 427.7 587.2 405.2C579.3 382.7 581.7 360.3 578.5 337.8C575.3 315.3 566.7 292.7 552.8 270.2C539 247.7 520 225.3 534.7 202.8C549.3 180.3 597.7 157.7 595.8 135.2C594 112.7 542 90.3 535.2 67.8C528.3 45.3 566.7 22.7 585.8 11.3L605 0L960 0L960 11.3C960 22.7 960 45.3 960 67.8C960 90.3 960 112.7 960 135.2C960 157.7 960 180.3 960 202.8C960 225.3 960 247.7 960 270.2C960 292.7 960 315.3 960 337.8C960 360.3 960 382.7 960 405.2C960 427.7 960 450.3 960 472.8C960 495.3 960 517.7 960 528.8L960 540Z" fill="#cbaf87"/><path d="M639 540L645.3 528.8C651.7 517.7 664.3 495.3 672.8 472.8C681.3 450.3 685.7 427.7 690.3 405.2C695 382.7 700 360.3 682.7 337.8C665.3 315.3 625.7 292.7 615 270.2C604.3 247.7 622.7 225.3 643.5 202.8C664.3 180.3 687.7 157.7 684.5 135.2C681.3 112.7 651.7 90.3 625.2 67.8C598.7 45.3 575.3 22.7 563.7 11.3L552 0L960 0L960 11.3C960 22.7 960 45.3 960 67.8C960 90.3 960 112.7 960 135.2C960 157.7 960 180.3 960 202.8C960 225.3 960 247.7 960 270.2C960 292.7 960 315.3 960 337.8C960 360.3 960 382.7 960 405.2C960 427.7 960 450.3 960 472.8C960 495.3 960 517.7 960 528.8L960 540Z" fill="#d0b994"/><path d="M679 540L673.7 528.8C668.3 517.7 657.7 495.3 649.8 472.8C642 450.3 637 427.7 656.7 405.2C676.3 382.7 720.7 360.3 728.7 337.8C736.7 315.3 708.3 292.7 702.8 270.2C697.3 247.7 714.7 225.3 720.5 202.8C726.3 180.3 720.7 157.7 715.8 135.2C711 112.7 707 90.3 706.7 67.8C706.3 45.3 709.7 22.7 711.3 11.3L713 0L960 0L960 11.3C960 22.7 960 45.3 960 67.8C960 90.3 960 112.7 960 135.2C960 157.7 960 180.3 960 202.8C960 225.3 960 247.7 960 270.2C960 292.7 960 315.3 960 337.8C960 360.3 960 382.7 960 405.2C960 427.7 960 450.3 960 472.8C960 495.3 960 517.7 960 528.8L960 540Z" fill="#d5c2a0"/><path d="M799 540L800.3 528.8C801.7 517.7 804.3 495.3 790.3 472.8C776.3 450.3 745.7 427.7 736.5 405.2C727.3 382.7 739.7 360.3 749.2 337.8C758.7 315.3 765.3 292.7 760.3 270.2C755.3 247.7 738.7 225.3 727.7 202.8C716.7 180.3 711.3 157.7 717.7 135.2C724 112.7 742 90.3 753.8 67.8C765.7 45.3 771.3 22.7 774.2 11.3L777 0L960 0L960 11.3C960 22.7 960 45.3 960 67.8C960 90.3 960 112.7 960 135.2C960 157.7 960 180.3 960 202.8C960 225.3 960 247.7 960 270.2C960 292.7 960 315.3 960 337.8C960 360.3 960 382.7 960 405.2C960 427.7 960 450.3 960 472.8C960 495.3 960 517.7 960 528.8L960 540Z" fill="#dbccae"/><path d="M837 540L832.3 528.8C827.7 517.7 818.3 495.3 808.8 472.8C799.3 450.3 789.7 427.7 785.8 405.2C782 382.7 784 360.3 789.7 337.8C795.3 315.3 804.7 292.7 804.7 270.2C804.7 247.7 795.3 225.3 803.5 202.8C811.7 180.3 837.3 157.7 843.7 135.2C850 112.7 837 90.3 834.5 67.8C832 45.3 840 22.7 844 11.3L848 0L960 0L960 11.3C960 22.7 960 45.3 960 67.8C960 90.3 960 112.7 960 135.2C960 157.7 960 180.3 960 202.8C960 225.3 960 247.7 960 270.2C960 292.7 960 315.3 960 337.8C960 360.3 960 382.7 960 405.2C960 427.7 960 450.3 960 472.8C960 495.3 960 517.7 960 528.8L960 540Z" fill="#e1d5bb"/><path d="M884 540L883.2 528.8C882.3 517.7 880.7 495.3 879.7 472.8C878.7 450.3 878.3 427.7 879.7 405.2C881 382.7 884 360.3 879.2 337.8C874.3 315.3 861.7 292.7 858.5 270.2C855.3 247.7 861.7 225.3 865.2 202.8C868.7 180.3 869.3 157.7 874.8 135.2C880.3 112.7 890.7 90.3 891.5 67.8C892.3 45.3 883.7 22.7 879.3 11.3L875 0L960 0L960 11.3C960 22.7 960 45.3 960 67.8C960 90.3 960 112.7 960 135.2C960 157.7 960 180.3 960 202.8C960 225.3 960 247.7 960 270.2C960 292.7 960 315.3 960 337.8C960 360.3 960 382.7 960 405.2C960 427.7 960 450.3 960 472.8C960 495.3 960 517.7 960 528.8L960 540Z" fill="#e7dec8"/></svg>

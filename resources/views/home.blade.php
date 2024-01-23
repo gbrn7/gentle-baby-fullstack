@@ -19,7 +19,7 @@
       <div class="wrapper col-sm-4">
         <div class="card card-1  rounded-3 h-100">
           <div class="head p-2 d-flex align-items-center gap-2 letter"><i
-              class='text-danger bx bx-money-withdraw p-2 rounded-circle'></i> <span>Total Pendapatan</span></div>
+              class='bx bx-money-withdraw p-2 rounded-circle icon-head'></i> <span>Total Pendapatan</span></div>
           <div class="content-text px-2 mt-3">
             <p data-purecounter-start="0" data-purecounter-end="{{$transactionSummary->revenue}}" class="text m-0">
               Rp{{number_format($transactionSummary->revenue,0, ".", ".")}}
@@ -30,7 +30,9 @@
       <div class="wrapper col-sm-4">
         <div class="card card-2 rounded-3 h-100">
           <div class="head p-2 d-flex align-items-center gap-2 letter"><i
-              class='bx bxs-package p-2 rounded-circle text-success'></i> <span>Total Order Terbayar</span></div>
+              class='bx bxs-package p-2 rounded-circle icon-head'></i>
+            <span>Total Order Terbayar</span>
+          </div>
           <div class="content-text px-2 mt-3 ">
             <p data-purecounter-start="0" data-purecounter-duration="1" class="text m-0 purecounter">
               {{$transactionSummary->countTransaction}}</p>
@@ -40,7 +42,7 @@
       <div class="wrapper col-sm-4">
         <div class="card card-3 rounded-3 h-100">
           <div class="head p-2 d-flex align-items-center gap-2 letter"><i
-              class='text-primary bx bx-shopping-bag p-2 rounded-circle'></i> <span>Belum Selesai Diproses</span></div>
+              class='icon-head bx bx-shopping-bag p-2 rounded-circle'></i> <span>Belum Selesai Diproses</span></div>
           <div class="content-text px-2 mt-3 ">
             <p data-purecounter-start="0" data-purecounter-duration="1" data-purecounter-end=""
               class="text m-0 purecounter">{{$orders->orderCount}}
@@ -59,6 +61,7 @@
             <table class="table table-hover table-borderless">
               <thead>
                 <tr>
+                  <th class="text-secondary">Peringkat</th>
                   <th class="text-secondary">Id</th>
                   <th class="text-secondary">Nama</th>
                   <th class="text-secondary">Total Terjual (Qty)</th>
@@ -68,6 +71,7 @@
               <tbody>
                 @forelse ($highPerfomanceProducts as $product)
                 <tr>
+                  <td>{{$loop->iteration}}</td>
                   <td>{{$product->productId}}</td>
                   <td>{{$product->productName}}</td>
                   <td>{{$product->totalQty}}</td>
@@ -90,6 +94,7 @@
             <table class="table table-hover table-borderless">
               <thead>
                 <tr>
+                  <th class="text-secondary">Peringkat</th>
                   <th class="text-secondary">Id</th>
                   <th class="text-secondary">Nama</th>
                   <th class="text-secondary">Total Terjual (Qty)</th>
@@ -99,6 +104,7 @@
               <tbody>
                 @forelse ($lowPerfomanceProducts as $product)
                 <tr>
+                  <td>{{$loop->iteration}}</td>
                   <td>{{$product->productId}}</td>
                   <td>{{$product->productName}}</td>
                   <td>{{$product->totalQty}}</td>
