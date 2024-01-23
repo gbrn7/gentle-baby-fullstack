@@ -123,9 +123,9 @@
     </div>
     @endif
 
-    <div class="row mt-3 row-gap-2">
+    <div class="row mt-3 row-gap-2 row-cols-1 row-cols-md-2">
       @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
-      <a href={{route('data.product')}} class="col-sm-6 card-dashboard text-decoration-none">
+      <a href={{route('data.product')}} class="card-dashboard text-decoration-none">
         <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
@@ -140,7 +140,7 @@
         </div>
       </a>
       @endif
-      <a href={{route('data.transaksi')}} class="col-sm-6 card-dashboard text-decoration-none">
+      <a href={{route('data.transaksi')}} class="card-dashboard text-decoration-none">
         <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
@@ -154,7 +154,7 @@
           </div>
         </div>
       </a>
-      <a href={{route('order.product')}} class="col-sm-6 card-dashboard text-decoration-none">
+      <a href={{route('order.product')}} class="card-dashboard text-decoration-none">
         <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
@@ -168,7 +168,7 @@
         </div>
       </a>
       @if(auth()->user()->role === 'super_admin')
-      <a href={{route('data.pelanggan')}} class="col-sm-6 card-dashboard text-decoration-none">
+      <a href={{route('data.pelanggan')}} class="card-dashboard text-decoration-none">
         <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
@@ -183,7 +183,7 @@
       </a>
       @endif
       @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'super_admin_cust')
-      <a href="{{route('data.admin')}}" class="col-sm-6 card-dashboard text-decoration-none">
+      <a href="{{route('data.admin')}}" class="card-dashboard text-decoration-none">
         <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
             <div class="card-body-content col-9">
