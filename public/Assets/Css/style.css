@@ -21,7 +21,7 @@ body{
 
 .paginate-item{
   cursor: pointer;
-  background-color: black;
+  background-color: var(--body-color);
   color: white;
 }
 
