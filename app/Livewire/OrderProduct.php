@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\TransactionMail;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\WablasTrait;
 
 class OrderProduct extends Component
 {
@@ -157,7 +158,7 @@ class OrderProduct extends Component
             //create transaction detail
             $newTransactionDetail = TransactionDetail::insert($transactionDetail);
 
-            $this->sendMailNotif($newTransaction);
+            $this->sendNotif($newTransaction);
 
             DB::commit();
 
@@ -167,6 +168,7 @@ class OrderProduct extends Component
 
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th->getMessage());
             $this->dispatch('endLoad');
 
             return $this->dispatch('warning', message: $th->getMessage());
@@ -253,7 +255,7 @@ class OrderProduct extends Component
             //create transaction detail
             $newTransactionDetail = TransactionDetail::insert($transactionDetail);
 
-            $this->sendMailNotif($newTransaction);
+            $this->sendNotif($newTransaction);
 
             DB::commit();
 
@@ -377,7 +379,7 @@ class OrderProduct extends Component
         return view('livewire.order-product', ['companies'=> $companies, 'products'=> $products, 'productPages' => $productPages]);
     }
 
-    public function sendMailNotif($transaction)
+    public function sendNotif($transaction)
     {
         $company = Company::with('owner')->where('id', $transaction->company_id)->first();
 
@@ -424,25 +426,52 @@ class OrderProduct extends Component
         $data = [
             'name' => $company->name,
             'role_user' => $company->owner->role,
+            'phone_number' =>$company->owner->phone_number,
+            'file_name' => "Invoice-".$transaction->transaction_code.'.pdf',
             'transaction_code' => $transaction->transaction_code,
             'attachment' => 'public/invoices/Invoice-'.$transaction->transaction_code.'.pdf'
         ];
         // Mail::to('babygentleid@gmail.com')->send(new TransactionMail($data));
         Mail::to($company->owner->email)->send(new TransactionMail($data));
 
+        //send Wablas to customer
+        $this->sendWablasNotif($data);
+
         $superAdmin = User::where('role', 'super_admin')->first();
 
         if($superAdmin){
             $data['role_user'] = $superAdmin->role;
+            $data['phone_number'] = $superAdmin->phone_number;
             $data['super_admin_name'] = $superAdmin->name;
 
             //send notif to super admin
             Mail::to($superAdmin->email)->send(new TransactionMail($data));
 
+            // send Wablas notif to superadmin
+            $this->sendWablasNotif($data);
         }
 
-
         Storage::delete('public/invoices/Invoice-'.$transaction->transaction_code.'.pdf');
+    }
+
+    public function sendWablasNotif($data)
+    {
+        $data['attachment'] = 'public/Storage/invoices/Invoice-'.$data['transaction_code'].'.pdf';
+        if($data['role_user'] !== 'super_admin'){
+            $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Baby Gentle dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Baby Gentle untuk melihat rincian pesanan. Terima Kasih.";
+
+            $data['message'] = $custMessage;
+
+            // send message
+            $result = WablasTrait::sendMessage($data);
+        }else {
+            $superAdminMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Baby Gentle dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Baby Gentle untuk melihat rincian pesanan. Terima Kasih.";
+
+            $data['message'] = $superAdminMessage;
+
+            // send message
+            $result = WablasTrait::sendMessage($data);
+        }
     }
 
 }
