@@ -56,7 +56,7 @@ class ClientController extends Controller
             return view('modal.data-profile.data-profile-form', 
             ['form' => $currentUser]);
         }else{
-            return response()->json('[Akses Ditolak atau Id Tidak Ditemukan!!]', 404);   
+            return response()->json(["message" => "Access Denied or id not found"], 404);   
         }
     }
 

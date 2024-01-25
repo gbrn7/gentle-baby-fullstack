@@ -106,7 +106,7 @@ class CompanyController extends Controller
                 return view('modal.data-pelanggan.data-pelanggan-form', ['form' => $form]);
             }
 
-            return response()->json('[Access Denied or id not found]', 404);   
+            return response()->json(["message" => "Access Denied or id not found"], 404);   
         }else{
             return back()->with('toast_error', 'Akses Ditolak!!');
         }
@@ -272,7 +272,7 @@ class CompanyController extends Controller
                 return view('modal.data-pelanggan.data-admin-pelanggan-form', ['form' => $form]);
             }
 
-            return response()->json('[Access Denied or id not found]', 404);   
+            return response()->json(["message" => "Access Denied or id not found"], 404);   
         }else{
             return back()->with('toast_error', 'Akses Ditolak!!');
         }

@@ -130,7 +130,7 @@ class DataAdminController extends Controller
                 return view('modal.data-admin.data-admin-form', ['form' => $form]);
             }
 
-            return response()->json('[Access Denied or id not found]', 404);   
+            return response()->json(["message" => "Access Denied or id not found"], 404);   
         }else{
             return back()->with('toast_error', 'Akses Ditolak!!');
         }
