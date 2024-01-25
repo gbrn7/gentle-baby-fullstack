@@ -731,7 +731,7 @@ color: black;
 }
 
 
-.cart-wrapper .total-amount-section>p{
+.cart-wrapper .total-amount-section .total-label{
   font-size: 20px;
   font-weight: 600;
 }

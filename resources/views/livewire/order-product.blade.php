@@ -180,8 +180,10 @@
                                 <label class="mb-1">Produk</label>
                                 <div class="product-cart-wrapper d-flex flex-column gap-2">
                                     @php($total = 0)
+                                    @php($totalQty = 0)
                                     @foreach ($productsCart as $product)
                                     @php($total += ($product['price'] * $product['qty']))
+                                    @php($totalQty += $product['qty'])
                                     <div class="cart-item-wrapper p-0 m-0 row align-items-center">
                                         <div class="img-wrapper p-0 col-2">
                                             <img loading="lazy"
@@ -210,11 +212,15 @@
                                     @endforeach
                                 </div>
                             </div>
-
-                            <div
-                                class="total-amount-section d-flex justify-content-between align-item-center mt-4 bg-primary p-4 rounded-3">
-                                <p class="mb-0 text-white total-label">Total</p>
-                                <p class="mb-0 text-white">Rp{{number_format($total,0,".",".")}}</p>
+                            <div class="total-amount-section mt-4 bg-primary p-4 rounded-3">
+                                <div class="total-qty-wrapper d-flex justify-content-between">
+                                    <p class="mb-0 text-white">Total Quantity</p>
+                                    <p class="mb-0 text-white">{{$totalQty}}</p>
+                                </div>
+                                <div class="total-wrapper d-flex justify-content-between mt-2">
+                                    <p class="mb-0 text-white total-label">Total</p>
+                                    <p class="mb-0 text-white total-label">Rp{{number_format($total,0,".",".")}}</p>
+                                </div>
                             </div>
 
                             <div class="checkout-btn btn btn-success w-100 rounded-3 text-center text-white mt-2 p-3"
@@ -232,6 +238,7 @@
     <script>
         const checkouBtn = document.querySelector(".checkout-btn");
         checkouBtn.addEventListener('click', function (){
+            document.querySelector("html").style.cursor = "wait";
             document.querySelector(".loading-wrapper").classList.remove('d-none');
         })
     </script>
