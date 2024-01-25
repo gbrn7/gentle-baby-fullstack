@@ -322,6 +322,20 @@
         <div class="content">
           <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main">
             <!-- START MAIN CONTENT AREA -->
+            @if ($data['role_user'] === 'super_admin')
+            <tr>
+              <td class="wrapper">
+                <p>Kepada {{$data['super_admin_name']}}</p>
+                <p>
+                  Kami ingin memberitahu Anda bahwa pesanan dengan kode #{{$data['transaction_code']}} oleh
+                  {{$data['name']}} sudah masuk. Berikut kami lampirkan rincian pesanan tersebut.
+                  Terima
+                  kasih.
+                </p>
+                <p>Gentle Baby</p>
+              </td>
+            </tr>
+            @else
             <tr>
               <td class="wrapper">
                 <p>Kepada {{$data['name']}}</p>
@@ -334,6 +348,7 @@
                 <p>Gentle Baby</p>
               </td>
             </tr>
+            @endif
 
             <!-- END MAIN CONTENT AREA -->
           </table>

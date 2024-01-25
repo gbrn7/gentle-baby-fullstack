@@ -173,7 +173,6 @@
       document.querySelector('body').classList.remove('dark');
       sessionStorage.setItem("mode", "light");
       $.get("{{ route('client.setModeSession') }}",{mode:"lightMode"}, function(res){
-        console.log('Response : '+res.message);
       })
     }
 
@@ -182,7 +181,6 @@
       document.querySelector('body').classList.add('dark');
       sessionStorage.setItem("mode", "dark");
       $.get("{{ route('client.setModeSession') }}",{mode:"darkMode"}, function(res){
-        console.log('Response : '+res.message);
       })
     }
 </script>

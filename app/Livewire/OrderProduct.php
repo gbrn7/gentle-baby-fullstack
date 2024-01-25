@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\CompanyMember;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Collection;
@@ -166,6 +167,7 @@ class OrderProduct extends Component
 
         } catch (\Throwable $th) {
             DB::rollback();
+            $this->dispatch('endLoad');
 
             return $this->dispatch('warning', message: $th->getMessage());
         }
@@ -263,6 +265,7 @@ class OrderProduct extends Component
 
         } catch (\Throwable $th) {
             DB::rollback();
+            $this->dispatch('endLoad');
 
             return $this->dispatch('warning', message: $th->getMessage());
         }
@@ -420,13 +423,24 @@ class OrderProduct extends Component
 
         $data = [
             'name' => $company->name,
+            'role_user' => $company->owner->role,
             'transaction_code' => $transaction->transaction_code,
             'attachment' => 'public/invoices/Invoice-'.$transaction->transaction_code.'.pdf'
         ];
-
-
         // Mail::to('babygentleid@gmail.com')->send(new TransactionMail($data));
         Mail::to($company->owner->email)->send(new TransactionMail($data));
+
+        $superAdmin = User::where('role', 'super_admin')->first();
+
+        if($superAdmin){
+            $data['role_user'] = $superAdmin->role;
+            $data['super_admin_name'] = $superAdmin->name;
+
+            //send notif to super admin
+            Mail::to($superAdmin->email)->send(new TransactionMail($data));
+
+        }
+
 
         Storage::delete('public/invoices/Invoice-'.$transaction->transaction_code.'.pdf');
     }
