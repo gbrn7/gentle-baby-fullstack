@@ -168,7 +168,7 @@ class OrderProduct extends Component
 
         } catch (\Throwable $th) {
             DB::rollback();
-            dd($th->getMessage());
+
             $this->dispatch('endLoad');
 
             return $this->dispatch('warning', message: $th->getMessage());
