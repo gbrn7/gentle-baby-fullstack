@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StatusProcessNotify;
 use Livewire\Attributes\On;
+use App\Traits\WablasTrait;
 
 class DataTransaksi extends Component
 {
@@ -82,7 +83,7 @@ class DataTransaksi extends Component
                 ->withErrors($validator->messages()->all());
             }
     
-            $transaction = Transaction::find($request->transaction_id);
+            $transaction = Transaction::find($request->transaction_id); 
 
             $oldStatus = [
                 "process_status" => $transaction->process_status,
@@ -147,12 +148,14 @@ class DataTransaksi extends Component
                         $data = [
                             'name' => $company->name,
                             'transaction_code' => $transaction->transaction_code,
+                            'phone_number' =>$company->owner->phone_number,
                             'attachment' => 'public/invoices/Invoice-'.$transaction->transaction_code.'.pdf'
                         ];
 
-
-                        // Mail::to('babygentleid@gmail.com')->send(new StatusProcessNotify($data));
+                        //send email to customer
                         Mail::to($company->owner->email)->send(new StatusProcessNotify($data));
+                        //send Wablas to customer
+                        $this->sendWablasNotif($data);
 
                     } catch (\Throwable $th) {
                         session()->flash('error', $th->getMessage());
@@ -161,7 +164,6 @@ class DataTransaksi extends Component
                         ->with('toast_error', $th->getMessage())
                         ->withInput()
                         ->withErrors($th->getMessage());                    }
-                    // dd($transaction->process_status, $oldStatus['process_status']);
                 }
 
                 DB::commit();
@@ -191,6 +193,18 @@ class DataTransaksi extends Component
             return back()->with('toast_error', 'Akses Ditolak!!');
         }
 
+    }
+
+    public function sendWablasNotif($data)
+    {
+        $data['attachment'] = 'public/Storage/invoices/Invoice-'.$data['transaction_code'].'.pdf';
+
+        $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Baby Gentle dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah dapat di ambil. Silahkan cek email anda atau website Baby Gentle untuk melihat rincian pesanan. Terima Kasih.";
+
+        $data['message'] = $custMessage;
+
+        // send message
+        $result = WablasTrait::sendMessage($data);
     }
 
     public function viewPDF($transactionId)

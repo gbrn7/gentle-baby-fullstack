@@ -158,9 +158,9 @@ class OrderProduct extends Component
             //create transaction detail
             $newTransactionDetail = TransactionDetail::insert($transactionDetail);
 
-            $this->sendNotif($newTransaction);
-
             DB::commit();
+
+            $this->sendNotif($newTransaction);
 
             $this->dispatch('endLoad');
             $this->resetCart();
@@ -431,7 +431,6 @@ class OrderProduct extends Component
             'transaction_code' => $transaction->transaction_code,
             'attachment' => 'public/invoices/Invoice-'.$transaction->transaction_code.'.pdf'
         ];
-        // Mail::to('babygentleid@gmail.com')->send(new TransactionMail($data));
         Mail::to($company->owner->email)->send(new TransactionMail($data));
 
         //send Wablas to customer

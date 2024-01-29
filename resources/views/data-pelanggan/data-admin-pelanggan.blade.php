@@ -49,7 +49,7 @@
             <td>{{$admin->user->id}}</td>
             <td>{{$admin->user->name}}</td>
             <td>{{$admin->user->email}}</td>
-            <td>{{$admin->user->role === 'super_admin' ? 'Super Admin' : 'Admin'}}</td>
+            <td>{{$admin->user->role === 'super_admin_cust' ? 'Super Admin' : 'Admin'}}</td>
             <td>{{$admin->user->phone_number}}</td>
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">

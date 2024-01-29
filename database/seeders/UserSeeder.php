@@ -17,16 +17,16 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
             'name' => 'Farid Angga',
-            'email' => 'faridangga12@gmail.com',
+            'email' => 'superadmin@gmail.com',
             'password' => Crypt::encryptString('superadmin'),
             'role' => 'super_admin',
-            'phone_number' => '085469875236',
+            'phone_number' => '082132679938',
             'created_at' => now(),
             'updated_at' => now(),
             ],
             [
             'name' => 'Farhan',
-            'email' => 'farhan10@gmail.com',
+            'email' => 'admin@gmail.com',
             'password' => Crypt::encryptString('admin'),
             'role' => 'admin',
             'phone_number' => '08846987968',
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             'email' => 'rayhan.gibran19@gmail.com',
             'password' => Crypt::encryptString('superadmincust'),
             'role' => 'super_admin_cust',
-            'phone_number' => '085469875236',
+            'phone_number' => '082132679938',
             'created_at' => now(),
             'updated_at' => now(),
             ],
