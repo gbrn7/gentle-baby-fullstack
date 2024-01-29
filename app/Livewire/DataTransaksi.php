@@ -311,7 +311,7 @@ class DataTransaksi extends Component
                 ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name,
                 t.process_status, t.amount, t.transaction_complete_date, 
                 t.payment_status, t.jatuh_tempo, t.dp_status")
-                ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
+                ->where('t.process_status', 'like', $this->processStatus.'%')
                 ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
                 ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
                 ->where($this->columnFilter, 'like', '%'.$this->keywords.'%') 
@@ -326,7 +326,7 @@ class DataTransaksi extends Component
                 t.process_status, t.amount, t.transaction_complete_date, 
                 t.payment_status, t.jatuh_tempo, t.dp_status")
                 ->where('c.owner_id', auth()->user()->id)
-                ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
+                ->where('t.process_status', 'like', $this->processStatus.'%')
                 ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
                 ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
                 ->where($this->columnFilter, 'like', '%'.$this->keywords.'%')
@@ -341,7 +341,7 @@ class DataTransaksi extends Component
                 t.process_status, t.amount, t.transaction_complete_date, 
                 t.payment_status, t.jatuh_tempo, t.dp_status")
                 ->where('c.id', $this->companyMember->company_id)
-                ->where('t.process_status', 'like', '%'.$this->processStatus.'%')
+                ->where('t.process_status', 'like', $this->processStatus.'%')
                 ->where('t.payment_status', 'like', '%'.$this->paymentStatus.'%')
                 ->where('t.dp_status', 'like', '%'.$this->dpStatus.'%')
                 ->where($this->columnFilter, 'like', '%'.$this->keywords.'%')
