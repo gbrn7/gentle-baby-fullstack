@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
             'name' => 'Farid Angga',
-            'email' => 'superadmin@gmail.com',
+            'email' => 'muhammadrayhangibran@gmail.com',
             'password' => Crypt::encryptString('superadmin'),
             'role' => 'super_admin',
             'phone_number' => '082132679938',
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             ],
             [
             'name' => 'Farhan',
-            'email' => 'admin@gmail.com',
+            'email' => 'farhan10@gmail.com',
             'password' => Crypt::encryptString('admin'),
             'role' => 'admin',
             'phone_number' => '08846987968',
