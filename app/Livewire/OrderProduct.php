@@ -457,14 +457,14 @@ class OrderProduct extends Component
     {
         $data['attachment'] = 'public/Storage/invoices/Invoice-'.$data['transaction_code'].'.pdf';
         if($data['role_user'] !== 'super_admin'){
-            $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Baby Gentle dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Baby Gentle untuk melihat rincian pesanan. Terima Kasih.";
+            $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
 
             $data['message'] = $custMessage;
 
             // send message
             $result = WablasTrait::sendMessage($data);
         }else {
-            $superAdminMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Baby Gentle dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Baby Gentle untuk melihat rincian pesanan. Terima Kasih.";
+            $superAdminMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
 
             $data['message'] = $superAdminMessage;
 

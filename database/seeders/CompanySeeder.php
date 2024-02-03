@@ -15,7 +15,7 @@ class CompanySeeder extends Seeder
     {
         DB::table('company')->insert([
             [
-            'name' => 'Baby Gentle',
+            'name' => 'Gentle Baby',
             'address' => 'Malang',
             'email' => 'babygentleid@gmail.com',
             'phone_number' => '085698244',

@@ -173,6 +173,12 @@ class ProductController extends Controller
             $produkId = $request->id;
             $dataProduk = Product::find($produkId);
             if($dataProduk){
+
+                if(!empty( $dataProduk->thumbnail)){
+                //delete old image
+                Storage::delete('public/produk/'.$dataProduk->thumbnail);
+                }
+
                 $dataProduk->delete();
 
             return redirect()

@@ -6,8 +6,7 @@
         <div class="breadcrumbs-box mt-2 rounded rounded-2 bg-white p-2">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby
-                        Gentle
+                    <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Gentle Baby
                     </li>
                     <li class="breadcrumb-item"><a href={{route('data.transaksi')}}
                             class="text-decoration-none">Pemesanan Produk</a>

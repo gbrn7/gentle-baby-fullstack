@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md">
   <div class="container-fluid">
     <div class="d-flex justify-content-between  d-block">
-      <a class="navbar-brand fs-5" href="#">Baby Gentle</a>
+      <a class="navbar-brand fs-5" href="#">Gentle Baby</a>
       <button class="btn px-1 py-0 open-btn">
         <i class="fas fa-stream"></i>
       </button>

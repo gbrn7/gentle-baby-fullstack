@@ -111,7 +111,7 @@
     <thead>
       <tr>
         <th width="50%" colspan="2">
-          <h2 class="text-start">Baby Gentle</h2>
+          <h2 class="text-start">Gentle Baby</h2>
         </th>
         <th width="50%" colspan="2" class="text-end company-data">
           <span>Tanggal : {{date('Y-m-d')}}</span> <br />

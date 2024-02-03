@@ -208,6 +208,11 @@ class DataAdminController extends Controller
             $adminId = $request->id;
             $dataAdmin = User::find($adminId);
             if($adminId && $adminId != auth()->user()->id && $dataAdmin){
+
+                if(!empty( $dataAdmin->image_profile)){        
+                    Storage::delete('public/avatar/'.$dataAdmin->image_profile);
+                }
+
                 $dataAdmin->delete();
 
             return redirect()

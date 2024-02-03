@@ -6,9 +6,10 @@
 </div>
 <div class="breadcrumbs-box mt-2 rounded rounded-2 bg-white p-2">
   <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-    <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby Gentle</li>
-    <li class="breadcrumb-item"><a href={{route('data.product')}} class="text-decoration-none">Data Produk</a>
-    <li class="breadcrumb-item active" aria-current="page">Tambah Data Produk</li>
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item d-flex gap-2 align-items-center"><i class="ri-apps-line"></i>Baby Gentle</li>
+      <li class="breadcrumb-item"><a href={{route('data.product')}} class="text-decoration-none">Data Produk</a>
+      <li class="breadcrumb-item active" aria-current="page">Tambah Data Produk</li>
     </ol>
   </nav>
 </div>

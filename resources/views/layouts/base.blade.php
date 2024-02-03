@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{csrf_token()}}" />
-  <title>Baby Gentle | Client</title>
+  <title>Gentle Baby | Client</title>
   {{-- Icon --}}
   <link rel="icon" href="{{asset('Assets/Img/apps-line.png')}}" type="image/x-icon">
 
