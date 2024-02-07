@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CompanySeeder::class,
             CompanyMemberSeeder::class,
-            // ProductSeeder::class,
-            // TransactionSeeder::class,
-            // TransactionDetailSeeder::class,
+            ProductSeeder::class,
+            TransactionSeeder::class,
+            TransactionDetailSeeder::class,
         ]);
     }
 }
