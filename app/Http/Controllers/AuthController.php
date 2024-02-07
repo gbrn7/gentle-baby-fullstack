@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 
 class AuthController extends Controller
 {
     public function index(){        
-        return auth()->check() ? route('client') : view('siginIn');
+        return auth()->check() ? redirect()->route('client') : view('siginIn');
     }
 
     public function authenticate(Request $request){

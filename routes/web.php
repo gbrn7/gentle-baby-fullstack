@@ -6,10 +6,10 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DataAdminController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TransactionController;
 use App\Livewire\DataTransaksi;
 use App\Livewire\DataDetailTransaksi;
 use App\Livewire\OrderProduct;
+// use Livewire\Livewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +81,15 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
 
   Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+
+// Livewire::setUpdateRoute(function ($handle) {
+//   return Route::post('/gentleliving/gentlebaby/livewire/update', $handle);
+// });
+
+// Livewire::setUpdateRoute(function ($handle) {
+//   return Route::post('/gentleliving/gentlebaby/livewire/livewire.js', $handle);
+// });
 
 Route::any('/{any}', function () {
   if(auth()->user()){

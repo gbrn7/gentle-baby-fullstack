@@ -50,11 +50,11 @@
           <tr>
             <td>{{$product->id }}</td>
             <td>{{$product->name }}</td>
-            <td>{{$product->hpp }}</td>
+            <td>Rp{{number_format($product->hpp,0, ".", ".")}}</td>
             <td>Rp{{number_format($product->price,0, ".", ".")}}</td>
             <td>{{$product->size_volume }}</td>
             <td>{{$product->is_cashback == 1 ? 'Ya' : 'Tidak'}}</td>
-            <td>{{$product->cashback_value }}</td>
+            <td>Rp{{number_format($product->cashback_value,0, ".", ".")}}</td>
             <td class="text-capitalize">{{$product->status}}</td>
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">

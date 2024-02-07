@@ -431,9 +431,9 @@
                                     <td>{{$detailsTransaction->qty }}</td>
                                     @if (auth()->user()->role == 'super_admin' || auth()->user()->role ===
                                     'admin')
-                                    <td>{{$detailsTransaction->hpp}}</td>
+                                    <td>Rp{{number_format($detailsTransaction->hpp,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->is_cashback == 1 ? 'Iya' : 'Tidak'}}</td>
-                                    <td>{{$detailsTransaction->cashback_value}}</td>
+                                    <td>Rp{{number_format($detailsTransaction->cashback_value,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->qty_cashback_item}}</td>
                                     @endif
                                     <td>Rp{{number_format(($detailsTransaction->price *
