@@ -21,7 +21,6 @@ return new class extends Migration
             $table->float('dp_value', 30, 2)->default(0);
             $table->date('dp_due_date')->nullable();
             $table->boolean('dp_status')->default(0);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

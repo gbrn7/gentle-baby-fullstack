@@ -53,40 +53,9 @@
                         <input class="form-control" type="text" wire:model.live.debounce.500ms="keywords" />
                     </div>
                 </div>
-                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-2">
-                    <label class="mb-1 text-left">Status Proses :</label>
-                    <select wire:model.live.debounce.300ms="processStatus" class="form-select">
-                        <option value="" class="text-secondary text-capitalize">Semua</option>
-                        <option value="cancel" class="text-secondary text-capitalize">Cancel</option>
-                        <option value="unprocessed" class="text-secondary text-capitalize">Unprocessed</option>
-                        <option value="processing" class="text-secondary text-capitalize">Processing</option>
-                        <option value="processed" class="text-secondary text-capitalize">Processed</option>
-                        <option value="taken" class="text-secondary text-capitalize">Taken</option>
-                    </select>
-                </div>
-                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-2">
-                    <label class="mb-1 text-left">Status Pelunasan :</label>
-                    <select wire:model.live.debounce.300ms="paymentStatus" class="form-select">
-                        <option value="" class="text-secondary text-capitalize">Semua</option>
-                        <option value="0" class="text-secondary text-capitalize">Belum Bayar</option>
-                        <option value="1" class="text-secondary text-capitalize">Sudah Bayar</option>
-                    </select>
-                </div>
-                <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-1">
-                    <label class="mb-1 text-left">Status DP :</label>
-                    <select wire:model.live.debounce.300ms="dpStatus" class="form-select">
-                        <option value="" class="text-secondary text-capitalize">Semua</option>
-                        <option value="0" class="text-secondary text-capitalize">Belum Bayar</option>
-                        <option value="1" class="text-secondary text-capitalize">Sudah Bayar</option>
-                    </select>
-                </div>
-                <div class="form-group col-12 mt-2 mt-xl-0 col-xl-3">
-                    <label class="mb-1 text-left">Tanggal :</label>
+                <div class="form-group col-12 mt-2 mt-xl-0 col-xl-2">
+                    <label class="mb-1 text-left">Tanggal Transaksi :</label>
                     <div class="input-group">
-                        <select class="form-select" wire:model.live.debounce.300ms='dateColumn'>
-                            <option value="t.created_at">Transaksi Dibuat</option>
-                            <option value="t.transaction_complete_date">Transaksi Selesai</option>
-                        </select>
                         <input type="text" class="form-control" id="daterange" name="dates"
                             value="01/01/2018 - 01/15/2018" wire:change='dateOnChange' />
                     </div>
@@ -107,16 +76,12 @@
                             <th class="text-secondary">Nama Perusahaan</th>
                             @endif
                             <th class="text-secondary sort @if ($sortColumn=='t.amount') {{$sortDirection}}@endif"
-                                wire:click="sort('amount')">Nominal</th>
-                            <th class="text-secondary sort @if ($sortColumn=='t.jatuh_tempo') {{$sortDirection}}@endif "
-                                wire:click="sort('jatuh_tempo')">Jatuh Tempo</th>
-                            <th class="text-secondary sort @if ($sortColumn=='t.payment_status') {{$sortDirection}}@endif"
-                                wire:click="sort('payment_status')">Status Pelunasan</th>
-                            <th class="text-secondary">Status Proses</th>
-                            <th class="text-secondary sort @if ($sortColumn=='t.transaction_complete_date') {{$sortDirection}}@endif"
-                                wire:click="sort('transaction_complete_date')">Tanggal Selesai
+                                wire:click="sort('amount')">
+                                Nominal
                             </th>
-                            <th class="text-secondary">Aksi</th>
+                            <th class="text-secondary">
+                                Aksi
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -129,57 +94,12 @@
                             <td>{{$transaction->name }}</td>
                             @endif
                             <td>Rp{{number_format($transaction->amount,0, ".", ".")}}</td>
-                            <td>{{$transaction->jatuh_tempo }}</td>
-                            <td>{{$transaction->payment_status == 1 ? 'Sudah Bayar' : 'Belum Dibayar'}}</td>
-                            <td class="text-capitalize">{{$transaction->process_status }}</td>
-                            <td>{{$transaction->transaction_complete_date ? $transaction->transaction_complete_date :
-                                '-'}}</td>
-                            <td class="">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-light  dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Aksi
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end px-2">
-                                        <li>
-                                            <a class="text-decoration-none" href={{route('data.transaksi.detail',
-                                                $transaction->id)}}>
-                                                <div class="dropdown-item text-dropdown rounded-2" type="button">
-                                                    Detail transaksi
-                                                </div>
-                                            </a>
-                                        </li>
-                                        @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
-                                        <li class="cursor-pointer">
-                                            <a class="text-decoration-none" href="#">
-                                                <div class="dropdown-item text-dropdown rounded-2 edit cursor-pointer"
-                                                    data-edit-id="{{$transaction->id}}"
-                                                    data-transaction-code="{{$transaction->transaction_code}}"
-                                                    data-company-name="{{$transaction->name}}"
-                                                    data-payment-status="{{$transaction->payment_status}}"
-                                                    data-process-status="{{$transaction->process_status}}"
-                                                    data-dp-status="{{$transaction->dp_status}}">
-                                                    Edit status
-                                                </div>
-                                            </a>
-                                        </li>
-                                        @endif
-                                        <li>
-                                            <div class="dropdown-item rounded-2 button-pdf text-dropdown"
-                                                wire:click="downloadPDF({{$transaction->id}})" type="button">
-                                                Download invoice
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <a class="text-decoration-none button-pdf" target="_blank"
-                                                href={{route('data.transaksi.viewPDF', $transaction->id)}}>
-                                                <div class="dropdown-item rounded-2 text-dropdown" type="button">
-                                                    View Invoice
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <td>
+                                <a class="text-decoration-none btn btn-secondary" data-bs-toggle="tooltip"
+                                    data-bs-custom-class="custom-tooltip" data-bs-title="Transaksi Detail"
+                                    href={{route('data.transaksi.detail',$transaction->id)}}>
+                                    <i class="ri-list-check"></i>
+                                </a>
                             </td>
                         </tr>
                         @empty
@@ -265,17 +185,11 @@
                 const editId = $(this).data('edit-id');
                 const transactionCode = $(this).data('transaction-code');
                 const companyName = $(this).data('company-name');
-                const paymentStatus = $(this).data('payment-status');
-                const processStatus = $(this).data('process-status');
-                const dpStatus = $(this).data('dp-status');
                 
                 $('#editmodal').modal('show');
                 $('#edit-id').val(editId);
                 $('#transaction-code').val(transactionCode);
                 $('#companyName').val(companyName);
-                $('#payment-status').val(paymentStatus);
-                $('#process_status').val(processStatus);
-                $('#dp-status').val(dpStatus);
             });
         // 
         $(document).on('submit', '#editForm', function (event){

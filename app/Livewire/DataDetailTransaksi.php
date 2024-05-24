@@ -167,25 +167,14 @@ class DataDetailTransaksi extends Component
         $this->transaction = DB::table('transactions as t')
             ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
             ->join('company as c', 't.company_id', '=', 'c.id')
-            ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate,
-                    t.process_status as processStatus, t.amount as revenue, (t.amount - sum(dt.hpp * qty)) as profit,
-                    sum(dt.cashback_value * dt.qty_cashback_item) as cashback, t.dp_value as dp_value, 
-                    t.payment_status as payment_status, t.dp_status as dp_status, sum(dt.qty_cashback_item) as cashback_item,
-                    t.jatuh_tempo as jatuh_tempo, t.jatuh_tempo_dp as jatuh_tempo_dp, t.dp_payment_receipt, t.full_payment_receipt")
+            ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate, t.amount as revenue, (t.amount - sum(dt.hpp * qty)) as profit,
+                    sum(dt.cashback_value * dt.qty_cashback_item) as cashback, sum(dt.qty_cashback_item) as cashback_item")
             ->where('t.id', $this->id)
             ->groupBy('t.id')
             ->groupBy('t.transaction_code')
             ->groupBy('c.name')
             ->groupBy('t.created_at')
-            ->groupBy('t.process_status')
             ->groupBy('t.amount')
-            ->groupBy('t.dp_value')
-            ->groupBy('t.payment_status')
-            ->groupBy('t.dp_status')
-            ->groupBy('t.jatuh_tempo')
-            ->groupBy('t.jatuh_tempo_dp')
-            ->groupBy('t.dp_payment_receipt')
-            ->groupBy('t.full_payment_receipt')
             ->first();
     }
 
