@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaction_id')->constrained('transactions');
             $table->foreignId('product_id')->constrained('products');
-            $table->float('hpp', 10 , 2 );
-            $table->float('price', 10 , 2 );
-            $table->integer('qty' );
+            $table->foreignId('invoice_id')->nullable()->constrained('invoice');
+            $table->float('hpp', 10, 2);
+            $table->float('price', 10, 2);
+            $table->enum('process_status', ['unprocessed ', 'processing', 'processed', 'taken', 'cancel'])->default('unprocessed');
+            $table->boolean('invoice_status')->default(0);
+            $table->integer('qty');
             $table->boolean('is_cashback');
-            $table->float('cashback_value', 10,2);
+            $table->float('cashback_value', 10, 2);
             $table->integer('qty_cashback_item');
             $table->timestamps();
         });

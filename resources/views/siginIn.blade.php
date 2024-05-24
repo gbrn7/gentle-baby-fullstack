@@ -18,11 +18,12 @@
       {{$message}}
     </div>
     @enderror
-    <div class="password-container">
+    <div class="password-container position-relative">
       <label for="password">Password</label>
       <div class="pass-wrapper">
         <input name="password" type="password" class="form-control text-black @error('password') is-invalid @enderror"
           id="password" placeholder="Masukan password" />
+        <i class="ri-eye-close-fill pass-icon eye-pass position-absolute"></i>
         @error('password')
         <div class="invalid-feedback">
           {{$message}}

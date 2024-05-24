@@ -15,17 +15,26 @@ class TransactionDetail extends Model
         'product_id',
         'hpp',
         'price',
+        'process_status',
+        'invoice_status',
         'qty',
         'is_cashback',
         'cashback_value',
         'qty_cashback_item',
     ];
 
-    public function transaction(){
+    public function transaction()
+    {
         return $this->belongsTo(Transaction::class);
     }
 
-    public function product(){
+    public function invoice()
+    {
+        return $this->belongsTo(invoice::class);
+    }
+
+    public function product()
+    {
         return $this->belongsTo(Product::class);
     }
 }

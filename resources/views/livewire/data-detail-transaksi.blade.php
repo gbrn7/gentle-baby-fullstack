@@ -149,7 +149,7 @@
                             <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status Proses</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
+                                    <p class="card-title fw-bold text-capitalize">{{$transaction->processStatus}}</p>
                                 </div>
                             </div>
                             <div class="card bg-glass mb-3">
@@ -238,7 +238,7 @@
                         <div class="card bg-glass mb-3">
                             <div class="card-header text-secondary">Status Proses</div>
                             <div class="card-body">
-                                <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
+                                <p class="card-title fw-bold text-capitalize">{{$transaction->processStatus}}</p>
                             </div>
                         </div>
                         <div class="card bg-glass mb-3">
@@ -358,7 +358,7 @@
                             <div class="card bg-glass mb-3">
                                 <div class="card-header text-secondary">Status Proses</div>
                                 <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->processStatus}}</p>
+                                    <p class="card-title fw-bold text-capitalize">{{$transaction->processStatus}}</p>
                                 </div>
                             </div>
                             <div class="card bg-glass mb-3">
@@ -419,7 +419,11 @@
                                     <th class="text-secondary sort @if ($sortColumn=='qty_cashback_item') {{$sortDirection}}@endif"
                                         wire:click="sort('qty_cashback_item')">Total Cashback</th>
                                     @endif
+                                    <th class="text-secondary">Status Proses</th>
                                     <th class="text-secondary">Total</th>
+                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role ==='admin')
+                                    <th class="text-secondary">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody id="tableBody">
@@ -429,16 +433,97 @@
                                     <td>{{$detailsTransaction->product->name }}</td>
                                     <td>Rp{{number_format($detailsTransaction->price,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->qty }}</td>
-                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role ===
-                                    'admin')
+                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role ==='admin')
                                     <td>Rp{{number_format($detailsTransaction->hpp,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->is_cashback == 1 ? 'Iya' : 'Tidak'}}</td>
                                     <td>Rp{{number_format($detailsTransaction->cashback_value,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->qty_cashback_item}}</td>
                                     @endif
+                                    <td class="text-capitalize">{{$detailsTransaction->process_status}}</td>
                                     <td>Rp{{number_format(($detailsTransaction->price *
                                         $detailsTransaction->qty),0,
-                                        ".",".")}}</td>
+                                        ".",".")}}
+                                    </td>
+                                    @if (auth()->user()->role == 'super_admin' || auth()->user()->role ==='admin')
+                                    <td class="">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-light  dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Ubah Status
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end px-2">
+                                                @if($detailsTransaction->process_status != 'unprocessed')
+                                                <li>
+                                                    <form
+                                                        action="{{route('data.transaksi.detail.changeStatus.update', ['id' => $detailsTransaction->id, 'status' => 'unprocessed'])}}"
+                                                        method="POST" class="mb-0">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="text-decoration-none btn p-0 w-100">
+                                                            <div class="dropdown-item text-dropdown rounded-2"
+                                                                type="button">
+                                                                Unprocessed
+                                                            </div>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                @endif
+                                                @if($detailsTransaction->process_status != 'processed')
+                                                <li>
+                                                    <form
+                                                        action="{{route('data.transaksi.detail.changeStatus.update', ['id' => $detailsTransaction->id,'status' => 'processed'])}}"
+                                                        method="POST" class="mb-0">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="text-decoration-none btn p-0 w-100">
+                                                            <div class="dropdown-item text-dropdown rounded-2"
+                                                                type="button">
+                                                                Processed
+                                                            </div>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                @endif
+                                                @if($detailsTransaction->process_status != 'taken')
+                                                <li>
+                                                    <form
+                                                        action="{{route('data.transaksi.detail.changeStatus.update', ['id' => $detailsTransaction->id,'status' => 'taken'])}}"
+                                                        method="POST" class="mb-0">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="text-decoration-none btn p-0 w-100">
+                                                            <div class="dropdown-item text-dropdown rounded-2"
+                                                                type="button">
+                                                                Taken
+                                                            </div>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                @endif
+                                                @if($detailsTransaction->process_status != 'cancel')
+                                                <li>
+                                                    <form
+                                                        action="{{route('data.transaksi.detail.changeStatus.update', ['id' => $detailsTransaction->id,'status' => 'cancel'])}}"
+                                                        method="POST" class="mb-0">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="text-decoration-none btn p-0 w-100">
+                                                            <div class="dropdown-item text-dropdown rounded-2"
+                                                                type="button">
+                                                                Cancel
+                                                            </div>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

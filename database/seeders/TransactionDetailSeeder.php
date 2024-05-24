@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +16,7 @@ class TransactionDetailSeeder extends Seeder
         DB::table('transactions_detail')->insert([
             [
                 "transaction_id" => 1,
+                "invoice_id" => 1,
                 "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
@@ -27,6 +29,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 1,
+                "invoice_id" => 1,
                 "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,
@@ -39,6 +42,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 2,
+                "invoice_id" => 1,
                 "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
@@ -51,6 +55,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 2,
+                "invoice_id" => 1,
                 "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,
@@ -63,6 +68,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 3,
+                "invoice_id" => 1,
                 "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
@@ -75,6 +81,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 3,
+                "invoice_id" => 1,
                 "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,
@@ -85,6 +92,6 @@ class TransactionDetailSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-        ]);      
+        ]);
     }
 }

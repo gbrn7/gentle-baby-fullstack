@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CompanyMemberSeeder::class,
             ProductSeeder::class,
             TransactionSeeder::class,
+            InvoiceSeeder::class,
             TransactionDetailSeeder::class,
         ]);
     }

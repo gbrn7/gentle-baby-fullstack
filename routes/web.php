@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DataAdminController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Livewire\DataTransaksi;
 use App\Livewire\DataDetailTransaksi;
@@ -25,12 +26,12 @@ use App\Livewire\OrderProduct;
 Route::get('/sign-in', [AuthController::class, 'index'])->name('sign-in');
 Route::post('/sign-in', [AuthController::class, 'authenticate'])->name('sign-in.auth');
 
-Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
+Route::group(['prefix' => 'client', 'middleware' => ['auth']], function () {
   Route::get('/home-page', [ClientController::class, 'index'])->name('client');
   Route::get('/getCurrentUser', [ClientController::class, 'getCurrentUser'])->name('client.getCurrentUser');
   Route::get('/setModeSession', [ClientController::class, 'setModeSession'])->name('client.setModeSession');
   Route::put('/updateCurrentUserData', [ClientController::class, 'update'])->name('client.currentUser.update');
-  
+
   Route::prefix('/data-admin')->group(function () {
     Route::get('/', [DataAdminController::class, 'index'])->name('data.admin');
     Route::post('/store', [DataAdminController::class, 'store'])->name('data.admin.store');
@@ -42,7 +43,7 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
   Route::prefix('/data-pelanggan')->group(function () {
     Route::get('/my-company', [CompanyController::class, 'getCurrentCompany'])->name('data.perusahaan.current');
     Route::put('/my-company/update', [CompanyController::class, 'updateMyCompany'])->name('data.perusahaan.update');
-    
+
     Route::get('/', [CompanyController::class, 'index'])->name('data.pelanggan');
     Route::post('/store', [CompanyController::class, 'store'])->name('data.pelanggan.store');
     Route::get('/getforms', [CompanyController::class, 'getForm'])->name('data.pelanggan.getForm');
@@ -57,7 +58,7 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
     });
   });
 
-  Route::group(['prefix' => '/data-product', 'middleware' => ['admin.auth']],function () {
+  Route::group(['prefix' => '/data-product', 'middleware' => ['admin.auth']], function () {
     Route::get('/', [ProductController::class, 'index'])->name('data.product');
     Route::get('/create', [ProductController::class, 'createProduct'])->name('data.product.create');
     Route::post('/store', [ProductController::class, 'store'])->name('data.product.store');
@@ -72,8 +73,11 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
     Route::put('/edit', [DataTransaksi::class, 'updateStatus'])->name('data.transaksi.update.status');
     Route::get('/view/pdf/{id}', [DataTransaksi::class, 'viewPDF'])->name('data.transaksi.viewPDF');
     Route::get('/{id}', DataDetailTransaksi::class)->name('data.transaksi.detail');
+    Route::put('/detailTransaksi/changeStatus/{id}', [DataDetailTransaksi::class, 'changeStatus'])->name('data.transaksi.detail.changeStatus.update');
     Route::put('/detailTransaksi/{id}', [DataDetailTransaksi::class, 'updateTransaction'])->name('data.transaksi.detail.update');
   });
+
+  Route::resource('data-invoice', InvoiceController::class);
 
   Route::prefix('/order-product')->group(function () {
     Route::get('/', OrderProduct::class)->name('order.product');
@@ -92,8 +96,8 @@ Route::group(['prefix'=>'client', 'middleware' => ['auth']], function(){
 // });
 
 Route::any('/{any}', function () {
-  if(auth()->user()){
+  if (auth()->user()) {
     return redirect()->route('client');
-}
-return redirect()->route('sign-in');
+  }
+  return redirect()->route('sign-in');
 })->where('any', '.*');
