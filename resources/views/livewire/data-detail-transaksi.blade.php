@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="card bg-glass mb-3">
-                            <div class="card-header text-secondary">Nominal</div>
+                            <div class="card-header text-secondary">Revenue</div>
                             <div class="card-body">
                                 <p class="card-title fw-bold">Rp{{number_format($transaction->revenue,0,
                                     ".",

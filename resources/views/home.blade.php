@@ -19,10 +19,10 @@
       <div class="wrapper col-sm-4">
         <div class="card card-1  rounded-3 h-100">
           <div class="head p-2 d-flex align-items-center gap-2 letter"><i
-              class='bx bx-money-withdraw p-2 rounded-circle icon-head'></i> <span>Total Pendapatan</span></div>
+              class='bx bx-money-withdraw p-2 rounded-circle icon-head'></i> <span>Total Invoice Terbayar</span></div>
           <div class="content-text px-2 mt-3">
-            <p data-purecounter-start="0" data-purecounter-end="{{$transactionSummary->revenue}}" class="text m-0">
-              Rp{{number_format($transactionSummary->revenue,0, ".", ".")}}
+            <p data-purecounter-start="0" data-purecounter-end="{{$paidInvoice}}" class="text m-0">
+              Rp{{number_format($paidInvoice,0, ".", ".")}}
             </p>
           </div>
         </div>
@@ -31,18 +31,19 @@
         <div class="card card-2 rounded-3 h-100">
           <div class="head p-2 d-flex align-items-center gap-2 letter"><i
               class='bx bxs-package p-2 rounded-circle icon-head'></i>
-            <span>Total Order Terbayar</span>
+            <span>Total Invoice Belum Terbayar</span>
           </div>
           <div class="content-text px-2 mt-3 ">
-            <p data-purecounter-start="0" data-purecounter-duration="1" class="text m-0 purecounter">
-              {{$transactionSummary->countTransaction}}</p>
+            <p data-purecounter-start="0" data-purecounter-end="{{$unpaidInvoice}}" class="text m-0">
+              Rp{{number_format($unpaidInvoice,0, ".", ".")}}
+            </p>
           </div>
         </div>
       </div>
       <div class="wrapper col-sm-4">
         <div class="card card-3 rounded-3 h-100">
           <div class="head p-2 d-flex align-items-center gap-2 letter"><i
-              class='icon-head bx bx-shopping-bag p-2 rounded-circle'></i> <span>Belum Selesai Diproses</span></div>
+              class='icon-head bx bx-shopping-bag p-2 rounded-circle'></i> <span>Pesanan Belum Diproses</span></div>
           <div class="content-text px-2 mt-3 ">
             <p data-purecounter-start="0" data-purecounter-duration="1" data-purecounter-end=""
               class="text m-0 purecounter">{{$orders->orderCount}}

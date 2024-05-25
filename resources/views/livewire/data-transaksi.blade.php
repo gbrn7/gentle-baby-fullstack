@@ -48,7 +48,6 @@
                             @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <option value="c.name">Nama Perusahaan</option>
                             @endif
-                            <option value="t.amount">Nominal</option>
                         </select>
                         <input class="form-control" type="text" wire:model.live.debounce.500ms="keywords" />
                     </div>
@@ -75,10 +74,6 @@
                             @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <th class="text-secondary">Nama Perusahaan</th>
                             @endif
-                            <th class="text-secondary sort @if ($sortColumn=='t.amount') {{$sortDirection}}@endif"
-                                wire:click="sort('amount')">
-                                Nominal
-                            </th>
                             <th class="text-secondary">
                                 Aksi
                             </th>
@@ -93,7 +88,6 @@
                             @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <td>{{$transaction->name }}</td>
                             @endif
-                            <td>Rp{{number_format($transaction->amount,0, ".", ".")}}</td>
                             <td>
                                 <a class="text-decoration-none btn btn-secondary" data-bs-toggle="tooltip"
                                     data-bs-custom-class="custom-tooltip" data-bs-title="Transaksi Detail"

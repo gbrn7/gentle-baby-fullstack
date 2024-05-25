@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyMember;
 use App\Models\Invoice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -12,8 +13,17 @@ class InvoiceController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin') {
+            $invoices = Invoice::with('company')->orderBy('id', 'desc')->get();
+        } elseif (auth()->user()->role == 'super_admin_cust') {
+            $invoices = Invoice::with('company')->orderBy('id', 'desc')->whereRelation('company', 'owner_id', auth()->user()->id)->get();
+        } else {
+            $company = CompanyMember::with('company')
+                ->where('user_id', auth()->user()->id)
+                ->first();
 
-        $invoices = Invoice::with('company')->orderBy('id', 'desc')->get();
+            $invoices = Invoice::with('company')->orderBy('id', 'desc')->where('company_id', $company->id)->get();
+        }
 
         return view('data-invoice.index', compact('invoices'));
     }

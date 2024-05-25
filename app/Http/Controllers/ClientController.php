@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,18 +18,24 @@ class ClientController extends Controller
     {
 
         if (auth()->user()->role === 'super_admin') {
-            $transactionSummary = DB::table('transactions as t')
-                ->selectRaw('sum(t.amount) as revenue, count(t.id) as countTransaction')
-                ->first();
+            $invoice = Invoice::all();
 
-            $orders = DB::table('transactions as t')
-                ->selectRaw('count(t.id) as orderCount')
+            $paidInvoice = $invoice->where('payment_status', 1)
+                ->pluck('amount')->sum();
+
+            $unPaidInvoice = $invoice->where('payment_status', 0)
+                ->pluck('amount')->sum();
+
+            $orders = DB::table('transactions_detail as td')
+                ->selectRaw('count(td.id) as orderCount')
+                ->where('process_status', 'unprocessed')
                 ->first();
 
             $productPerfomance = DB::table('transactions as t')
                 ->join('transactions_detail as td', 'td.transaction_id', '=', 't.id')
                 ->join('products as p', 'p.id', '=', 'td.product_id')
                 ->selectRaw('p.id as productId, p.name as productName ,sum(td.qty) as totalQty, sum(td.qty * td.price) as totalValue')
+                ->where('td.process_status', '!=', 'cancel')
                 ->groupBy('p.id')
                 ->groupBy('p.name')
                 ->get();
@@ -36,7 +43,7 @@ class ClientController extends Controller
             $highPerfomanceProducts = (collect($productPerfomance))->sortByDesc('totalQty');
             $lowPerfomanceProducts = (collect($productPerfomance))->sortBy('totalQty');
 
-            return view('home', ['transactionSummary' => $transactionSummary, 'orders' => $orders, 'highPerfomanceProducts' => $highPerfomanceProducts, 'lowPerfomanceProducts' => $lowPerfomanceProducts]);
+            return view('home', ['paidInvoice' => $paidInvoice, 'unpaidInvoice' => $unPaidInvoice, 'orders' => $orders, 'highPerfomanceProducts' => $highPerfomanceProducts, 'lowPerfomanceProducts' => $lowPerfomanceProducts]);
         }
 
         return view('home');

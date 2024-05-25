@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('transaction_code');
             $table->foreignId('company_id')->constrained('company');
-            $table->float('amount', 30, 2);
             $table->timestamps();
         });
     }

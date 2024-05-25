@@ -167,14 +167,14 @@ class DataDetailTransaksi extends Component
         $this->transaction = DB::table('transactions as t')
             ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
             ->join('company as c', 't.company_id', '=', 'c.id')
-            ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate, t.amount as revenue, (t.amount - sum(dt.hpp * qty)) as profit,
+            ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate, sum(dt.price * dt.qty) as revenue, sum(dt.price * dt.qty) - sum(dt.hpp * qty) as profit,
                     sum(dt.cashback_value * dt.qty_cashback_item) as cashback, sum(dt.qty_cashback_item) as cashback_item")
             ->where('t.id', $this->id)
+            ->where('dt.process_status', '!=', 'cancel')
             ->groupBy('t.id')
             ->groupBy('t.transaction_code')
             ->groupBy('c.name')
             ->groupBy('t.created_at')
-            ->groupBy('t.amount')
             ->first();
     }
 

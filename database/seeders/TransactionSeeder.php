@@ -20,20 +20,17 @@ class TransactionSeeder extends Seeder
 
                 "transaction_code" => Str::random(10),
                 "company_id" => 3,
-                "amount" => 4000000,
                 "created_at" => Carbon::now()->subMonth(),
             ],
             [
 
                 "transaction_code" => Str::random(10),
                 "company_id" => 2,
-                "amount" => 4000000,
                 "created_at" => Carbon::now()->subDay(),
             ],
             [
                 "transaction_code" => Str::random(10),
                 "company_id" => 2,
-                "amount" => 7375000,
                 "created_at" => now()
             ],
 

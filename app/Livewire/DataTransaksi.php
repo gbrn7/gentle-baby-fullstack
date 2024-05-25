@@ -65,49 +65,6 @@ class DataTransaksi extends Component
         $result = WablasTrait::sendMessage($data);
     }
 
-    // public function viewPDF($transactionId)
-    // {
-    //     $transaction = DB::table('transactions as t')
-    //         ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
-    //         ->join('company as c', 't.company_id', '=', 'c.id')
-    //         ->join('users as u', 'u.id', '=', 'c.owner_id')
-    //         ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate,
-    //                 t.process_status as processStatus, t.amount as revenue, t.dp_value as dp_value, 
-    //                 t.payment_status as payment_status, t.dp_status as dp_status, t.jatuh_tempo as jatuh_tempo, t.jatuh_tempo_dp as jatuh_tempo_dp, t.dp_payment_receipt, t.full_payment_receipt, 
-    //                 u.name as owner_name ,u.email as owner_email, u.phone_number as owner_phone_number")
-    //         ->where('t.id', $transactionId)
-    //         ->groupBy('t.id')
-    //         ->groupBy('u.email')
-    //         ->groupBy('u.name')
-    //         ->groupBy('u.phone_number')
-    //         ->groupBy('t.transaction_code')
-    //         ->groupBy('c.name')
-    //         ->groupBy('t.created_at')
-    //         ->groupBy('t.process_status')
-    //         ->groupBy('t.amount')
-    //         ->groupBy('t.dp_value')
-    //         ->groupBy('t.payment_status')
-    //         ->groupBy('t.dp_status')
-    //         ->groupBy('t.jatuh_tempo')
-    //         ->groupBy('t.jatuh_tempo_dp')
-    //         ->groupBy('t.dp_payment_receipt')
-    //         ->groupBy('t.full_payment_receipt')
-    //         ->first();
-
-    //     $detailsTransactions = TransactionDetail::with('transaction')
-    //         ->with('product')
-    //         ->where('transaction_id', $transactionId)
-    //         ->get();
-
-    //     $pdf = Pdf::loadView('invoice', [
-    //         'transaction' => $transaction,
-    //         'detailsTransactions' => $detailsTransactions
-    //     ]);
-
-
-    //     return $pdf->stream('Invoice-' . $transaction->transaction_code . '.pdf', array("Attachment" => false));
-    // }
-
     #[On('dateRange')]
     public function dateOnChange($data)
     {
@@ -115,56 +72,12 @@ class DataTransaksi extends Component
         $this->endDate = date("Y-m-d 23:59:59", strtotime($data['endDate']));
     }
 
-    // public function downloadPDF($transactionId)
-    // {
-    //     $transaction = DB::table('transactions as t')
-    //         ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
-    //         ->join('company as c', 't.company_id', '=', 'c.id')
-    //         ->join('users as u', 'u.id', '=', 'c.owner_id')
-    //         ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate,
-    //                     t.process_status as processStatus, t.amount as revenue, t.dp_value as dp_value, 
-    //                     t.payment_status as payment_status, t.dp_status as dp_status, t.jatuh_tempo as jatuh_tempo, t.jatuh_tempo_dp as jatuh_tempo_dp, t.dp_payment_receipt, t.full_payment_receipt, 
-    //                     u.name as owner_name ,u.email as owner_email, u.phone_number as owner_phone_number")
-    //         ->where('t.id', $transactionId)
-    //         ->groupBy('t.id')
-    //         ->groupBy('u.email')
-    //         ->groupBy('u.name')
-    //         ->groupBy('u.phone_number')
-    //         ->groupBy('t.transaction_code')
-    //         ->groupBy('c.name')
-    //         ->groupBy('t.created_at')
-    //         ->groupBy('t.process_status')
-    //         ->groupBy('t.amount')
-    //         ->groupBy('t.dp_value')
-    //         ->groupBy('t.payment_status')
-    //         ->groupBy('t.dp_status')
-    //         ->groupBy('t.jatuh_tempo')
-    //         ->groupBy('t.jatuh_tempo_dp')
-    //         ->groupBy('t.dp_payment_receipt')
-    //         ->groupBy('t.full_payment_receipt')
-    //         ->first();
-
-    //     $detailsTransactions = TransactionDetail::with('transaction')
-    //         ->with('product')
-    //         ->where('transaction_id', $transactionId)
-    //         ->get();
-
-    //     $pdf = Pdf::loadView('invoice', [
-    //         'transaction' => $transaction,
-    //         'detailsTransactions' => $detailsTransactions
-    //     ]);
-
-    //     return response()->streamDownload(function () use ($pdf) {
-    //         echo $pdf->stream();
-    //     }, 'Invoice-' . $transaction->transaction_code . '.pdf');
-    // }
-
     public function render()
     {
         if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin') {
             $transactions = DB::table('transactions as t')
                 ->join('company as c', 't.company_id', '=', 'c.id')
-                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name, t.amount")
+                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name")
                 ->where($this->columnFilter, 'like', '%' . $this->keywords . '%')
                 ->whereBetween($this->dateColumn, [$this->startDate, $this->endDate])
                 ->orderBy($this->sortColumn, $this->sortDirection)
@@ -172,7 +85,7 @@ class DataTransaksi extends Component
         } else if (auth()->user()->role == 'super_admin_cust') {
             $transactions = DB::table('transactions as t')
                 ->join('company as c', 't.company_id', '=', 'c.id')
-                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name, t.amount")
+                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name")
                 ->where('c.owner_id', auth()->user()->id)
                 ->where($this->columnFilter, 'like', '%' . $this->keywords . '%')
                 ->whereBetween($this->dateColumn, [$this->startDate, $this->endDate])
@@ -181,7 +94,7 @@ class DataTransaksi extends Component
         } else {
             $transactions = DB::table('transactions as t')
                 ->join('company as c', 't.company_id', '=', 'c.id')
-                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name, t.amount")
+                ->selectRaw("t.id as id,t.transaction_code, t.created_at, c.name")
                 ->where('c.id', $this->companyMember->company_id)
                 ->where($this->columnFilter, 'like', '%' . $this->keywords . '%')
                 ->whereBetween($this->dateColumn, [$this->startDate, $this->endDate])
