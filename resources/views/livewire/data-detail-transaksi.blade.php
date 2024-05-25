@@ -1,7 +1,7 @@
 <div>
     <div>
         <div class="title-box  d-flex gap-2 align-items-baseline"><i class="ri-arrow-left-right-line fs-2"></i>
-            <p class="fs-3 m-0">Data Detail Transaksi {{$transaction->transaction_code}}</p>
+            <p class="fs-3 m-0">Data Detail Transaksi #{{$transaction->transaction_code}}</p>
         </div>
         <div class="breadcrumbs-box mt-2 rounded rounded-2 bg-white p-2">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -33,64 +33,56 @@
                 </div>
 
                 @switch(auth()->user()->role)
-
-
-                @case('super_admin') <form id="editForm" method="POST" action={{route('data.transaksi.detail.update',
-                    $transaction->
-                    id)}}
-                    enctype="multipart/form-data">
-                    @csrf
-                    @method('put')
-                    <div class="info-wrapper row">
-                        <div class="col-12 col-sm-4">
-                            <div class="card bg-glass mb-3">
-                                <div class="card-header text-secondary">Nama Perusahaan</div>
-                                <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->companyName}}</p>
-                                </div>
-                            </div>
-                            <div class="card bg-glass mb-3">
-                                <div class="card-header text-secondary">Nominal</div>
-                                <div class="card-body">
-                                    <p class="card-title fw-bold">Rp{{number_format($transaction->revenue,0,
-                                        ".",
-                                        ".")}}
-                                    </p>
-                                </div>
+                @case('super_admin')
+                <div class="info-wrapper row">
+                    <div class="col-12 col-sm-4">
+                        <div class="card bg-glass mb-3">
+                            <div class="card-header text-secondary">Nama Perusahaan</div>
+                            <div class="card-body">
+                                <p class="card-title fw-bold">{{$transaction->companyName}}</p>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="card bg-glass mb-3">
-                                <div class="card-header text-secondary">Tanggal Transaksi</div>
-                                <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
-                                </div>
-                            </div>
-                            <div class="card bg-glass mb-3">
-                                <div class="card-header text-secondary">Profit</div>
-                                <div class="card-body">
-                                    <p class="card-title fw-bold">Rp{{number_format($transaction->profit,0,
-                                        ".",
-                                        ".")}}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="card bg-glass mb-3">
-                                <div class="card-header text-secondary">Nilai Cashback</div>
-                                <div class="card-body">
-                                    <p class="card-title fw-bold">Rp{{$transaction->cashback}}</p>
-                                </div>
-                            </div>
-                            <div class="card bg-glass mb-3">
-                                <div class="card-header text-secondary">Cashback Item</div>
-                                <div class="card-body">
-                                    <p class="card-title fw-bold">{{$transaction->cashback_item}}</p>
-                                </div>
+                        <div class="card bg-glass mb-3">
+                            <div class="card-header text-secondary">Nominal</div>
+                            <div class="card-body">
+                                <p class="card-title fw-bold">Rp{{number_format($transaction->revenue,0,
+                                    ".",
+                                    ".")}}
+                                </p>
                             </div>
                         </div>
                     </div>
-                </form>
+                    <div class="col-12 col-sm-4">
+                        <div class="card bg-glass mb-3">
+                            <div class="card-header text-secondary">Tanggal Transaksi</div>
+                            <div class="card-body">
+                                <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
+                            </div>
+                        </div>
+                        <div class="card bg-glass mb-3">
+                            <div class="card-header text-secondary">Profit</div>
+                            <div class="card-body">
+                                <p class="card-title fw-bold">Rp{{number_format($transaction->profit,0,
+                                    ".",
+                                    ".")}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="card bg-glass mb-3">
+                            <div class="card-header text-secondary">Nilai Cashback</div>
+                            <div class="card-body">
+                                <p class="card-title fw-bold">Rp{{$transaction->cashback}}</p>
+                            </div>
+                        </div>
+                        <div class="card bg-glass mb-3">
+                            <div class="card-header text-secondary">Cashback Item</div>
+                            <div class="card-body">
+                                <p class="card-title fw-bold">{{$transaction->cashback_item}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @break
 
                 @case('admin')
@@ -176,8 +168,8 @@
                                     <th class="text-secondary sort @if ($sortColumn=='qty_cashback_item') {{$sortDirection}}@endif"
                                         wire:click="sort('qty_cashback_item')">Total Cashback</th>
                                     @endif
-                                    <th class="text-secondary">Status Proses</th>
                                     <th class="text-secondary">Total</th>
+                                    <th class="text-secondary">Status Proses</th>
                                     @if (auth()->user()->role == 'super_admin' || auth()->user()->role ==='admin')
                                     <th class="text-secondary">Aksi</th>
                                     @endif
@@ -196,11 +188,11 @@
                                     <td>Rp{{number_format($detailsTransaction->cashback_value,0, ".",".")}}</td>
                                     <td>{{$detailsTransaction->qty_cashback_item}}</td>
                                     @endif
-                                    <td class="text-capitalize">{{$detailsTransaction->process_status}}</td>
                                     <td>Rp{{number_format(($detailsTransaction->price *
                                         $detailsTransaction->qty),0,
                                         ".",".")}}
                                     </td>
+                                    <td class="text-capitalize">{{$detailsTransaction->process_status}}</td>
                                     @if (auth()->user()->role == 'super_admin' || auth()->user()->role ==='admin')
                                     <td class="">
                                         <div class="btn-group">

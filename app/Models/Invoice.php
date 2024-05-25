@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'invoice';
 
     //this means that what column is not permitted to fill
@@ -22,6 +22,11 @@ class Invoice extends Model
 
     public function detailTransactions(): HasMany
     {
-        return $this->hasMany(TransactionDetail::class, 'id', 'invoice_id');
+        return $this->hasMany(TransactionDetail::class, 'invoice_id');
     }
+
+    protected $casts = [
+        'payment_due_date' => 'date',
+        'dp_due_date' => 'date',
+    ];
 }

@@ -26,9 +26,11 @@
         </ul>
       </div>
       @endif
+      @if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin')
       <a href={{route('data.product.create')}}>
         <div id="add" class="btn btn-success"><i class="ri-add-box-line me-2"></i>Tambah Invoice</div>
       </a>
+      @endif
     </div>
     <div class="table-wrapper mt-2 mb-2">
       <table id="example" class="table mt-3 table-hover table-borderless" style="width: 100%">
@@ -39,9 +41,10 @@
             <th class="text-secondary">Perusahaan</th>
             <th class="text-secondary">Nominal</th>
             <th class="text-secondary">Jatuh Tempo</th>
-            <th class="text-secondary">Status Pembayaran</th>
+            <th class="text-secondary">Status Pelunasan</th>
             <th class="text-secondary">Nominal DP</th>
             <th class="text-secondary">Jatuh Tempo DP</th>
+            <th class="text-secondary">Status Dp</th>
             <th class="text-secondary">Aksi</th>
           </tr>
         </thead>
@@ -49,27 +52,23 @@
           @foreach ($invoices as $invoice)
           <tr>
             <td>{{$invoice->id }}</td>
-            <td>{{$invoice->invoice_code }}</td>
+            <td>#{{$invoice->invoice_code }}</td>
             <td>{{$invoice->company->name }}</td>
             <td>Rp{{number_format($invoice->amount,0, ".", ".")}}</td>
             <td>{{date("Y-m-d", strtotime($invoice->payment_due_date)) }}</td>
             <td>{{$invoice->status == 1 ? 'Paid' : 'Unpaid'}}</td>
             <td>Rp{{number_format($invoice->dp_value,0, ".", ".")}}</td>
-            <td>{{date("Y-m-d", strtotime($invoice->dp_due_date)) }}</td>
+            <td>{{ $invoice->dp_value > 0 ? ($invoice->dp_due_date->format('d-m-Y')) : '-' }}</td>
+            <td>{{$invoice->dp_value > 0 ? ($invoice->dp_status ? 'Terbayar' : 'Belum Terbayar') : '-'}}</td>
             <td class="">
               <div class="btn-wrapper d-flex gap-2 flex-wrap">
                 <div data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit data invoice"
                   class="btn edit btn-action
                   btn-warning
                   text-white"><i class="bx bx-edit"></i></div>
-                <div href=# class="delete delete-btn btn btn-action btn-danger
-                  text-white" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
-                  data-bs-title="Hapus data invoice" data-invoice-code="{{$invoice->invoice_code}}"
-                  data-id="{{$invoice->id}}" data-delete-link="{{route('data-invoice.destroy', $invoice->id)}}">
-                  <i class="bx bx-trash"></i>
-                </div>
-                <a href=# data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Detail Invoice"
-                  class="btn detail btn-action
+                <a href={{route('data-invoice.show', $invoice->id)}} data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-title="Detail Invoice" class="btn detail btn-action
                   btn-primary
                   text-white"><i class="ri-list-check"></i></a>
               </div>

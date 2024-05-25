@@ -88,7 +88,7 @@
                         @forelse ($transactions as $transaction)
                         <tr>
                             <td>{{$transaction->id }}</td>
-                            <td>{{$transaction->transaction_code }}</td>
+                            <td>#{{$transaction->transaction_code }}</td>
                             <td>{{date("Y-m-d", strtotime($transaction->created_at)) }}</td>
                             @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
                             <td>{{$transaction->name }}</td>

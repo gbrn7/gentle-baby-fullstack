@@ -17,7 +17,7 @@ class InvoiceSeeder extends Seeder
         DB::table('invoice')->insert([
             'invoice_code' => Str::random(10),
             "company_id" => 2,
-            "amount" => 7375000,
+            "amount" => 11375000,
             "payment_due_date" => now(),
             "payment_status" => 0,
             "dp_value" => 0,

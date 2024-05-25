@@ -9,29 +9,36 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin') {
 
-            $invoices = Invoice::with('company')->orderBy('id', 'desc')->get();
+        $invoices = Invoice::with('company')->orderBy('id', 'desc')->get();
 
-            return view('data-invoice.index', compact('invoices'));
-        } else {
-            return back()->with('toast_error', 'Akses Ditolak!!');
-        }
+        return view('data-invoice.index', compact('invoices'));
     }
 
-    public function destroy(string $id)
+    public function show(string $id)
     {
-        try {
-            $invoice = Invoice::find($id);
+        $invoice = Invoice::with('detailTransactions.transaction')->find($id);
 
-            if (!$invoice) return redirect()->route('data-invoice.index')->with('toast_error', 'Invoice Not Found');
+        if (!$invoice) return back()->with('toast_error', 'Invoice tidak ditemukan');
 
-            $invoice->delete();
+        $detailTransaction = $invoice->detailTransactions;
 
-            return redirect()->route('data-invoice.index')->with('toast_success', 'Invoice deleted');
-        } catch (\Throwable $th) {
-            return back()
-                ->with('toast_error', 'Failed delete');
-        }
+        $aggregationData = $detailTransaction->map(function ($item, $key) {
+            return [
+                'capital' => $item->hpp * $item->qty,
+                'cashback' => $item->is_cashback ? $item->cashback_value * $item->qty_cashback_item : 0,
+                'qty_cashback' => $item->is_cashback ? $item->qty_cashback_item : 0,
+            ];
+        });
+
+        $totalHpp = $aggregationData->pluck('capital')->sum();
+
+        $totalProfit = $invoice->amount - ($aggregationData->pluck('capital')->sum());
+
+        $totalCashback = $aggregationData->pluck('cashback')->sum();
+
+        $totalQtyCashback = $aggregationData->pluck('qty_cashback')->sum();
+
+        return view('data-invoice.show', compact('invoice', 'totalProfit', 'totalCashback', 'totalQtyCashback', 'totalHpp'));
     }
 }

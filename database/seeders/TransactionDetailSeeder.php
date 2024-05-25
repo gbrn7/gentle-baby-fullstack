@@ -68,7 +68,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 3,
-                "invoice_id" => 1,
+                "invoice_id" => null,
                 "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
@@ -81,7 +81,7 @@ class TransactionDetailSeeder extends Seeder
             ],
             [
                 "transaction_id" => 3,
-                "invoice_id" => 1,
+                "invoice_id" => null,
                 "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,

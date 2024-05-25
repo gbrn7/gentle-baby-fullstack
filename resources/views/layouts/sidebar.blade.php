@@ -44,13 +44,11 @@
             class="ri-admin-line me-2"></i>Data Admin</a>
       </li>
       @endif
-      @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
       <li class="rounded {{Request::segment(2) === 'data-invoice' ? 'active' : ''}} rounded-2">
         <a href="{{route('data-invoice.index')}}"
           class="text-decoration-none p-3 rounded rounded-2 d-flex align-items-baseline"><i
             class="ri-article-fill me-2"></i>Data Invoice</a>
       </li>
-      @endif
     </ul>
   </div>
 </div>
