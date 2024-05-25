@@ -78,6 +78,8 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth']], function () {
   });
 
   Route::resource('data-invoice', InvoiceController::class);
+  Route::get('/data-invoice/{invoiceCode}/downloadPdf', [InvoiceController::class, 'downloadPdf'])->name('data-invoice.downloadPdf');
+  Route::get('/data-invoice/{invoiceCode}/viewPdf', [InvoiceController::class, 'viewPdf'])->name('data-invoice.viewPdf');
   Route::put('/data-invoice/{id}/changePaymentStatus', [InvoiceController::class, 'changePaymentStatus'])->name('data-invoice.changePaymentStatus.update');
   Route::put('/data-invoice/{id}/changeDpStatus', [InvoiceController::class, 'changeDpStatus'])->name('data-invoice.changeDpStatus.update');
 

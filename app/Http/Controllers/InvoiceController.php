@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
@@ -117,5 +119,42 @@ class InvoiceController extends Controller
         } else {
             return back()->with('toast_error', 'Akses Ditolak!!');
         }
+    }
+
+    public function downloadPDF($invoiceCode)
+    {
+        $invoice = Invoice::with('detailTransactions.transaction')
+            ->with('detailTransactions.product')
+            ->with('company.owner')
+            ->where('invoice_code', $invoiceCode)
+            ->first();
+
+        if (!$invoice) return back()->with('toast_error', 'Invoice tidak ditemukan');
+
+        $pdf = Pdf::loadView('invoice', [
+            'invoice' => $invoice,
+        ]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'Invoice-' . $invoice->invoice_code . '.pdf');
+    }
+
+    public function viewPDF($invoiceCode)
+    {
+        $invoice = Invoice::with('detailTransactions.transaction')
+            ->with('detailTransactions.product')
+            ->with('company.owner')
+            ->where('invoice_code', $invoiceCode)
+            ->first();
+
+
+        if (!$invoice) return back()->with('toast_error', 'Invoice tidak ditemukan');
+
+        $pdf = Pdf::loadView('invoice', [
+            'invoice' => $invoice,
+        ]);
+
+        return $pdf->stream('invoice-' . $invoice->invoice_code);
     }
 }

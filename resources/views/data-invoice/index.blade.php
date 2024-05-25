@@ -141,36 +141,46 @@
                               </div>
                             </button>
                             @endif
+                          </li>
+                          <li>
+                            @if ($invoice->dp_status)
+                            <div class="dropdown-item text-start text-dropdown rounded-2 active cursor-default">
+                              Paid
+                            </div>
+                            @else
+                            <button type="submit" class="text-decoration-none btn p-0 w-100">
+                              <div class="dropdown-item text-start text-dropdown rounded-2" type="button">
+                                Paid
+                              </div>
+                            </button>
+                            @endif
+                          </li>
                       </form>
+                    </div>
+                  </li>
+                  @endif
+                  @endif
+                  <li>
+                    <a href="{{route('data-invoice.downloadPdf', $invoice->invoice_code)}}"
+                      class="dropdown-item text-dropdown rounded-2" type="button">
+                      Download Invoice
+                    </a>
                   </li>
                   <li>
-                    @if ($invoice->dp_status)
-                    <div class="dropdown-item text-start text-dropdown rounded-2 active cursor-default">
-                      Paid
-                    </div>
-                    @else
-                    <button type="submit" class="text-decoration-none btn p-0 w-100">
-                      <div class="dropdown-item text-start text-dropdown rounded-2" type="button">
-                        Paid
-                      </div>
-                    </button>
-                    @endif
+                    <a target="blank" href="{{route('data-invoice.viewPdf', $invoice->invoice_code)}}"
+                      class="dropdown-item text-dropdown rounded-2" type="button">
+                      View Invoice
+                    </a>
                   </li>
                 </ul>
-                </form>
               </div>
-              </li>
-              @endif
-              @endif
-              </ul>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
-    </td>
-    </tr>
-    @endforeach
-    </tbody>
-    </table>
   </div>
-</div>
 </div>
 
 <!-- Delete Modal -->

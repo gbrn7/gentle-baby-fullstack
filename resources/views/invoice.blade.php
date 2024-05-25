@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Invoice-{{$transaction->transaction_code}}</title>
+  <title>Invoice-{{$invoice->invoice_code}}</title>
 
   <style>
     html,
@@ -126,48 +126,40 @@
     </thead>
     <tbody>
       <tr>
-        <td>Kode Transaksi :</td>
-        <td>{{$transaction->transaction_code}}</td>
+        <td>Kode Invoice :</td>
+        <td>#{{$invoice->invoice_code}}</td>
 
         <td>Perusahaan :</td>
-        <td>{{$transaction->companyName}}</td>
-      </tr>
-      <tr>
-        <td>Tanggal Transaksi :</td>
-        <td>{{$transaction->transactionDate}}</td>
-
-        <td>Nama Pemilik</td>
-        <td>{{$transaction->owner_name}}</td>
+        <td>{{$invoice->company->name}}</td>
       </tr>
       <tr>
         <td>Jatuh Tempo DP :</td>
-        <td>{{$transaction->jatuh_tempo_dp ? $transaction->jatuh_tempo_dp : '-'}}</td>
+        <td>{{$invoice->dp_value > 0 ? ($invoice->dp_due_date->format('d-m-Y')) : '-'}}</td>
 
-        <td>Email Pemilik :</td>
-        <td>{{$transaction->owner_email}}</td>
+        <td>Nama Pemilik</td>
+        <td>{{$invoice->company->owner->name}}</td>
       </tr>
       <tr>
-        <td>Jatuh Tempo:</td>
-        <td>{{$transaction->jatuh_tempo}}</td>
+        <td>Jatuh Tempo Pelunasan:</td>
+        <td>{{$invoice->payment_due_date->format('d-m-Y')}}</td>
 
-        <td>No Telp. Pemilik :</td>
-        <td>{{$transaction->owner_phone_number}}</td>
+        <td>Email Pemilik :</td>
+        <td>{{$invoice->company->owner->name}}</td>
       </tr>
       <tr>
         <td>Metode Pembayaran :</td>
         <td>Transfer</td>
-      </tr>
-      <tr>
-        <td>Status Proses :</td>
-        <td style="text-transform: capitalize;">{{$transaction->processStatus}}</td>
+
+        <td>No Telp. Pemilik :</td>
+        <td>{{$invoice->company->owner->phone_number}}</td>
       </tr>
       <tr>
         <td>Status DP :</td>
-        <td>{{$transaction->dp_status == 1 ? 'Sudah Dibayar' : 'Belum Dibayar'}}</td>
+        <td>{{$invoice->dp_value > 0 ? ($invoice->dp_status ? 'Terbayar' : 'Belum Terbayar') : '-'}}</td>
       </tr>
       <tr>
         <td>Status Pelunasan :</td>
-        <td>{{$transaction->payment_status == 1 ? 'Sudah Dibayar' : 'Belum Dibayar'}}</td>
+        <td>{{$invoice->payment_status == 1 ? 'Terbayar' : 'Belum Dibayar'}}</td>
       </tr>
     </tbody>
   </table>
@@ -179,6 +171,7 @@
       </tr>
       <tr class="bg-blue">
         <th>ID</th>
+        <th>Kode Transaksi</th>
         <th>Nama</th>
         <th>Harga</th>
         <th>Quantity</th>
@@ -186,29 +179,30 @@
       </tr>
     </thead>
     <tbody>
-      @foreach ($detailsTransactions as $detailsTransaction)
+      @foreach ($invoice->detailTransactions as $detailsTransaction)
       <tr>
         <td width="10%">{{$detailsTransaction->product->id }}</td>
+        <td width="25%">#{{$detailsTransaction->transaction->transaction_code }}</td>
         <td>{{$detailsTransaction->product->name }}</td>
-        <td width="20%">Rp{{number_format($detailsTransaction->price,0, ".",".")}}</td>
-        <td width="15%">{{$detailsTransaction->qty }}</td>
-        <td width="30%" class="fw-bold">Rp{{number_format(($detailsTransaction->price * $detailsTransaction->qty),0,
+        <td width="15%">Rp{{number_format($detailsTransaction->price,0, ".",".")}}</td>
+        <td width="10%">{{$detailsTransaction->qty }}</td>
+        <td width="30%">Rp{{number_format(($detailsTransaction->price * $detailsTransaction->qty),0,
           ".",".")}}</td>
       </tr>
       @endforeach
 
       <tr>
-        <td colspan="4" class="sub-heading">Total DP (35%) :</td>
-        <td colspan="1" class="sub-heading">Rp{{number_format($transaction->dp_value ,0,".",".")}}</td>
+        <td colspan="5" class="sub-heading">Total DP (35%) :</td>
+        <td colspan="1" class="sub-heading">Rp{{number_format($invoice->dp_value ,0,".",".")}}</td>
       </tr>
       <tr>
-        <td colspan="4" class="sub-heading">Total Pelunasan :</td>
-        <td colspan="1" class="sub-heading">Rp{{number_format(($transaction->revenue - $transaction->dp_value)
+        <td colspan="5" class="sub-heading">Total Pelunasan :</td>
+        <td colspan="1" class="sub-heading">Rp{{number_format(($invoice->amount - $invoice->dp_value)
           ,0,".",".")}}</td>
       </tr>
       <tr>
-        <td colspan="4" class="total-heading">Total Tagihan :</td>
-        <td colspan="1" class="total-heading">Rp{{number_format($transaction->revenue,0,".",".")}}</td>
+        <td colspan="5" class="total-heading">Total Tagihan :</td>
+        <td colspan="1" class="total-heading">Rp{{number_format($invoice->amount,0,".",".")}}</td>
       </tr>
     </tbody>
   </table>
