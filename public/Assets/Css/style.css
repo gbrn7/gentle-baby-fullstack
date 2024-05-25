@@ -70,6 +70,11 @@ body.dark .content .row .card-3 {
   color: var(--text-color) !important;
 }
 
+.dropdown-item.active{
+  background-color: var(--hover-color) !important;
+  color: var(--text-color) !important;
+}
+
 .dropdown .dropdown-item a {
   color: var(--text-color) !important;
 }

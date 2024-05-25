@@ -56,29 +56,121 @@
             <td>{{$invoice->company->name }}</td>
             <td>Rp{{number_format($invoice->amount,0, ".", ".")}}</td>
             <td>{{date("Y-m-d", strtotime($invoice->payment_due_date)) }}</td>
-            <td>{{$invoice->status == 1 ? 'Paid' : 'Unpaid'}}</td>
+            <td>{{$invoice->payment_status == 1 ? 'Paid' : 'Unpaid'}}</td>
             <td>Rp{{number_format($invoice->dp_value,0, ".", ".")}}</td>
             <td>{{ $invoice->dp_value > 0 ? ($invoice->dp_due_date->format('d-m-Y')) : '-' }}</td>
-            <td>{{$invoice->dp_value > 0 ? ($invoice->dp_status ? 'Terbayar' : 'Belum Terbayar') : '-'}}</td>
+            <td>{{$invoice->dp_value > 0 ? ($invoice->dp_status ? 'Paid' : 'Unpaid') : '-'}}</td>
             <td class="">
-              <div class="btn-wrapper d-flex gap-2 flex-wrap">
-                <div data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit data invoice"
-                  class="btn edit btn-action
-                  btn-warning
-                  text-white"><i class="bx bx-edit"></i></div>
-                <a href={{route('data-invoice.show', $invoice->id)}} data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-title="Detail Invoice" class="btn detail btn-action
-                  btn-primary
-                  text-white"><i class="ri-list-check"></i></a>
+              <div class="btn-group">
+                <button type="button" class="btn btn-light  dropdown-toggle" data-bs-toggle="dropdown"
+                  data-bs-auto-close="outside" aria-expanded="false">
+                  Aksi
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end px-2">
+                  <li>
+                    <a href="{{route('data-invoice.show', $invoice->id)}}" class="dropdown-item text-dropdown rounded-2"
+                      type="button">
+                      Detail Invoice
+                    </a>
+                  </li>
+                  @if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin')
+                  <li>
+                    <div class="btn-group dropstart dropdown-item">
+                      <div type="button" class=" dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                        aria-expanded="false">
+                        Ubah Status Pelunasan
+                      </div>
+                      <form
+                        action="{{route('data-invoice.changePaymentStatus.update', ['id' => $invoice->id, 'payment_status' => (!$invoice->payment_status)])}}"
+                        method="POST" class="mb-0">
+                        @csrf
+                        @method('PUT')
+                        <ul class="dropdown-menu">
+                          <li>
+                            @if (!$invoice->payment_status)
+                            <div class="dropdown-item text-start text-dropdown rounded-2 active cursor-default">
+                              Unpaid
+                            </div>
+                            @else
+                            <button type="submit" class="text-decoration-none btn p-0 w-100">
+                              <div class="dropdown-item text-start text-dropdown rounded-2" type="button">
+                                Unpaid
+                              </div>
+                            </button>
+                            @endif
+                          </li>
+                          <li>
+                            @if ($invoice->payment_status)
+                            <div class="dropdown-item text-start text-dropdown rounded-2 active cursor-default">
+                              Paid
+                            </div>
+                            @else
+                            <button type="submit" class="text-decoration-none btn p-0 w-100">
+                              <div class="dropdown-item text-start text-dropdown rounded-2" type="button">
+                                Paid
+                              </div>
+                            </button>
+                            @endif
+                          </li>
+                        </ul>
+                      </form>
+                    </div>
+                  </li>
+                  @if ($invoice->dp_value > 0)
+                  <li>
+                    <div class="btn-group dropstart dropdown-item">
+                      <div type="button" class=" dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                        aria-expanded="false">
+                        Ubah Status Dp
+                      </div>
+                      <form
+                        action="{{route('data-invoice.changeDpStatus.update', ['id' => $invoice->id, 'dp_status' => (!$invoice->dp_status)])}}"
+                        method="POST" class="mb-0">
+                        @csrf
+                        @method('PUT')
+                        <ul class="dropdown-menu">
+                          <li>
+                            @if (!$invoice->dp_status)
+                            <div class="dropdown-item text-start text-dropdown rounded-2 active cursor-default">
+                              Unpaid
+                            </div>
+                            @else
+                            <button type="submit" class="text-decoration-none btn p-0 w-100">
+                              <div class="dropdown-item text-start text-dropdown rounded-2" type="button">
+                                Unpaid
+                              </div>
+                            </button>
+                            @endif
+                      </form>
+                  </li>
+                  <li>
+                    @if ($invoice->dp_status)
+                    <div class="dropdown-item text-start text-dropdown rounded-2 active cursor-default">
+                      Paid
+                    </div>
+                    @else
+                    <button type="submit" class="text-decoration-none btn p-0 w-100">
+                      <div class="dropdown-item text-start text-dropdown rounded-2" type="button">
+                        Paid
+                      </div>
+                    </button>
+                    @endif
+                  </li>
+                </ul>
+                </form>
               </div>
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
+              </li>
+              @endif
+              @endif
+              </ul>
     </div>
+    </td>
+    </tr>
+    @endforeach
+    </tbody>
+    </table>
   </div>
+</div>
 </div>
 
 <!-- Delete Modal -->

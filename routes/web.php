@@ -78,6 +78,9 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth']], function () {
   });
 
   Route::resource('data-invoice', InvoiceController::class);
+  Route::put('/data-invoice/{id}/changePaymentStatus', [InvoiceController::class, 'changePaymentStatus'])->name('data-invoice.changePaymentStatus.update');
+  Route::put('/data-invoice/{id}/changeDpStatus', [InvoiceController::class, 'changeDpStatus'])->name('data-invoice.changeDpStatus.update');
+
 
   Route::prefix('/order-product')->group(function () {
     Route::get('/', OrderProduct::class)->name('order.product');
