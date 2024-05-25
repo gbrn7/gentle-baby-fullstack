@@ -32,8 +32,53 @@
       </a>
       @endif
     </div>
+    <form action="{{route('data-invoice.index')}}" method="get">
+      <div class="filter-wrapper row mt-2 align-items-end">
+        <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-1">
+          <label class="mb-1 text-left">Tampilkan :</label>
+          <select class="form-select" name="pagination">
+            <option value="10" @selected(request()->get('pagination') == 10)>10</option>
+            <option value="25" @selected(request()->get('pagination') == 25)>25</option>
+            <option value="50" @selected(request()->get('pagination') == 50)>50</option>
+            <option value="100" @selected(request()->get('pagination') == 100)>100</option>
+          </select>
+        </div>
+        <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-lg-2">
+          <label for="keyword" class="mb-1 text-left">Kode Invoice :</label>
+          <div class="input-group">
+            <input class="form-control" type="text" name="search_value" placeholder="Masukkan kode invoice"
+              value="{{request()->get('search_value')}}" />
+          </div>
+        </div>
+        <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-lg-2">
+          <label for="keyword" class="mb-1 text-left">Status Pelunasan :</label>
+          <div class="input-group">
+            <select class="form-select" name="payment_status">
+              <option value="" @selected(request()->get('payment_status') == '') >semua</option>
+              <option value="0" @selected(request()->get('payment_status') == '0')>Unpaid</option>
+              <option value="1" @selected(request()->get('payment_status') == '1')>Paid</option>
+            </select>
+          </div>
+        </div>
+        @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
+        <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-lg-2">
+          <label for="keyword" class="mb-1 text-left">Status Dp :</label>
+          <div class="input-group">
+            <select class="form-select" name="dp_status">
+              <option value="" @selected(request()->get('dp_status') == '')>semua</option>
+              <option value="0" @selected(request()->get('dp_status') == '0')>Unpaid</option>
+              <option value="1" @selected(request()->get('dp_status') == '1')>Paid</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-lg-2">
+          <button class="btn btn-success" type="submit">Apply</button>
+        </div>
+        @endif
+      </div>
+    </form>
     <div class="table-wrapper mt-2 mb-2">
-      <table id="example" class="table mt-3 table-hover table-borderless" style="width: 100%">
+      <table class="table mt-3 table-hover table-borderless" style="width: 100%">
         <thead>
           <tr>
             <th class="text-secondary">ID</th>
@@ -179,6 +224,9 @@
           @endforeach
         </tbody>
       </table>
+    </div>
+    <div class="pagination-box d-flex justify-content-end">
+      {{$invoices->links('pagination::simple-bootstrap-5')}}
     </div>
   </div>
 </div>

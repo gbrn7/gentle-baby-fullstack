@@ -6,23 +6,59 @@ use App\Models\CompanyMember;
 use App\Models\Invoice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin') {
-            $invoices = Invoice::with('company')->orderBy('id', 'desc')->get();
+
+            $invoices = Invoice::with('company')
+                ->when($request->search_value, function ($query) use ($request) {
+                    return $query->where('invoice_code', 'like', '%' . $request->search_value . '%');
+                })
+                ->when(isset($request->payment_status), function ($query) use ($request) {
+                    return $query->where('payment_status', (bool) $request->payment_status);
+                })
+                ->when(isset($request->dp_status), function ($query) use ($request) {
+                    return $query->where('dp_status',  (bool) $request->dp_status);
+                })
+                ->orderBy('id', 'desc')
+                ->paginate($request->pagination ? $request->pagination : 10);
         } elseif (auth()->user()->role == 'super_admin_cust') {
-            $invoices = Invoice::with('company')->orderBy('id', 'desc')->whereRelation('company', 'owner_id', auth()->user()->id)->get();
+
+            $invoices = Invoice::with('company')
+                ->when($request->search_filter_by && $request->search_value, function ($query) use ($request) {
+                    return $query->where($request->search_filter_by, $request->search_value);
+                })
+                ->when($request->payment_status, function ($query) use ($request) {
+                    return $query->where('payment_status', (bool) $request->payment_status);
+                })
+                ->when($request->dp_status, function ($query) use ($request) {
+                    return $query->where('dp_status', (bool) $request->dp_status);
+                })
+                ->orderBy('id', 'desc')->whereRelation('company', 'owner_id', auth()->user()->id)
+                ->paginate($request->pagination ? $request->pagination : 10);
         } else {
+
             $company = CompanyMember::with('company')
                 ->where('user_id', auth()->user()->id)
                 ->first();
 
-            $invoices = Invoice::with('company')->orderBy('id', 'desc')->where('company_id', $company->id)->get();
+            $invoices = Invoice::with('company')
+                ->when($request->search_filter_by && $request->search_value, function ($query) use ($request) {
+                    return $query->where($request->search_filter_by, $request->search_value);
+                })
+                ->when($request->payment_status, function ($query) use ($request) {
+                    return $query->where('payment_status', (bool) $request->payment_status);
+                })
+                ->when($request->dp_status, function ($query) use ($request) {
+                    return $query->where('dp_status', (bool) $request->dp_status);
+                })
+                ->where('company_id', $company->id)
+                ->orderBy('id', 'desc')
+                ->paginate($request->pagination ? $request->pagination : 10);
         }
 
         return view('data-invoice.index', compact('invoices'));
