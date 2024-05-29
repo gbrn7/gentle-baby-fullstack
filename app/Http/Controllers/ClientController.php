@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -26,10 +27,13 @@ class ClientController extends Controller
             $unPaidInvoice = $invoice->where('payment_status', 0)
                 ->pluck('amount')->sum();
 
-            $orders = DB::table('transactions_detail as td')
-                ->selectRaw('count(td.id) as orderCount')
-                ->where('process_status', 'unprocessed')
-                ->first();
+            $unfinishedItem = TransactionDetail::with('transaction.company')
+                ->with('product')
+                ->whereIn('process_status', ['processing', 'unprocessed'])
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $unprocessedCount = $unfinishedItem->where('process_status', 'unprocessed')->count();
 
             $productPerfomance = DB::table('transactions as t')
                 ->join('transactions_detail as td', 'td.transaction_id', '=', 't.id')
@@ -43,7 +47,26 @@ class ClientController extends Controller
             $highPerfomanceProducts = (collect($productPerfomance))->sortByDesc('totalQty');
             $lowPerfomanceProducts = (collect($productPerfomance))->sortBy('totalQty');
 
-            return view('home', ['paidInvoice' => $paidInvoice, 'unpaidInvoice' => $unPaidInvoice, 'orders' => $orders, 'highPerfomanceProducts' => $highPerfomanceProducts, 'lowPerfomanceProducts' => $lowPerfomanceProducts]);
+            return view(
+                'home',
+                [
+                    'paidInvoice' => $paidInvoice,
+                    'unpaidInvoice' => $unPaidInvoice,
+                    'unprocessedCount' => $unprocessedCount,
+                    'highPerfomanceProducts' => $highPerfomanceProducts,
+                    'lowPerfomanceProducts' => $lowPerfomanceProducts,
+                    'unfinishedItem' => $unfinishedItem
+                ]
+            );
+        }
+        if (auth()->user()->role === 'admin') {
+            $unfinishedItem = TransactionDetail::with('transaction.company')
+                ->with('product')
+                ->whereIn('process_status', ['processing', 'unprocessed'])
+                ->orderBy('id', 'desc')
+                ->get();
+
+            return view('home', ['unfinishedItem' => $unfinishedItem]);
         }
 
         return view('home');

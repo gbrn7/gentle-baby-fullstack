@@ -17,6 +17,7 @@ class TransactionDetailSeeder extends Seeder
             [
                 "transaction_id" => 1,
                 "invoice_id" => 1,
+                "process_status" => 'processed',
                 "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
@@ -30,6 +31,7 @@ class TransactionDetailSeeder extends Seeder
             [
                 "transaction_id" => 1,
                 "invoice_id" => 1,
+                "process_status" => 'processed',
                 "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,
@@ -43,6 +45,7 @@ class TransactionDetailSeeder extends Seeder
             [
                 "transaction_id" => 2,
                 "invoice_id" => 1,
+                "process_status" => 'processed',
                 "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
@@ -56,6 +59,7 @@ class TransactionDetailSeeder extends Seeder
             [
                 "transaction_id" => 2,
                 "invoice_id" => 1,
+                "process_status" => 'processed',
                 "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,
@@ -69,6 +73,7 @@ class TransactionDetailSeeder extends Seeder
             [
                 "transaction_id" => 3,
                 "invoice_id" => null,
+                "process_status" => 'unprocessed',
                 "product_id" => 1,
                 "hpp" => 10000,
                 "price" => 12500,
@@ -82,6 +87,7 @@ class TransactionDetailSeeder extends Seeder
             [
                 "transaction_id" => 3,
                 "invoice_id" => null,
+                "process_status" => 'processing',
                 "product_id" => 2,
                 "hpp" => 12000,
                 "price" => 15000,

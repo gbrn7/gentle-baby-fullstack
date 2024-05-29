@@ -46,7 +46,7 @@
               class='icon-head bx bx-shopping-bag p-2 rounded-circle'></i> <span>Pesanan Belum Diproses</span></div>
           <div class="content-text px-2 mt-3 ">
             <p data-purecounter-start="0" data-purecounter-duration="1" data-purecounter-end=""
-              class="text m-0 purecounter">{{$orders->orderCount}}
+              class="text m-0 purecounter">{{$unprocessedCount}}
             </p>
           </div>
         </div>
@@ -63,24 +63,22 @@
               <thead>
                 <tr>
                   <th class="text-secondary">Peringkat</th>
-                  <th class="text-secondary">Id</th>
                   <th class="text-secondary">Nama</th>
-                  <th class="text-secondary">Total Terjual (Qty)</th>
-                  <th class="text-secondary">Total Terjual (Nilai)</th>
+                  <th class="text-secondary">Qty</th>
+                  <th class="text-secondary">Nilai</th>
                 </tr>
               </thead>
               <tbody>
                 @forelse ($highPerfomanceProducts as $product)
                 <tr>
                   <td>{{$loop->iteration}}</td>
-                  <td>{{$product->productId}}</td>
                   <td>{{$product->productName}}</td>
                   <td>{{$product->totalQty}}</td>
                   <td>Rp{{number_format($product->totalValue, 0, '.', '.')}}</td>
                 </tr>
                 @empty
                 <tr>
-                  <td rowspan="3">Product not found</td>
+                  <td colspan="5">Product not found</td>
                 </tr>
                 @endforelse
               </tbody>
@@ -96,24 +94,66 @@
               <thead>
                 <tr>
                   <th class="text-secondary">Peringkat</th>
-                  <th class="text-secondary">Id</th>
                   <th class="text-secondary">Nama</th>
-                  <th class="text-secondary">Total Terjual (Qty)</th>
-                  <th class="text-secondary">Total Terjual (Nilai)</th>
+                  <th class="text-secondary">Qty</th>
+                  <th class="text-secondary">Nilai</th>
                 </tr>
               </thead>
               <tbody>
                 @forelse ($lowPerfomanceProducts as $product)
                 <tr>
                   <td>{{$loop->iteration}}</td>
-                  <td>{{$product->productId}}</td>
                   <td>{{$product->productName}}</td>
                   <td>{{$product->totalQty}}</td>
                   <td>Rp{{number_format($product->totalValue, 0, '.', '.')}}</td>
                 </tr>
                 @empty
                 <tr>
-                  <td rowspan="3">Product not found</td>
+                  <td colspan="5">Product not found</td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
+
+    @if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
+    <div class="row row-2 mt-3">
+      <div class="wrapper col-12">
+        <div class="table-wrapper-custom card h-100 overflow-auto col-12">
+          <div class="card-header Text-secondary">Daftar pesanan belum selesai diproses</div>
+          <div class="card-body p-3">
+            <table id="example" class="table table-hover table-borderless">
+              <thead>
+                <tr>
+                  <th class="text-secondary">No</th>
+                  <th class="text-secondary">Tanggal Transaksi</th>
+                  <th class="text-secondary">Kode Transaksi</th>
+                  <th class="text-secondary">Nama Perusahaan</th>
+                  <th class="text-secondary">Nama Barang</th>
+                  <th class="text-secondary">Status Proses</th>
+                  <th class="text-secondary">Qty</th>
+                  <th class="text-secondary">Sub Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @forelse ($unfinishedItem as $item)
+                <tr>
+                  <td>{{$loop->iteration}}</td>
+                  <td>{{$item->transaction->created_at->format('d-m-Y')}}</td>
+                  <td>#{{$item->transaction->transaction_code}}</td>
+                  <td>{{$item->transaction->company->name}}</td>
+                  <td>{{$item->product->name}}</td>
+                  <td>{{$item->process_status}}</td>
+                  <td>{{$item->qty}}</td>
+                  <td>Rp{{number_format($item->price * $item->qty, 0, '.', '.')}}</td>
+                </tr>
+                @empty
+                <tr>
+                  <td colspan="6" class="text-center">Tidak ada pesanan yang belum diproses</td>
                 </tr>
                 @endforelse
               </tbody>
