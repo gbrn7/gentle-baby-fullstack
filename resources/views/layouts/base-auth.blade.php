@@ -8,9 +8,6 @@
   <link rel="stylesheet" href="Assets/Css/Login style/main.css" />
   <title>Gentle Baby | Sign-In</title>
 
-  {{-- Icon --}}
-  <link rel="icon" href="{{asset('Assets/Img/apps-line.png')}}" type="image/x-icon">
-
   <!-- Bootrsrap Css -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
@@ -28,6 +25,7 @@
 <body>
   {{-- Sweet alert --}}
   @include('sweetalert::alert')
+
   <section class="login d-flex justify-content-center justify-content-lg-between">
     <div class="login-left w-50 h-100 d-none d-lg-block">
       <div class="row justify-content-center align-items-center h-100">
@@ -70,6 +68,7 @@
     $('#password').prop("type") == 'password' ?  $('#password').attr('type', 'text') :  $('#password').attr('type', 'password'); 
   });
   </script>
+
 </body>
 
 </html>

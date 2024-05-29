@@ -50,7 +50,7 @@ class DataDetailTransaksi extends Component
     {
         if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin') {
             $validator = Validator::make($request->all(), [
-                'status' => 'required|in:unprocessed,processed,taken,cancel'
+                'status' => 'required|in:unprocessed,processing,processed,taken,cancel'
             ]);
 
             if ($validator->fails()) {
@@ -84,82 +84,6 @@ class DataDetailTransaksi extends Component
         }
     }
 
-
-    public function updateTransaction(Request $request, $id)
-    {
-        if (auth()->user()->role != 'admin' || auth()->user()->role != 'admincust') {
-            $validation = [
-                'dp_payment_receipt' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
-                'full_payment_receipt' => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
-            ];
-
-            $messages = [
-                'max' => 'File maksimal :max kB',
-                'image' => 'File harus berjenis gambar',
-                'mimes' => 'File harus bertipe :values',
-            ];
-
-            $validator = Validator::make($request->all(), $validation, $messages);
-
-            if ($validator->fails()) {
-                return back()
-                    ->with('toast_error', join(', ', $validator->messages()->all()))
-                    ->withInput()
-                    ->withErrors($validator->messages()->all());
-            }
-
-            $transaction = Transaction::find($id);
-            $imagesName = [];
-
-            if (!empty($request->dp_payment_receipt)) {
-                $dpPaymentReceipt = $request['dp_payment_receipt'];
-                $dpPaymentReceiptImageName = Str::random(10) . '.' . $dpPaymentReceipt->getClientOriginalExtension();
-                $dpPaymentReceipt->storeAs('public/paymentReceipt', $dpPaymentReceiptImageName);
-
-                $imagesName['dp_payment_receipt'] = $dpPaymentReceiptImageName;
-
-                //delete old image
-                Storage::delete('public/paymentReceipt/' . $transaction->dp_payment_receipt);
-            }
-
-            if (!empty($request->full_payment_receipt)) {
-                $fullPaymentReceipt = $request['full_payment_receipt'];
-                $fullPaymentReceiptImageName = Str::random(10) . '.' . $fullPaymentReceipt->getClientOriginalExtension();
-                $fullPaymentReceipt->storeAs('public/paymentReceipt', $fullPaymentReceiptImageName);
-
-                $imagesName['full_payment_receipt'] = $fullPaymentReceiptImageName;
-
-                //delete old image
-                Storage::delete('public/paymentReceipt/' . $transaction->full_payment_receipt);
-            }
-
-
-            DB::beginTransaction();
-            try {
-                $transaction->update($imagesName);
-
-                DB::commit();
-
-                session()->flash('success', 'Data Transaksi di Perbarui!!');
-
-
-                return back();
-            } catch (\Throwable $th) {
-                DB::rollback();
-
-                session()->flash('error', 'Internal Server Error');
-
-
-                return back()
-                    ->with('toast_error', $th->getMessage())
-                    ->withInput()
-                    ->withErrors($th->getMessage());
-            }
-        } else {
-            return back()->with('toast_error', 'Akses Ditolak!!');
-        }
-    }
-
     public function mount(Request $request, $id)
     {
         $this->id = $id;
@@ -180,9 +104,9 @@ class DataDetailTransaksi extends Component
 
     public function render()
     {
-
         $detailsTransactions = TransactionDetail::with('transaction')
             ->with('product')
+            ->with('invoice')
             ->where('transaction_id', $this->id)
             ->whereRelation('product', 'name', 'like', '%' . $this->keywords . '%')
             ->orderBy($this->sortColumn, $this->sortDirection)

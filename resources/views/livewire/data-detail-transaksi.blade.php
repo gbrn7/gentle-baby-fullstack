@@ -170,6 +170,7 @@
                                     @endif
                                     <th class="text-secondary">Total</th>
                                     <th class="text-secondary">Status Proses</th>
+                                    <th class="text-secondary">Kode Invoice</th>
                                     @if (auth()->user()->role == 'super_admin' || auth()->user()->role ==='admin')
                                     <th class="text-secondary">Aksi</th>
                                     @endif
@@ -193,6 +194,9 @@
                                         ".",".")}}
                                     </td>
                                     <td class="text-capitalize">{{$detailsTransaction->process_status}}</td>
+                                    <td class="">{{$detailsTransaction->invoice ?
+                                        '#'.$detailsTransaction->invoice->invoice_code :
+                                        '-'}}</td>
                                     @if (auth()->user()->role == 'super_admin' || auth()->user()->role ==='admin')
                                     <td class="">
                                         <div class="btn-group">
@@ -213,6 +217,23 @@
                                                             <div class="dropdown-item text-dropdown rounded-2"
                                                                 type="button">
                                                                 Unprocessed
+                                                            </div>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                @endif
+                                                @if($detailsTransaction->process_status != 'processing')
+                                                <li>
+                                                    <form
+                                                        action="{{route('data.transaksi.detail.changeStatus.update', ['id' => $detailsTransaction->id, 'status' => 'processing'])}}"
+                                                        method="POST" class="mb-0">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="text-decoration-none btn p-0 w-100">
+                                                            <div class="dropdown-item text-dropdown rounded-2"
+                                                                type="button">
+                                                                processing
                                                             </div>
                                                         </button>
                                                     </form>

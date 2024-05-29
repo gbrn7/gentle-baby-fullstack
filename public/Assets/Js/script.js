@@ -18,6 +18,13 @@ $('#example').DataTable({
   order: [[0, 'desc']]
 });
 
+const form = document.querySelectorAll("form");
+form.forEach(e => {
+  e.addEventListener('submit', function () {
+    document.querySelector("html").style.cursor = "wait";
+    document.querySelector(".loading-wrapper").classList.remove('d-none');
+  })
+});
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

@@ -15,7 +15,6 @@
 <div class="content-box mt-3 rounded rounded-2 bg-white">
   <div class="content rounded rounded-2 border border-1 p-3">
     <div class="btn-wrapper mt-2">
-
       {{-- Error Alert --}}
       @if ($errors->any())
       <div class="alert alert-danger">
@@ -27,13 +26,12 @@
       </div>
       @endif
       @if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin')
-      <a href={{route('data.product.create')}}>
-        <div id="add" class="btn btn-success"><i class="ri-add-box-line me-2"></i>Tambah Invoice</div>
-      </a>
+      <a href="{{route('data-invoice.create')}}" class="btn btn-success"><i class="ri-add-box-line me-2"></i>Tambah
+        Invoice</a>
       @endif
     </div>
-    <form action="{{route('data-invoice.index')}}" method="get">
-      <div class="filter-wrapper row mt-2 align-items-end">
+    <form action="{{route('data-invoice.index')}}" class="mt-3" method="get">
+      <div class="filter-wrapper row align-items-end">
         <div class="form-group col-12 mt-2 mt-xl-0 mt-2 mt-xl-0 col-xl-1">
           <label class="mb-1 text-left">Tampilkan :</label>
           <select class="form-select" name="pagination">
@@ -231,41 +229,5 @@
   </div>
 </div>
 
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog ">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel">Hapus Invoice</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h4 class="text-center">Apakah anda yakin mengapus Invoice <span class="invoice-code"></span>?</h4>
-      </div>
-      <form action=# method="post" id="deleteForm">
-        @method('delete')
-        @csrf
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" id="deletecriteria" class="btn btn-danger">Hapus</button>
-      </form>
-    </div>
-  </div>
-</div>
-</div>
-
-@push('js')
-<script type="text/javascript">
-  $(document).on('click', '.delete-btn', function(event){
-        let invoiceCode = $(this).data('invoice-code');
-        let deleteLink = $(this).data('delete-link');
-
-        $('#deleteModal').modal('show');
-        $('.invoice-code').html(invoiceCode);
-
-        $('#deleteForm').attr('action', deleteLink);
-      });   
-</script>
-@endpush
 
 @endsection

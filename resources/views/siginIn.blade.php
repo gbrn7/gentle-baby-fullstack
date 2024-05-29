@@ -1,7 +1,7 @@
 @extends('layouts.base-auth')
 
 @section('asset-image')
-<img src="{{asset('Assets/Img/login-thumb.jpg')}}" class="login-img" />
+<img src="{{asset('Assets/Img/login-thumb.jpg')}}" class="login-img object-fit-cover" />
 @endsection
 
 @section('title', 'Sign In')

@@ -13,7 +13,6 @@ use App\Models\CompanyMember;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -26,16 +25,16 @@ class OrderProduct extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $allProduct ;
-    public $allcompanies ;
+    public $allProduct;
+    public $allcompanies;
     public $companyColFil = 'c.name';
     public $companyFilVal = '';
     public $productColFil = 'name';
     public $productFilVal = '';
     public $page = 1;
     public $limit = 10;
-    public $productsCart ;
-    public $companyCart ;
+    public $productsCart;
+    public $companyCart;
 
 
     public function productPagination($page)
@@ -63,23 +62,21 @@ class OrderProduct extends Component
         $carts = $this->productsCart->toArray();
         $carts[$index]['qty']++;
         $this->productsCart = collect($carts);
-
     }
 
     public function createTransaction()
     {
-        if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin' ){
+        if (auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin') {
             $this->adminTransaction();
-            
-        }else{
+        } else {
             $this->custTransaction();
         }
     }
 
     public function resetCart()
     {
-        $this->productsCart = collect([]); 
-        $this->companyCart = []; 
+        $this->productsCart = collect([]);
+        $this->companyCart = [];
     }
 
     public function adminTransaction()
@@ -101,13 +98,13 @@ class OrderProduct extends Component
 
         $validator = Validator::make($variable, $validation, $messages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $this->dispatch('endLoad');
-            return $this->dispatch('warning', message: join(', ', $validator->messages()->all()));            
+            return $this->dispatch('warning', message: join(', ', $validator->messages()->all()));
         }
 
         $amount = 0;
-        foreach ($this->productsCart as $product)  {
+        foreach ($this->productsCart as $product) {
             $amount += ($product['qty'] * $product['price']);
         };
 
@@ -115,14 +112,14 @@ class OrderProduct extends Component
 
         //ensure the data is corrent
         $products = Product::WhereIn('id', $this->productsCart->pluck('id'))
-                    ->orderBy('id', 'asc')
-                    ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
         //sync the index products with products cart
         $productsCart = $this->productsCart->sortBy('id')->values();
 
         DB::beginTransaction();
-        try {            
+        try {
             $newTransaction = Transaction::create([
                 'transaction_code' => Str::random(10),
                 'company_id' =>  $this->companyCart['companyId'],
@@ -147,9 +144,9 @@ class OrderProduct extends Component
                     "qty" => $productsCart[$key]['qty'],
                     "is_cashback" => $product->is_cashback,
                     "cashback_value" => $product->cashback_value,
-                    "qty_cashback_item" =>  ($productsCart[$key]['qty'] > 300 ?  $this->productsCart[$key]['qty'] - 300 : 0),
+                    "qty_cashback_item" => ($productsCart[$key]['qty'] > 300 ?  $this->productsCart[$key]['qty'] - 300 : 0),
                     'created_at' => now(),
-                    'updated_at' => now(),   
+                    'updated_at' => now(),
                 ];
 
                 array_push($transactionDetail, $arr);
@@ -165,7 +162,6 @@ class OrderProduct extends Component
             $this->dispatch('endLoad');
             $this->resetCart();
             return $this->dispatch('success', message: 'Transaksi berhasil dibuat');
-
         } catch (\Throwable $th) {
             DB::rollback();
 
@@ -177,31 +173,30 @@ class OrderProduct extends Component
 
     public function custTransaction()
     {
-        $validation = 
-        [
-            'productsCart' => 'required',
-        ];
+        $validation =
+            [
+                'productsCart' => 'required',
+            ];
 
-        $messages = 
-        [
-            'productsCart.required' => 'Minimal pilih satu produk untuk checkout'        
-        ];
+        $messages =
+            [
+                'productsCart.required' => 'Minimal pilih satu produk untuk checkout'
+            ];
 
-        $variable = 
-        [
-            "productsCart" => $this->productsCart,
-        ];
+        $variable =
+            [
+                "productsCart" => $this->productsCart,
+            ];
 
         $validator = Validator::make($variable, $validation, $messages);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->dispatch('endLoad');
-            return $this->dispatch('warning', message: join(', ', $validator->messages()->all()));            
+            return $this->dispatch('warning', message: join(', ', $validator->messages()->all()));
         }
 
         $amount = 0;
-        foreach ($this->productsCart as $product)  {
+        foreach ($this->productsCart as $product) {
             $amount += ($product['qty'] * $product['price']);
         };
 
@@ -209,8 +204,8 @@ class OrderProduct extends Component
 
         //ensure the data is corrent
         $products = Product::WhereIn('id', $this->productsCart->pluck('id'))
-                    ->orderBy('id', 'asc')
-                    ->get();
+            ->orderBy('id', 'asc')
+            ->get();
 
         //sync the index products with products cart
         $productsCart = $this->productsCart->sortBy('id')->values();
@@ -219,7 +214,7 @@ class OrderProduct extends Component
         $companyId = CompanyMember::where('user_id', auth()->user()->id)->first();
 
         DB::beginTransaction();
-        try {            
+        try {
             $newTransaction = Transaction::create([
                 'transaction_code' => Str::random(10),
                 'company_id' =>  $companyId->company_id,
@@ -244,9 +239,9 @@ class OrderProduct extends Component
                     "qty" => $productsCart[$key]['qty'],
                     "is_cashback" => $product->is_cashback,
                     "cashback_value" => $product->cashback_value,
-                    "qty_cashback_item" =>  ($productsCart[$key]['qty'] > 300 ?  $this->productsCart[$key]['qty'] - 300 : 0),
+                    "qty_cashback_item" => ($productsCart[$key]['qty'] > 300 ?  $this->productsCart[$key]['qty'] - 300 : 0),
                     'created_at' => now(),
-                    'updated_at' => now(),   
+                    'updated_at' => now(),
                 ];
 
                 array_push($transactionDetail, $arr);
@@ -264,7 +259,6 @@ class OrderProduct extends Component
             $this->resetCart();
 
             return $this->dispatch('success', message: 'Transaksi berhasil dibuat');
-
         } catch (\Throwable $th) {
             DB::rollback();
             $this->dispatch('endLoad');
@@ -275,33 +269,33 @@ class OrderProduct extends Component
 
     public function checkPaymentDeadline($amount)
     {
-        if($amount > 100000000){
+        if ($amount > 100000000) {
             return [
                 'jatuh_tempo' => (Carbon::now())->addWeeks(6),
                 'jatuh_tempo_dp' => (Carbon::now())->addDay(),
-                'dp_value' => ((35/100) * $amount),
+                'dp_value' => ((35 / 100) * $amount),
             ];
-        }else if($amount > 70000000 && $amount <= 100000000){
+        } else if ($amount > 70000000 && $amount <= 100000000) {
             return [
                 'jatuh_tempo' => (Carbon::now())->addWeeks(4),
             ];
-        }else if ($amount > 5000000 && $amount <= 70000000){
+        } else if ($amount > 5000000 && $amount <= 70000000) {
             return [
                 'jatuh_tempo' => (Carbon::now())->addWeeks(2),
             ];
         }
         return [
             'jatuh_tempo' => (Carbon::now())->addDays(2),
-        ]; 
+        ];
     }
 
     public function decrementProductCart($index)
     {
         $carts = $this->productsCart->toArray();
         $carts[$index]['qty']--;
-        if($carts[$index]['qty'] == 0){
+        if ($carts[$index]['qty'] == 0) {
             $this->removeProductCart($index);
-        }else{
+        } else {
             $this->productsCart = collect($carts);
         }
     }
@@ -314,24 +308,22 @@ class OrderProduct extends Component
 
     public function addProductCart($product)
     {
-       if($this->productsCart->doesntContain('id', $product['id'])){
-        $this->productsCart->push([
-            'id' => $product['id'],
-            'name' => $product['name'],
-            'thumbnail' => $product['thumbnail'],
-            'price' => $product['price'],
-            'qty' => 1
-        ]);
-
-       }else{
-        $this->productsCart->transform(function($item, $key) use ($product) {
-            if($item['id'] == $product['id']){
-                $item['qty']++;
-            }
-            return $item;
-        });
-       };
-
+        if ($this->productsCart->doesntContain('id', $product['id'])) {
+            $this->productsCart->push([
+                'id' => $product['id'],
+                'name' => $product['name'],
+                'thumbnail' => $product['thumbnail'],
+                'price' => $product['price'],
+                'qty' => 1
+            ]);
+        } else {
+            $this->productsCart->transform(function ($item, $key) use ($product) {
+                if ($item['id'] == $product['id']) {
+                    $item['qty']++;
+                }
+                return $item;
+            });
+        };
     }
 
     public function mount()
@@ -341,42 +333,42 @@ class OrderProduct extends Component
 
     public function render()
     {
-        if($this->companyFilVal){
-        $companies = DB::table('company as c')
-                            ->join('users as u', 'c.owner_id', 'u.id')
-                            ->selectRaw('c.id as companyId, c.name as companyName, u.name as ownerName, c.address as companyAddress')
-                            ->where('u.role', '<>', 'super_admin')
-                            ->where('u.role', '<>', 'admin')
-                            ->where($this->companyColFil, 'like', '%'.$this->companyFilVal.'%')
-                            ->orderBy('c.id', 'desc')
-                            ->limit($this->limit)
-                            ->get();
-        }else{
+        if ($this->companyFilVal) {
             $companies = DB::table('company as c')
-            ->join('users as u', 'c.owner_id', 'u.id')
-            ->selectRaw('c.id as companyId, c.name as companyName, u.name as ownerName, c.address as companyAddress')
-            ->where('u.role', '<>', 'super_admin')
-            ->where('u.role', '<>', 'admin')
-            ->where($this->companyColFil, 'like', '%'.$this->companyFilVal.'%')
-            ->orderBy('c.id', 'desc')
-            ->paginate($this->limit);
+                ->join('users as u', 'c.owner_id', 'u.id')
+                ->selectRaw('c.id as companyId, c.name as companyName, u.name as ownerName, c.address as companyAddress')
+                ->where('u.role', '<>', 'super_admin')
+                ->where('u.role', '<>', 'admin')
+                ->where($this->companyColFil, 'like', '%' . $this->companyFilVal . '%')
+                ->orderBy('c.id', 'desc')
+                ->limit($this->limit)
+                ->get();
+        } else {
+            $companies = DB::table('company as c')
+                ->join('users as u', 'c.owner_id', 'u.id')
+                ->selectRaw('c.id as companyId, c.name as companyName, u.name as ownerName, c.address as companyAddress')
+                ->where('u.role', '<>', 'super_admin')
+                ->where('u.role', '<>', 'admin')
+                ->where($this->companyColFil, 'like', '%' . $this->companyFilVal . '%')
+                ->orderBy('c.id', 'desc')
+                ->paginate($this->limit);
         }
-        
+
         $products = Product::where('status', 'active')
-                            ->where($this->productColFil, 'like', '%'.$this->productFilVal.'%')
-                            ->orderBy('id', 'desc')
-                            ->limit($this->limit)
-                            ->skip($this->limit * ($this->productFilVal ? 0 :  $this->page-1))
-                            ->get();
+            ->where($this->productColFil, 'like', '%' . $this->productFilVal . '%')
+            ->orderBy('id', 'desc')
+            ->limit($this->limit)
+            ->skip($this->limit * ($this->productFilVal ? 0 :  $this->page - 1))
+            ->get();
 
         $productCount = Product::where('status', 'active')
-                                ->where($this->productColFil, 'like', '%'.$this->productFilVal.'%')
-                                ->orderBy('id', 'desc')
-                                ->count();
+            ->where($this->productColFil, 'like', '%' . $this->productFilVal . '%')
+            ->orderBy('id', 'desc')
+            ->count();
 
-        $productPages = ceil($productCount/$this->limit);
+        $productPages = ceil($productCount / $this->limit);
 
-        return view('livewire.order-product', ['companies'=> $companies, 'products'=> $products, 'productPages' => $productPages]);
+        return view('livewire.order-product', ['companies' => $companies, 'products' => $products, 'productPages' => $productPages]);
     }
 
     public function sendNotif($transaction)
@@ -384,52 +376,52 @@ class OrderProduct extends Component
         $company = Company::with('owner')->where('id', $transaction->company_id)->first();
 
         $transaction = DB::table('transactions as t')
-        ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
-        ->join('company as c', 't.company_id', '=', 'c.id')
-        ->join('users as u', 'u.id', '=', 'c.owner_id')
-        ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate,
+            ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
+            ->join('company as c', 't.company_id', '=', 'c.id')
+            ->join('users as u', 'u.id', '=', 'c.owner_id')
+            ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate,
                     t.process_status as processStatus, t.amount as revenue, t.dp_value as dp_value, 
                     t.payment_status as payment_status, t.dp_status as dp_status, t.jatuh_tempo as jatuh_tempo, t.jatuh_tempo_dp as jatuh_tempo_dp, t.dp_payment_receipt, t.full_payment_receipt, 
                     u.name as owner_name ,u.email as owner_email, u.phone_number as owner_phone_number")
-        ->where('t.id', $transaction->id)
-        ->groupBy('t.id')
-        ->groupBy('u.email')
-        ->groupBy('u.name')
-        ->groupBy('u.phone_number')
-        ->groupBy('t.transaction_code')
-        ->groupBy('c.name')
-        ->groupBy('t.created_at')
-        ->groupBy('t.process_status')
-        ->groupBy('t.amount')
-        ->groupBy('t.dp_value')
-        ->groupBy('t.payment_status')
-        ->groupBy('t.dp_status')
-        ->groupBy('t.jatuh_tempo')
-        ->groupBy('t.jatuh_tempo_dp')
-        ->groupBy('t.dp_payment_receipt')
-        ->groupBy('t.full_payment_receipt')
-        ->first();
+            ->where('t.id', $transaction->id)
+            ->groupBy('t.id')
+            ->groupBy('u.email')
+            ->groupBy('u.name')
+            ->groupBy('u.phone_number')
+            ->groupBy('t.transaction_code')
+            ->groupBy('c.name')
+            ->groupBy('t.created_at')
+            ->groupBy('t.process_status')
+            ->groupBy('t.amount')
+            ->groupBy('t.dp_value')
+            ->groupBy('t.payment_status')
+            ->groupBy('t.dp_status')
+            ->groupBy('t.jatuh_tempo')
+            ->groupBy('t.jatuh_tempo_dp')
+            ->groupBy('t.dp_payment_receipt')
+            ->groupBy('t.full_payment_receipt')
+            ->first();
 
         $detailsTransactions = TransactionDetail::with('transaction')
-        ->with('product')
-        ->where('transaction_id', $transaction->id)
-        ->get();
+            ->with('product')
+            ->where('transaction_id', $transaction->id)
+            ->get();
 
         $pdf = Pdf::loadView('invoice', [
-            'transaction' => $transaction, 
+            'transaction' => $transaction,
             'detailsTransactions' => $detailsTransactions
         ]);
 
         $content = $pdf->download()->getOriginalContent();
-        Storage::put('public/invoices/Invoice-'.$transaction->transaction_code.'.pdf', $content);
+        Storage::put('public/invoices/Invoice-' . $transaction->transaction_code . '.pdf', $content);
 
         $data = [
             'name' => $company->name,
             'role_user' => $company->owner->role,
-            'phone_number' =>$company->owner->phone_number,
-            'file_name' => "Invoice-".$transaction->transaction_code.'.pdf',
+            'phone_number' => $company->owner->phone_number,
+            'file_name' => "Invoice-" . $transaction->transaction_code . '.pdf',
             'transaction_code' => $transaction->transaction_code,
-            'attachment' => 'public/invoices/Invoice-'.$transaction->transaction_code.'.pdf'
+            'attachment' => 'public/invoices/Invoice-' . $transaction->transaction_code . '.pdf'
         ];
         Mail::to($company->owner->email)->send(new TransactionMail($data));
 
@@ -438,7 +430,7 @@ class OrderProduct extends Component
 
         $superAdmin = User::where('role', 'super_admin')->first();
 
-        if($superAdmin){
+        if ($superAdmin) {
             $data['role_user'] = $superAdmin->role;
             $data['phone_number'] = $superAdmin->phone_number;
             $data['super_admin_name'] = $superAdmin->name;
@@ -450,21 +442,21 @@ class OrderProduct extends Component
             $this->sendWablasNotif($data);
         }
 
-        Storage::delete('public/invoices/Invoice-'.$transaction->transaction_code.'.pdf');
+        Storage::delete('public/invoices/Invoice-' . $transaction->transaction_code . '.pdf');
     }
 
     public function sendWablasNotif($data)
     {
-        $data['attachment'] = 'public/Storage/invoices/Invoice-'.$data['transaction_code'].'.pdf';
-        if($data['role_user'] !== 'super_admin'){
-            $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
+        $data['attachment'] = 'public/Storage/invoices/Invoice-' . $data['transaction_code'] . '.pdf';
+        if ($data['role_user'] !== 'super_admin') {
+            $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #" . $data['transaction_code'] . " oleh " . $data['name'] . " sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
 
             $data['message'] = $custMessage;
 
             // send message
             $result = WablasTrait::sendMessage($data);
-        }else {
-            $superAdminMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #".$data['transaction_code']." oleh ".$data['name']." sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
+        } else {
+            $superAdminMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #" . $data['transaction_code'] . " oleh " . $data['name'] . " sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
 
             $data['message'] = $superAdminMessage;
 
@@ -472,5 +464,4 @@ class OrderProduct extends Component
             $result = WablasTrait::sendMessage($data);
         }
     }
-
 }

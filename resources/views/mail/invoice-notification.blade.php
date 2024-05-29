@@ -327,8 +327,8 @@
               <td class="wrapper">
                 <p>Kepada {{$data['super_admin_name']}}</p>
                 <p>
-                  Kami ingin memberitahu Anda bahwa pesanan dengan kode #{{$data['transaction_code']}} oleh
-                  {{$data['name']}} sudah masuk. Berikut kami lampirkan rincian pesanan tersebut.
+                  Kami ingin memberitahu Anda bahwa invoice dengan kode #{{$data['invoice_code']}} untuk
+                  {{$data['name']}} sudah dibuat. Berikut lampiran rincian invoice tersebut.
                   Terima
                   kasih.
                 </p>
@@ -341,7 +341,7 @@
                 <p>Kepada {{$data['name']}}</p>
                 <p>
                   Terima kasih telah memesan produk kami. Kami ingin
-                  memberitahu Anda bahwa pesanan Anda dengan kode #{{$data['transaction_code']}} sudah masuk. Silakan
+                  memberitahu Anda bahwa pesanan Anda dengan rincian pada lampiran pesan ini telah tersedia. Silakan
                   menyelesaikan pembayaran transaksi sebelum jatuh tempo yang tertera pada lampiran pesan ini. Terima
                   kasih atas kerjasamanya.
                 </p>

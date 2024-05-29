@@ -88,7 +88,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth']], function () {
     Route::get('/', OrderProduct::class)->name('order.product');
   });
 
-  Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+  Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 

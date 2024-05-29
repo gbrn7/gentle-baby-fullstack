@@ -539,6 +539,16 @@ color: black;
   background-color: hsl(204, 29%, 97%);
 }
 
+.content .table-jquery th{
+  padding: 12px 10px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 400;
+  background-color: hsl(204, 29%, 97%);
+}
+
 .content .company-cart-table td{
   min-width: 90px;
   max-width: 120px;
@@ -863,8 +873,6 @@ color: black;
 .dropdown-item:active{
   color: black;
 }
-
-
 
 .dot-spinner {
   --uib-size: 2.8rem;

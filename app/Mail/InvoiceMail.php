@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
 
-class TransactionMail extends Mailable
+class InvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data = [];
@@ -39,7 +39,7 @@ class TransactionMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.transaction-notification',
+            view: 'mail.invoice-notification',
         );
     }
 

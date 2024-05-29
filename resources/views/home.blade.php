@@ -57,7 +57,7 @@
     <div class="row row-2 mt-3">
       <div class="wrapper col-12 col-md-6">
         <div class="table-wrapper-custom card overflow-auto col-12">
-          <div class="card-header Text-secondary">5 Produk Paling Laku</div>
+          <div class="card-header Text-secondary">5 Produk Teratas</div>
           <div class="card-body p-0">
             <table class="table table-hover table-borderless">
               <thead>
@@ -90,7 +90,7 @@
       </div>
       <div class="wrapper col-12 col-md-6">
         <div class="table-wrapper-custom card overflow-auto col-12">
-          <div class="card-header Text-secondary">5 Produk Paling Tidak Laku</div>
+          <div class="card-header Text-secondary">5 Produk Paling Terbawah</div>
           <div class="card-body p-0">
             <table class="table table-hover table-borderless">
               <thead>
@@ -193,6 +193,20 @@
                 menambah, menghapus, memperbarui data admin.</p>
             </div>
             <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-admin-line"></i>
+            </div>
+          </div>
+        </div>
+      </a>
+      @endif
+      @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
+      <a href="{{route('data-invoice.index')}}" class="card-dashboard text-decoration-none">
+        <div class="card h-100">
+          <div class="card-body  row justify-content-between align-items-center">
+            <div class="card-body-content col-9">
+              <h3 class="card-title">Data Invoice</h3>
+              <p class="card-text text-secondary fw-normal">Fitur ini digunakan untuk mengolah data invoice.</p>
+            </div>
+            <div class="col-2 col-sm-3 d-flex justify-content-center img-menu"> <i class="fs-1 ri-article-fill"></i>
             </div>
           </div>
         </div>
