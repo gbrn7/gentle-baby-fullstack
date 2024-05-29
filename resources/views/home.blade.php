@@ -238,7 +238,6 @@
         </div>
       </a>
       @endif
-      @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'admin')
       <a href="{{route('data-invoice.index')}}" class="card-dashboard text-decoration-none">
         <div class="card h-100">
           <div class="card-body  row justify-content-between align-items-center">
@@ -251,7 +250,6 @@
           </div>
         </div>
       </a>
-      @endif
     </div>
   </div>
 </div>

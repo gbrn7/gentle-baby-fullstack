@@ -65,7 +65,7 @@ class InvoiceController extends Controller
                 ->when($request->dp_status, function ($query) use ($request) {
                     return $query->where('dp_status', (bool) $request->dp_status);
                 })
-                ->where('company_id', $company->id)
+                ->where('company_id', $company->company_id)
                 ->orderBy('id', 'desc')
                 ->paginate($request->pagination ? $request->pagination : 10);
         }
