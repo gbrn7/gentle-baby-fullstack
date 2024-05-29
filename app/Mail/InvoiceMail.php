@@ -29,7 +29,7 @@ class InvoiceMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Transaksi Gentle Baby',
+            subject: 'Invoice Gentle Baby',
         );
     }
 

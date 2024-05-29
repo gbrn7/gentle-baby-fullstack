@@ -28,24 +28,6 @@ class DataDetailTransaksi extends Component
         $this->sortDirection = $this->sortDirection == 'asc' ? 'desc' : 'asc';
     }
 
-    #[On('deleteReceipt')]
-    public function deleteDPReceiptt($data)
-    {
-        if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin') {
-            $transactionId = $this->id;
-            DB::beginTransaction();
-            try {
-                $transaction = Transaction::find($transactionId);
-                $transaction->update([
-                    $data['type'] => null
-                ]);
-                DB::commit();
-            } catch (\Throwable $th) {
-                DB::rollback();
-            }
-        }
-    }
-
     public function changeStatus(Request $request, $id)
     {
         if (auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin') {

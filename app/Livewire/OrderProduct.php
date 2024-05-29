@@ -103,13 +103,6 @@ class OrderProduct extends Component
             return $this->dispatch('warning', message: join(', ', $validator->messages()->all()));
         }
 
-        $amount = 0;
-        foreach ($this->productsCart as $product) {
-            $amount += ($product['qty'] * $product['price']);
-        };
-
-        $payment = collect($this->checkPaymentDeadline($amount));
-
         //ensure the data is corrent
         $products = Product::WhereIn('id', $this->productsCart->pluck('id'))
             ->orderBy('id', 'asc')
@@ -123,11 +116,6 @@ class OrderProduct extends Component
             $newTransaction = Transaction::create([
                 'transaction_code' => Str::random(10),
                 'company_id' =>  $this->companyCart['companyId'],
-                'amount' => $amount,
-                'jatuh_tempo' => $payment['jatuh_tempo'],
-                'jatuh_tempo_dp' => $payment->has('jatuh_tempo_dp') ? $payment['jatuh_tempo_dp'] : null,
-                'dp_value' => $payment->has('dp_value') ? $payment['dp_value'] : 0,
-                'process_status' => 'unprocessed',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -135,10 +123,12 @@ class OrderProduct extends Component
 
             //Make transaction detail
             $transactionDetail = [];
+            $productDetail = collect([]);
             foreach ($products as $key => $product) {
                 $arr = [
                     "transaction_id" => $newTransaction->id,
                     "product_id" => $product->id,
+                    "invoice_id" => null,
                     "hpp" => $product->hpp,
                     "price" => $product->price,
                     "qty" => $productsCart[$key]['qty'],
@@ -150,17 +140,31 @@ class OrderProduct extends Component
                 ];
 
                 array_push($transactionDetail, $arr);
+
+                $productDetail->push([
+                    "transaction_id" => $newTransaction->id,
+                    "product_id" => $product->id,
+                    "product_name" => $product->name,
+                    "qty" => $productsCart[$key]['qty'],
+                    "price" => $product->price,
+                ]);
             }
 
             //create transaction detail
-            $newTransactionDetail = TransactionDetail::insert($transactionDetail);
+            TransactionDetail::insert($transactionDetail);
+
+
+            try {
+                $this->sendNotif($newTransaction, $productDetail);
+            } catch (\Throwable $th) {
+                $error = $th->getMessage();
+            }
 
             DB::commit();
 
-            $this->sendNotif($newTransaction);
-
             $this->dispatch('endLoad');
             $this->resetCart();
+
             return $this->dispatch('success', message: 'Transaksi berhasil dibuat');
         } catch (\Throwable $th) {
             DB::rollback();
@@ -195,12 +199,6 @@ class OrderProduct extends Component
             return $this->dispatch('warning', message: join(', ', $validator->messages()->all()));
         }
 
-        $amount = 0;
-        foreach ($this->productsCart as $product) {
-            $amount += ($product['qty'] * $product['price']);
-        };
-
-        $payment = collect($this->checkPaymentDeadline($amount));
 
         //ensure the data is corrent
         $products = Product::WhereIn('id', $this->productsCart->pluck('id'))
@@ -211,29 +209,27 @@ class OrderProduct extends Component
         $productsCart = $this->productsCart->sortBy('id')->values();
 
         //get company Id
-        $companyId = CompanyMember::where('user_id', auth()->user()->id)->first();
+        $company = CompanyMember::where('user_id', auth()->user()->id)->first();
 
         DB::beginTransaction();
         try {
             $newTransaction = Transaction::create([
                 'transaction_code' => Str::random(10),
-                'company_id' =>  $companyId->company_id,
-                'amount' => $amount,
-                'jatuh_tempo' => $payment['jatuh_tempo'],
-                'jatuh_tempo_dp' => $payment->has('jatuh_tempo_dp') ? $payment['jatuh_tempo_dp'] : null,
-                'dp_value' => $payment->has('dp_value') ? $payment['dp_value'] : 0,
-                'process_status' => 'unprocessed',
+                'company_id' =>  $company->company_id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
 
+
             //Make transaction detail
             $transactionDetail = [];
+            $productDetail = collect([]);
             foreach ($products as $key => $product) {
                 $arr = [
                     "transaction_id" => $newTransaction->id,
                     "product_id" => $product->id,
+                    "invoice_id" => null,
                     "hpp" => $product->hpp,
                     "price" => $product->price,
                     "qty" => $productsCart[$key]['qty'],
@@ -245,12 +241,25 @@ class OrderProduct extends Component
                 ];
 
                 array_push($transactionDetail, $arr);
+
+                $productDetail->push([
+                    "transaction_id" => $newTransaction->id,
+                    "product_id" => $product->id,
+                    "product_name" => $product->name,
+                    "qty" => $productsCart[$key]['qty'],
+                    "price" => $product->price,
+                ]);
             }
 
-            //create transaction detail
-            $newTransactionDetail = TransactionDetail::insert($transactionDetail);
 
-            $this->sendNotif($newTransaction);
+            //create transaction detail
+            TransactionDetail::insert($transactionDetail);
+
+            try {
+                $this->sendNotif($newTransaction, $productDetail);
+            } catch (\Throwable $th) {
+                $error = $th->getMessage();
+            }
 
             DB::commit();
 
@@ -267,27 +276,6 @@ class OrderProduct extends Component
         }
     }
 
-    public function checkPaymentDeadline($amount)
-    {
-        if ($amount > 100000000) {
-            return [
-                'jatuh_tempo' => (Carbon::now())->addWeeks(6),
-                'jatuh_tempo_dp' => (Carbon::now())->addDay(),
-                'dp_value' => ((35 / 100) * $amount),
-            ];
-        } else if ($amount > 70000000 && $amount <= 100000000) {
-            return [
-                'jatuh_tempo' => (Carbon::now())->addWeeks(4),
-            ];
-        } else if ($amount > 5000000 && $amount <= 70000000) {
-            return [
-                'jatuh_tempo' => (Carbon::now())->addWeeks(2),
-            ];
-        }
-        return [
-            'jatuh_tempo' => (Carbon::now())->addDays(2),
-        ];
-    }
 
     public function decrementProductCart($index)
     {
@@ -371,58 +359,23 @@ class OrderProduct extends Component
         return view('livewire.order-product', ['companies' => $companies, 'products' => $products, 'productPages' => $productPages]);
     }
 
-    public function sendNotif($transaction)
+    public function sendNotif($newTransaction, $productDetail)
     {
-        $company = Company::with('owner')->where('id', $transaction->company_id)->first();
+        $company = Company::with('owner')->where('id', $newTransaction->company_id)->first();
 
-        $transaction = DB::table('transactions as t')
-            ->join('transactions_detail as dt', 't.id', '=', 'dt.transaction_id')
-            ->join('company as c', 't.company_id', '=', 'c.id')
-            ->join('users as u', 'u.id', '=', 'c.owner_id')
-            ->selectRaw("t.id,t.transaction_code,c.name as companyName, DATE_FORMAT(t.created_at, '%Y-%m-%d') AS transactionDate,
-                    t.process_status as processStatus, t.amount as revenue, t.dp_value as dp_value, 
-                    t.payment_status as payment_status, t.dp_status as dp_status, t.jatuh_tempo as jatuh_tempo, t.jatuh_tempo_dp as jatuh_tempo_dp, t.dp_payment_receipt, t.full_payment_receipt, 
-                    u.name as owner_name ,u.email as owner_email, u.phone_number as owner_phone_number")
-            ->where('t.id', $transaction->id)
-            ->groupBy('t.id')
-            ->groupBy('u.email')
-            ->groupBy('u.name')
-            ->groupBy('u.phone_number')
-            ->groupBy('t.transaction_code')
-            ->groupBy('c.name')
-            ->groupBy('t.created_at')
-            ->groupBy('t.process_status')
-            ->groupBy('t.amount')
-            ->groupBy('t.dp_value')
-            ->groupBy('t.payment_status')
-            ->groupBy('t.dp_status')
-            ->groupBy('t.jatuh_tempo')
-            ->groupBy('t.jatuh_tempo_dp')
-            ->groupBy('t.dp_payment_receipt')
-            ->groupBy('t.full_payment_receipt')
-            ->first();
-
-        $detailsTransactions = TransactionDetail::with('transaction')
-            ->with('product')
-            ->where('transaction_id', $transaction->id)
-            ->get();
-
-        $pdf = Pdf::loadView('invoice', [
-            'transaction' => $transaction,
-            'detailsTransactions' => $detailsTransactions
-        ]);
-
-        $content = $pdf->download()->getOriginalContent();
-        Storage::put('public/invoices/Invoice-' . $transaction->transaction_code . '.pdf', $content);
+        $transactionTotal = $productDetail->sum(function ($item) {
+            return ($item['qty'] * $item['price']);
+        });
 
         $data = [
-            'name' => $company->name,
+            'company_name' => $company->name,
             'role_user' => $company->owner->role,
             'phone_number' => $company->owner->phone_number,
-            'file_name' => "Invoice-" . $transaction->transaction_code . '.pdf',
-            'transaction_code' => $transaction->transaction_code,
-            'attachment' => 'public/invoices/Invoice-' . $transaction->transaction_code . '.pdf'
+            'transaction_code' => $newTransaction->transaction_code,
+            'productDetail' => $productDetail,
+            'transaction_total' => $transactionTotal,
         ];
+
         Mail::to($company->owner->email)->send(new TransactionMail($data));
 
         //send Wablas to customer
@@ -441,22 +394,19 @@ class OrderProduct extends Component
             // send Wablas notif to superadmin
             $this->sendWablasNotif($data);
         }
-
-        Storage::delete('public/invoices/Invoice-' . $transaction->transaction_code . '.pdf');
     }
 
     public function sendWablasNotif($data)
     {
-        $data['attachment'] = 'public/Storage/invoices/Invoice-' . $data['transaction_code'] . '.pdf';
         if ($data['role_user'] !== 'super_admin') {
-            $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #" . $data['transaction_code'] . " oleh " . $data['name'] . " sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
+            $custMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #" . $data['transaction_code'] . " oleh " . $data['company_name'] . " sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
 
             $data['message'] = $custMessage;
 
             // send message
             $result = WablasTrait::sendMessage($data);
         } else {
-            $superAdminMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #" . $data['transaction_code'] . " oleh " . $data['name'] . " sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
+            $superAdminMessage = "Kami ingin memberitahu Anda bahwa pesanan pada Gentle Baby dengan kode #" . $data['transaction_code'] . " oleh " . $data['company_name'] . " sudah masuk. Silahkan cek email anda atau website Gentle Baby untuk melihat rincian pesanan. Terima Kasih.";
 
             $data['message'] = $superAdminMessage;
 

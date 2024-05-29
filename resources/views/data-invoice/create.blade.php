@@ -72,8 +72,8 @@
               <td>#{{$item->t_code}}</td>
               <td>{{$item->p_name}}</td>
               <td>{{$item->td_qty}}</td>
-              <td>{{$item->td_price}}</td>
-              <td>{{$item->td_price * $item->td_qty}}</td>
+              <td>Rp{{number_format($item->td_price,0, ".", ".")}}</td>
+              <td>Rp.{{number_format(($item->td_price * $item->td_qty),0, ".", ".")}}</td>
               <td>{{date("d-m-Y", strtotime($item->t_created_at)) }}</td>
             </tr>
             @endforeach

@@ -85,7 +85,7 @@
                 </div>
                 @break
 
-                @case('admin')
+                @case('admin' || 'super_admin_cust' || 'admin_cust')
                 <div class="info-wrapper row">
                     <div class="col-12 col-sm-4">
                         <div class="card bg-glass mb-3">
@@ -110,27 +110,6 @@
                                 <p class="card-title fw-bold">Rp{{number_format($transaction->revenue,0,
                                     ".", ".")}}
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @break
-
-                @case('super_admin_cust' || 'admin_cust' )
-                <div class="info-wrapper row">
-                    <div class="col-12 col-sm-4">
-                        <div class="card bg-glass mb-3">
-                            <div class="card-header text-secondary">Nama Perusahaan</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">{{$transaction->companyName}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-4">
-                        <div class="card bg-glass mb-3">
-                            <div class="card-header text-secondary">Tanggal Transaksi</div>
-                            <div class="card-body">
-                                <p class="card-title fw-bold">{{$transaction->transactionDate}}</p>
                             </div>
                         </div>
                     </div>

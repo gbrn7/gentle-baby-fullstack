@@ -42,7 +42,7 @@
                 class="ri-building-2-line me-2"></i>Profile Perusahaan</a>
           </li>
           <li class="rounded-2 dropdown-list">
-            <form action="{{route('logout')}}" method="post">
+            <form action="{{route('logout')}}" method="post" class="mb-0">
               @csrf
               <button type="submit" class="dropdown-item rounded-2"><i class="ri-logout-circle-line me-2"></i>Sign
                 Out</button>

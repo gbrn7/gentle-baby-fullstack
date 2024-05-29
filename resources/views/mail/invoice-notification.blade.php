@@ -318,13 +318,13 @@
   <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
     <tr>
       <td>&nbsp;</td>
-      <td class="container">
+      <td class="container" style="color: black">
         <div class="content">
           <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main">
             <!-- START MAIN CONTENT AREA -->
             @if ($data['role_user'] === 'super_admin')
             <tr>
-              <td class="wrapper">
+              <td class="wrapper" style="color: black">
                 <p>Kepada {{$data['super_admin_name']}}</p>
                 <p>
                   Kami ingin memberitahu Anda bahwa invoice dengan kode #{{$data['invoice_code']}} untuk
@@ -337,7 +337,7 @@
             </tr>
             @else
             <tr>
-              <td class="wrapper">
+              <td class="wrapper" style="color: black">
                 <p>Kepada {{$data['name']}}</p>
                 <p>
                   Terima kasih telah memesan produk kami. Kami ingin
@@ -358,7 +358,7 @@
             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="content-block">
-                  <span class="apple-link">Copyright ©{{date('Y')}}, Baby Gentle</span>
+                  <span class="apple-link">Copyright ©{{date('Y')}}, Gentle Baby</span>
                 </td>
               </tr>
             </table>

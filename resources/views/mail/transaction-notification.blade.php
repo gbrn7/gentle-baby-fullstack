@@ -214,6 +214,14 @@
       margin-bottom: 0;
     }
 
+    .product-detail,
+    .product-detail th,
+    .product-detail td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      color: black
+    }
+
     .preheader {
       color: transparent;
       display: none;
@@ -324,26 +332,55 @@
             <!-- START MAIN CONTENT AREA -->
             <tr>
               <td class="wrapper">
-                <p>Kepada {{$data['name']}}</p>
+                @if ($data['role_user'] === 'super_admin')
+                <p>Kepada {{$data['super_admin_name']}}</p>
+                @else
+                <p>Kepada {{$data['company_name']}}</p>
+                @endif
                 <p>
-                  Terima kasih telah memesan produk kami. Kami ingin
-                  memberitahu Anda bahwa pesanan Anda dengan kode #{{$data['transaction_code']}} sudah siap untuk
-                  diambil. Silakan datang ke toko kami untuk mengambil pesanan
-                  Anda. Terima kasih atas kerjasamanya.
+                  Kami ingin memberitahu Anda bahwa transaksi dengan kode #{{$data['transaction_code']}} untuk
+                  {{$data['company_name']}} sudah dibuat. Berikut rincian transaksi tersebut.
                 </p>
-                <p>Gentle Baby</p>
+                <table style="margin-top: 20px" class="product-detail">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nama Produk</th>
+                      <th>Harga</th>
+                      <th>Qty</th>
+                      <th>SubTotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($data['productDetail'] as $item)
+                    <tr>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{$item['product_name']}}</td>
+                      <td>{{number_format($item['price'],0, ".", ".")}}</td>
+                      <td>{{$item['qty']}}</td>
+                      <td>{{number_format(($item['qty'] * $item['price']),0, ".", ".")}}</td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                  <tfoot>
+                    <tr style="color: black">
+                      <td colspan="4">Total</td>
+                      <td>{{number_format($data['transaction_total'],0, ".", ".")}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+                <p style="color: black; margin-top:12px">Gentle Baby</p>
               </td>
             </tr>
-
-            <!-- END MAIN CONTENT AREA -->
           </table>
+
 
           <!-- START FOOTER -->
           <div class="footer">
             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="content-block">
-                  <span class="apple-link">Copyright ©{{date('Y')}}, Baby Gentle</span>
+                  <span class="apple-link">Copyright ©{{date('Y')}}, Gentle Baby</span>
                 </td>
               </tr>
             </table>

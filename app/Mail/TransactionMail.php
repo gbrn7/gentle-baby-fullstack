@@ -3,23 +3,22 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Attachment;
 
-class StatusProcessNotify extends Mailable
+class TransactionMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data = [];
+
     /**
      * Create a new message instance.
      */
     public function __construct($data)
     {
-        $this->data =  $data;
+        $this->data = $data;
     }
 
     /**
@@ -38,7 +37,7 @@ class StatusProcessNotify extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.status-process-notification',
+            view: 'mail.transaction-notification',
         );
     }
 
@@ -49,8 +48,6 @@ class StatusProcessNotify extends Mailable
      */
     public function attachments(): array
     {
-        return [
-            Attachment::fromStorage($this->data['attachment'])
-        ];
+        return [];
     }
 }
