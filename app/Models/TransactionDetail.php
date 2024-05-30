@@ -30,7 +30,7 @@ class TransactionDetail extends Model
 
     public function invoice()
     {
-        return $this->belongsTo(invoice::class);
+        return $this->belongsTo(Invoice::class);
     }
 
     public function product()
