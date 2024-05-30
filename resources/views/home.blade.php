@@ -140,7 +140,7 @@
                 </tr>
               </thead>
               <tbody>
-                @forelse ($unfinishedItem as $item)
+                @foreach ($unfinishedItem as $item)
                 <tr>
                   <td>{{$loop->iteration}}</td>
                   <td>{{$item->transaction->created_at->format('d-m-Y')}}</td>
@@ -151,11 +151,7 @@
                   <td>{{$item->qty}}</td>
                   <td>Rp{{number_format($item->price * $item->qty, 0, '.', '.')}}</td>
                 </tr>
-                @empty
-                <tr>
-                  <td colspan="6" class="text-center">Tidak ada pesanan yang belum diproses</td>
-                </tr>
-                @endforelse
+                @endforeach
               </tbody>
             </table>
           </div>
