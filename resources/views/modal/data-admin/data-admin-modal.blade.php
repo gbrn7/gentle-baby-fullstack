@@ -8,7 +8,7 @@
       </div>
       <div class="modal-body">
         <div class="img-wrapper d-flex justify-content-center">
-          <img src={{asset('Storage/avatar/default.png')}} class="img-fluid img-avatar-create ">
+          <img src={{asset('storage/avatar/default.png')}} class="img-fluid img-avatar-create ">
         </div>
         <form action={{route('data.admin.store')}} enctype="multipart/form-data" id="addForm" method="POST">
           @csrf

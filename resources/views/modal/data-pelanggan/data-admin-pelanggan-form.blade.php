@@ -13,7 +13,7 @@
       <div class="modal-body">
         <input type="hidden" name="id" value="{{$form->id}}" id="edit-id">
         <div class="img-wrapper d-flex justify-content-center">
-          <img src={{asset('Storage/avatar/'.($form->image_profile ? $form->image_profile : 'default.png'))}}
+          <img src={{asset('storage/avatar/'.($form->image_profile ? $form->image_profile : 'default.png'))}}
           class="img-fluid img-avatar-update ">
         </div>
         <div class="form-group mb-3">

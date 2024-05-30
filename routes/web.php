@@ -10,6 +10,8 @@ use App\Http\Controllers\ProductController;
 use App\Livewire\DataTransaksi;
 use App\Livewire\DataDetailTransaksi;
 use App\Livewire\OrderProduct;
+use Livewire\Livewire;
+
 // use Livewire\Livewire;
 
 /*
@@ -92,13 +94,13 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth']], function () {
 });
 
 
-// Livewire::setUpdateRoute(function ($handle) {
-//   return Route::post('/gentleliving/gentlebaby/livewire/update', $handle);
-// });
+Livewire::setUpdateRoute(function ($handle) {
+  return Route::post('/gentleliving/gentlebaby/livewire/update', $handle);
+});
 
-// Livewire::setUpdateRoute(function ($handle) {
-//   return Route::post('/gentleliving/gentlebaby/livewire/livewire.js', $handle);
-// });
+Livewire::setUpdateRoute(function ($handle) {
+  return Route::post('/gentleliving/gentlebaby/livewire/livewire.js', $handle);
+});
 
 Route::any('/{any}', function () {
   if (auth()->user()) {

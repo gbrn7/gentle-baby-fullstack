@@ -30,7 +30,7 @@
         <a class="nav-link d-flex gap-2 pt-3 pt-md-0 align-items-center justify-content-end dropdown-toggle" href="#"
           role="button" aria-current="page" data-bs-toggle="dropdown" aria-expanded="false">
           <p class="my-0">{{auth()->user()->name}}</p>
-          <img src={{asset('Storage/avatar/'.(auth()->user()->image_profile ? auth()->user()->image_profile :
+          <img src={{asset('storage/avatar/'.(auth()->user()->image_profile ? auth()->user()->image_profile :
           'default.png'))}}
           class="img-fluid img-avatar ">
         </a>

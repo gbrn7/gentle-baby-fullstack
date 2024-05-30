@@ -184,7 +184,7 @@
       }
 
       function setDefaultImage(){
-        imageView.style.backgroundImage = "url({{asset('Storage/produk/'.$product->thumbnail)}})";
+        imageView.style.backgroundImage = "url({{asset('storage/produk/'.$product->thumbnail)}})";
         document.querySelector(".default-view").classList.add("d-none");
         document.querySelector(".btn-clear").classList.remove("d-none");
         imageView.classList.add("border-0");
